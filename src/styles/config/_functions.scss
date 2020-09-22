@@ -1,0 +1,9 @@
+@import './variables';
+
+@function setTextColor($color) {
+	@if (lightness($color) > 50) {
+		@return $darkColor;
+	} @else {
+		@return $accentColor;
+	}
+}
