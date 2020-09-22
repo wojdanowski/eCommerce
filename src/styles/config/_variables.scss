@@ -11,11 +11,3 @@ $wideKerning: 0.7rem;
 $mediumKerning: 0.3rem;
 $smallKerning: 0.15rem;
 $defaultKerning: 0.05rem;
-
-@function setTextColor($color) {
-	@if (lightness($color) > 50) {
-		@return $darkColor;
-	} @else {
-		@return $accentColor;
-	}
-}

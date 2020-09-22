@@ -1,5 +1,5 @@
-@import '../../scss/config';
-@import '../../scss/mixins';
+@import '../../styles/config.module.scss';
+
 .mainHeader {
 	position: relative;
 	background: #fff;
@@ -7,7 +7,7 @@
 
 	&::before {
 		content: '';
-		background: url('../../img/header01.jpg') no-repeat center center /
+		background: url('../../assets/img/header01.jpg') no-repeat center center /
 			cover;
 		position: absolute;
 		top: 0;

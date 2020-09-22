@@ -1,4 +1,4 @@
-@import './config.scss';
+@import './variables';
 
 @mixin dotted_border {
 	border-bottom: 1px dotted $lightColor;
