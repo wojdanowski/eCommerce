@@ -6,12 +6,16 @@ $mediumColor: #b0b5b3;
 $darkColor: #706f6f;
 $blackColor: #333;
 $testColor: salmon;
-$maxWidth: 1400px;
+$maxWidth: 1600px;
+$wideKerning: 0.7rem;
+$mediumKerning: 0.3rem;
+$smallKerning: 0.15rem;
+$defaultKerning: 0.05rem;
 
-@function set-text-color($color) {
+@function setTextColor($color) {
 	@if (lightness($color) > 50) {
-		@return #000;
+		@return $darkColor;
 	} @else {
-		@return #fff;
+		@return $accentColor;
 	}
 }
