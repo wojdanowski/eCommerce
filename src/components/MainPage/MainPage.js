@@ -1,7 +1,7 @@
 import React from 'react';
-import classes from './Main.module.scss';
+import classes from './MainPage.module.scss';
 import logoImg from '../../img/logo.png';
-import Aux from './../../hoc/Auxiliary/Auxiliary';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 import productImg from '../../img/product.jpg';
 
 const Main = (props) => {
