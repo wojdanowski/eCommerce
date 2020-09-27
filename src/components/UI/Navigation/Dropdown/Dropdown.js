@@ -1,7 +1,7 @@
 import React from 'react';
-import classes from './SubCategoriesList.module.scss';
+import classes from './Dropdown.module.scss';
 
-const SubCategoriesList = () => {
+const Dropdown = () => {
 	return (
 		<div className={`${classes.subCategoryName} ${classes.hasDropdown}`}>
 			<p>Kategoria 1</p>
@@ -20,4 +20,4 @@ const SubCategoriesList = () => {
 	);
 };
 
-export default SubCategoriesList;
+export default Dropdown;

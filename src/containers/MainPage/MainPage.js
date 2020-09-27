@@ -3,7 +3,7 @@ import classes from './MainPage.module.scss';
 import productImg from '../../assets/img/product.jpg';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import MainHeader from './../../components/MainHeader/MainHeader';
-import CategoriesBar from './../../components/UI/Navigation/CagegoryNav/CategoriesBar';
+import CategoriesBar from '../CategoriesBar/CategoriesBar';
 
 const Main = (props) => {
 	return (
