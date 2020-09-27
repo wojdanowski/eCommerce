@@ -1,0 +1,32 @@
+@import '../../styles/config.module.scss';
+
+.infoForMobile {
+	display: none;
+}
+
+.categoryName {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	flex-grow: 5;
+}
+
+@media (max-width: $mobile) {
+	.infoForMobile {
+		text-transform: uppercase;
+		font-weight: bold;
+		display: block;
+		padding-bottom: 0.5rem;
+	}
+
+	.categoryName {
+		flex-direction: column;
+		width: 100%;
+
+		& li {
+			width: 100%;
+		}
+	}
+}

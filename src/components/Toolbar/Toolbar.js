@@ -8,7 +8,9 @@ const Toolbar = () => {
 		<div className={classes.toolbar}>
 			<div className={classes.toolbarContainer}>
 				<HamburgerButton />
-				<MainNav />
+				<div className='hideOnMobile'>
+					<MainNav />
+				</div>
 			</div>
 		</div>
 	);

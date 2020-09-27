@@ -15,3 +15,16 @@
 		}
 	}
 }
+
+@media (max-width: $mobile) {
+	.navItem {
+		padding: 1rem 0;
+		// margin-bottom: 0.5rem;
+		@include dotted_border_bottom;
+
+		& a {
+			display: inline-block;
+			width: 100%;
+		}
+	}
+}
