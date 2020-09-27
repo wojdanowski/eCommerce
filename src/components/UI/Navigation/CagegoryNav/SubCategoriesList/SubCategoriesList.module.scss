@@ -1,0 +1,39 @@
+@import '../../../../../styles/config.module.scss';
+
+.subCategoryName {
+	padding: 0.5rem 0;
+	min-width: 10rem;
+	position: relative;
+	text-align: center;
+
+	&:hover {
+		background: $mainColor;
+	}
+
+	&.hasDropdown:hover ul.dropdown,
+	ul.dropdown:hover {
+		display: block;
+		pointer-events: auto;
+	}
+
+	ul.dropdown {
+		background: #fff;
+		margin-top: 0.5rem;
+		display: none;
+		position: absolute;
+		// height: 100%;
+		width: 100%;
+		z-index: 2;
+		transition: opacity 0.15s ease-out;
+		box-shadow: 0 0 10px $lightColor;
+
+		li.dropdownItem {
+			@include dotted_border;
+			padding: 0.4rem 0;
+
+			&:hover {
+				background-color: $mainColor;
+			}
+		}
+	}
+}

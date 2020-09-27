@@ -3,3 +3,14 @@
 .shadowBox {
 	box-shadow: 0 5px 10px 0 $lightColor;
 }
+
+.utilBigContainer {
+	max-width: $maxWidth;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.utilContainer {
+	margin: 0 auto;
+	padding: 10px;
+}

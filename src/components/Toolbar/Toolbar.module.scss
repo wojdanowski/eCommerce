@@ -1,0 +1,18 @@
+@import '../../styles/config.module.scss';
+
+.toolbar {
+	width: 100%;
+	background-color: rgba(#fff, 0.5);
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	padding: 1rem;
+
+	& .toolbarContainer {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		text-transform: uppercase;
+	}
+}
