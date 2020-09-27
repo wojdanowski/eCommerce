@@ -1,3 +1,5 @@
+@import '../../../../styles/config.module.scss';
+
 .navItems {
 	display: flex;
 	justify-content: flex-end;
@@ -5,5 +7,11 @@
 
 	ul {
 		display: flex;
+	}
+}
+
+@media (max-width: $mobile) {
+	.navItems {
+		display: none;
 	}
 }

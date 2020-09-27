@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Toolbar.module.scss';
-import HamburgerButton from './../UI/Buttons/HamburgerButton';
+import HamburgerButton from '../UI/Buttons/HamburgerButton/HamburgerButton';
 import MainNav from './../UI/Navigation/MainNav/MainNav';
 
 const Toolbar = () => {
