@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './CategoriesBar.module.scss';
 import Dropdown from '../../components/UI/Navigation/Dropdown/Dropdown';
+import SearchTools from './../../components/UI/SearchTools/SearchTools';
 
 const CategoriesBar = () => {
 	return (
@@ -16,8 +17,7 @@ const CategoriesBar = () => {
 					<Dropdown />
 				</li>
 			</ul>
-
-			<p> rest rest rest </p>
+			<SearchTools />
 		</div>
 	);
 };
