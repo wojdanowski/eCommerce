@@ -1,0 +1,24 @@
+@import '../../../styles/config.module.scss';
+
+.DrawerToggle {
+	width: 2.5rem;
+	height: 100%;
+	display: flex;
+	flex-flow: column;
+	justify-content: space-around;
+	align-items: center;
+	cursor: pointer;
+
+	& > div {
+		width: 90%;
+		height: 3px;
+		margin-bottom: 0.4rem;
+		background-color: $darkColor;
+	}
+}
+
+// @media (min-width: 500px) {
+//     .DrawerToggle {
+//         display: none;
+//     }
+// }

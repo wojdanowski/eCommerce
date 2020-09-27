@@ -1,0 +1,56 @@
+@import './../../../styles/config.module.scss';
+
+.searchSort {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+
+	.verticalEvenItem {
+		flex-wrap: nowrap;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: auto 1rem;
+		min-width: 200px;
+		border: 1px solid $lightColor;
+
+		input[type='checkbox'] {
+			-ms-transform: scale(1.5); /* IE */
+			-moz-transform: scale(1.5); /* FF */
+			-webkit-transform: scale(1.5); /* Safari and Chrome */
+			-o-transform: scale(1.5); /* Opera */
+			transform: scale(1.5);
+			padding: 10px;
+			margin: auto 1rem;
+		}
+
+		input,
+		form,
+		select,
+		option {
+			border: none;
+			box-shadow: none;
+			height: 2rem;
+			text-align: center;
+			outline: none;
+			text-align: center;
+		}
+
+		form,
+		select {
+			display: inline-block;
+			width: 100%;
+		}
+
+		input:hover,
+		input:focus {
+			border-color: $accentColor;
+			outline: none;
+		}
+	}
+
+	.noBorder {
+		border: none;
+	}
+}

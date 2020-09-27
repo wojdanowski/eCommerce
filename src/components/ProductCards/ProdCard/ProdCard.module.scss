@@ -1,0 +1,86 @@
+@import '../../../styles/config.module.scss';
+
+.productCard {
+	overflow: hidden;
+	position: relative;
+
+	.soldTag {
+		position: absolute;
+		z-index: 1;
+		top: -6rem;
+		right: -6rem;
+		height: 300px;
+		width: 300px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		pointer-events: none;
+
+		span {
+			display: inline-block;
+			width: 100%;
+			text-align: center;
+			background: $lightColor;
+			text-transform: uppercase;
+			color: $darkColor;
+			transform: rotate(45deg);
+		}
+	}
+
+	.prodImgContainer {
+		overflow: hidden;
+
+		.productImg {
+			display: block;
+			transition: transform 0.25s ease-in-out;
+		}
+
+		&:hover .productImg {
+			cursor: pointer;
+			transform: scale(1.2);
+		}
+	}
+}
+
+.prodDescription {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 0.5rem;
+	text-align: center;
+
+	h4 {
+		letter-spacing: $smallKerning;
+	}
+
+	span {
+		font-size: 0.85rem;
+		margin: 0 5px 0 5px;
+
+		&.beforePrice {
+			color: $mediumColor;
+			text-decoration: line-through;
+			font-size: 1.1rem;
+		}
+
+		&.newPrice {
+			color: $accentColor;
+			font-weight: bold;
+			font-size: 1.5rem;
+		}
+	}
+
+	.regularButton {
+		display: block;
+		padding: 0.5rem 2.5rem;
+		background: $blackColor;
+		// width: 40%;
+		color: $lightColor;
+
+		&:hover {
+			background: $mainColor;
+			color: $darkColor;
+		}
+	}
+}
