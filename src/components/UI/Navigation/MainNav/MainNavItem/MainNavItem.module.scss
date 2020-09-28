@@ -18,7 +18,7 @@
 
 @media (max-width: $mobile) {
 	.navItem {
-		padding: 1rem 0;
+		padding: 0.3rem 0;
 		// margin-bottom: 0.5rem;
 		@include dotted_border_bottom;
 
