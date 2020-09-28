@@ -1,0 +1,47 @@
+@import '../../../styles/config.module.scss';
+
+.sidebarContainer {
+	background: #fff;
+	position: fixed;
+	top: 0;
+	height: 100vh;
+	width: 100vw;
+	z-index: 200;
+	transition: all 0.3s ease-in-out;
+	overflow-y: scroll;
+
+	&.left {
+		left: -100vw;
+
+		&.opened {
+			transform: translateX(100vw);
+		}
+
+		&.closed {
+			transform: translateX(-100vw);
+			background: green;
+		}
+	}
+
+	&.right {
+		right: -100vw;
+
+		&.opened {
+			transform: translateX(-100vw);
+		}
+
+		&.closed {
+			transform: translateX(100vw);
+			background: green;
+		}
+	}
+
+	& .sidebarContent {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		padding: 4rem 2rem 2rem 1rem;
+	}
+}

@@ -1,0 +1,36 @@
+@import '../../../../styles/config.module.scss';
+
+.close {
+	position: absolute;
+	right: 32px;
+	top: 32px;
+	width: 32px;
+	height: 32px;
+	opacity: 0.3;
+	transition: all 0.1s linear;
+}
+.close:hover {
+	cursor: pointer;
+	opacity: 1;
+	transform: rotate(90deg) scale(1.5);
+
+	&:before,
+	&:after {
+		background-color: $accentColor;
+	}
+}
+.close:before,
+.close:after {
+	position: absolute;
+	left: 1rem;
+	content: ' ';
+	height: 2rem;
+	width: 2px;
+	background-color: #333;
+}
+.close:before {
+	transform: rotate(45deg);
+}
+.close:after {
+	transform: rotate(-45deg);
+}

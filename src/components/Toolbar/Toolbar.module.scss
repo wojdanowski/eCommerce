@@ -13,6 +13,13 @@
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		text-transform: uppercase;
+	}
+}
+
+@media (min-width: $mobile) {
+	.toolbar .toolbarContainer {
+		justify-content: flex-end;
 	}
 }

@@ -1,5 +1,16 @@
+@import '../../styles/config.module.scss';
+
 .productsGrid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-gap: 4rem;
+}
+
+@media (max-width: $mobile) {
+	.productsGrid {
+		// grid-template-columns: repeat(2, 1fr);
+		// grid-gap: 0.5rem;
+		display: flex;
+		flex-direction: column;
+	}
 }
