@@ -4,10 +4,11 @@ import Toolbar from './../../components/Toolbar/Toolbar';
 import Sidebar from './../../components/UI/Sidebar/Sidebar';
 import MainNav from './../../components/UI/Navigation/MainNav/MainNav';
 import Categories from './../../components/Categories/Categories';
+import Footer from './../../components/UI/Footer/Footer';
 
 const Layout = (props) => {
 	const [leftSidebarVisible, setLeftSidebarVisible] = useState(false);
-	const [rightSidebarVisible, setRightSidebarVisible] = useState(true);
+	const [rightSidebarVisible, setRightSidebarVisible] = useState(false);
 
 	const toggleLeftSidebarHandler = () => {
 		setLeftSidebarVisible((prevState) => !prevState);
@@ -37,6 +38,7 @@ const Layout = (props) => {
 
 			<Toolbar toggleSidebar={toggleLeftSidebarHandler} />
 			<main>{props.children}</main>
+			<Footer />
 		</Aux>
 	);
 };
