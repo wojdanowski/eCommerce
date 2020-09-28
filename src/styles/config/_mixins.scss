@@ -3,3 +3,7 @@
 @mixin dotted_border_bottom {
 	border-bottom: 1px dotted $lightColor;
 }
+
+@mixin dotted_border_top {
+	border-top: 1px dotted $lightColor;
+}
