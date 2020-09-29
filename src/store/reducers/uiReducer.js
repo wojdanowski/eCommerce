@@ -7,6 +7,22 @@ const initialState = {
 	},
 };
 
-const reducer = (state = initialState, action) => {};
+const uiReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case actionTypes.TOGGLE_LEFT_SIDEBAR:
+			return {
+				...state,
+				leftSidebarVisible: !state.leftSidebarVisible,
+			};
+		case actionTypes.TOGGLE_RIGHT_SIDEBAR:
+			return {
+				...state,
+				rightSidebarVisible: !state.rightSidebarVisible,
+			};
 
-export default reducer;
+		default:
+			return state;
+	}
+};
+
+export default uiReducer;
