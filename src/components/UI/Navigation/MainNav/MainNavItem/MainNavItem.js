@@ -7,8 +7,14 @@ const MainNavItem = (props) => {
 		? (isCurrentClass = classes.currentLink)
 		: (isCurrentClass = null);
 
+	let appendClass = '';
+
+	props.direction === 'vertical'
+		? (appendClass = classes.vertical)
+		: (appendClass = classes.horizontal);
+
 	return (
-		<li className={classes.navItem}>
+		<li className={`${classes.navItem} ${appendClass}`}>
 			<a
 				href={props.link}
 				className={isCurrentClass}

@@ -17,7 +17,10 @@ const Layout = (props) => {
 				isOpen={props.leftSidebarVisible}
 				toggleSidebar={props.toggleLeftSidebar}
 			>
-				<MainNav toggleRightSidebar={props.toggleRightSidebar} />
+				<MainNav
+					toggleRightSidebar={props.toggleRightSidebar}
+					direction='vertical'
+				/>
 				<Categories />
 			</Sidebar>
 			<Sidebar
@@ -28,7 +31,10 @@ const Layout = (props) => {
 				<p>Basket</p>
 			</Sidebar>
 
-			<Toolbar toggleSidebar={props.toggleLeftSidebar} />
+			<Toolbar
+				toggleLeftSidebar={props.toggleLeftSidebar}
+				toggleRightSidebar={props.toggleRightSidebar}
+			/>
 			<main>{props.children}</main>
 			<Footer />
 		</Aux>
@@ -37,8 +43,8 @@ const Layout = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		leftSidebarVisible: state.leftSidebarVisible,
-		rightSidebarVisible: state.rigthSidebarVisible,
+		leftSidebarVisible: state.sidebars.leftSidebarVisible,
+		rightSidebarVisible: state.sidebars.rightSidebarVisible,
 	};
 };
 

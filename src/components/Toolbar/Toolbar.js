@@ -7,10 +7,8 @@ const Toolbar = (props) => {
 	return (
 		<div className={classes.toolbar}>
 			<div className={classes.toolbarContainer}>
-				<HamburgerButton clicked={props.toggleSidebar} />
-				<div className='hideOnMobile'>
-					<MainNav />
-				</div>
+				<HamburgerButton clicked={props.toggleLeftSidebar} />
+				<MainNav toggleRightSidebar={props.toggleRightSidebar} />
 			</div>
 		</div>
 	);
