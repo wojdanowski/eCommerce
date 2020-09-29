@@ -2,23 +2,30 @@
 
 .navItems {
 	display: flex;
-	justify-content: flex-end;
+
 	text-transform: uppercase;
 
 	ul {
 		display: flex;
+		& > * {
+			padding: 0 1rem;
+		}
 	}
 }
 
 @media (max-width: $mobile) {
-	.navItems {
+	.navItems.vertical {
 		margin-bottom: 2rem;
 		justify-content: center;
 		width: 100%;
 	}
-	.navItems ul {
+	.navItems.vertical ul {
 		flex-direction: column;
 		width: 100%;
 		text-align: center;
+
+		& > * {
+			padding: 0.5rem 0;
+		}
 	}
 }

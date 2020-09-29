@@ -1,7 +1,6 @@
 @import '../../../../../styles/config.module.scss';
 
 .navItem {
-	padding: 0 1.5rem;
 	&:hover > a {
 		border-color: $mainColor;
 	}
@@ -17,9 +16,7 @@
 }
 
 @media (max-width: $mobile) {
-	.navItem {
-		padding: 0.3rem 0;
-		// margin-bottom: 0.5rem;
+	.navItem.vertical {
 		@include dotted_border_bottom;
 
 		& a {

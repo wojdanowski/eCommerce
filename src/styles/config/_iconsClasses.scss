@@ -1,0 +1,12 @@
+@import './variables';
+
+.defaultIcon {
+	color: $darkColor;
+	transition: transform 0.1s linear;
+
+	&:hover {
+		cursor: pointer;
+		color: $accentColor;
+		transform: scale(1.4);
+	}
+}
