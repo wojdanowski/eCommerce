@@ -17,7 +17,7 @@ const Layout = (props) => {
 				isOpen={props.leftSidebarVisible}
 				toggleSidebar={props.toggleLeftSidebar}
 			>
-				<MainNav />
+				<MainNav toggleRightSidebar={props.toggleRightSidebar} />
 				<Categories />
 			</Sidebar>
 			<Sidebar
