@@ -1,0 +1,10 @@
+@import '../../styles/config.module.scss';
+
+.cartContainer {
+	text-align: center;
+
+	.cartHead {
+		display: flex;
+		justify-content: space-between;
+	}
+}

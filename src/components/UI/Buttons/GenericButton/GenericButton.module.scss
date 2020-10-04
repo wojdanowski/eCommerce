@@ -1,0 +1,16 @@
+@import '../../../../styles/config.module.scss';
+
+.genericButton {
+	display: inline-block;
+	text-transform: uppercase;
+	padding: 0.5rem 2.5rem;
+	background: $blackColor;
+	color: $lightColor;
+	margin-top: 1rem;
+
+	&:hover {
+		background: $mainColor;
+		color: $darkColor;
+		cursor: pointer;
+	}
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import productImg from '../../../assets/img/product.jpg';
 import classes from './ProdCard.module.scss';
+import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 
 const ProdCard = () => {
 	return (
@@ -21,9 +22,7 @@ const ProdCard = () => {
 					<span className={classes.beforePrice}>99.99 zł</span>
 					<span className={classes.newPrice}>20.99 zł</span>
 				</div>
-				<a href='index.html' className={classes.regularButton}>
-					BUTTON
-				</a>
+				<GenericButton label='buy' />
 			</div>
 		</div>
 	);
