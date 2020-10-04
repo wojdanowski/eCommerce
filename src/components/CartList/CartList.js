@@ -10,9 +10,23 @@ const CartList = (props) => {
 				<h1>Your Cart</h1>
 				<h1>Total: 100$</h1>
 			</div>
-			<CartItem />
-			<CartItem />
-			<CartItem />
+			<div className={classes.items}>
+				<div className={classes.item}>
+					<CartItem />
+				</div>
+				<div className={classes.item}>
+					<CartItem />
+				</div>
+				<div className={classes.item}>
+					<CartItem />
+				</div>
+				<div className={classes.item}>
+					<CartItem />
+				</div>
+				<div className={classes.item}>
+					<CartItem />
+				</div>
+			</div>
 			<GenericButton label='checkout' />
 		</div>
 	);
