@@ -1,6 +1,16 @@
 import * as actionTypes from '../actions/cartActions';
 
-const initialState = {};
+const initialState = {
+	products: [
+		{
+			id: '123123123',
+			name: 'someName',
+			short_description: 'short description',
+			description: 'normal desccription',
+			price: 14.99,
+		},
+	],
+};
 
 const cartReducer = (state = initialState, action) => {
 	switch (action.type) {
