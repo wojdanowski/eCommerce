@@ -5,6 +5,7 @@ const initialState = {
 		leftSidebarVisible: false,
 		rightSidebarVisible: false,
 	},
+	modalVisible: false,
 };
 
 const uiReducer = (state = initialState, action) => {
@@ -25,6 +26,15 @@ const uiReducer = (state = initialState, action) => {
 				sidebars: {
 					...state.sidebars,
 					rightSidebarVisible: !state.sidebars.rightSidebarVisible,
+				},
+			};
+		case actionTypes.TOGGLE_MODAL:
+			console.log('toggle MODAL from redux');
+			return {
+				...state,
+				modalVisible: !state.modalVisible,
+				sidebars: {
+					...state.sidebars,
 				},
 			};
 
