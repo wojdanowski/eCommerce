@@ -5,13 +5,12 @@ import MainHeader from './../../components/MainHeader/MainHeader';
 import CategoriesBar from '../CategoriesBar/CategoriesBar';
 import AllProdCards from './../../components/ProductCards/AllProdCards';
 import useDataApi from './../../hooks/useFetchData';
+import Loader from './../../components/UI/Loader/Loader';
 
 const Main = (props) => {
 	const [{ data, isLoading, isError }, doFetch] = useDataApi(
 		'https://ecommerceprodmockup.firebaseio.com/products.json'
 	);
-
-	const loadingScreen = <div> Loading... </div>;
 
 	return (
 		<Aux>
@@ -21,7 +20,7 @@ const Main = (props) => {
 			</div>
 			{isError && <div>Something went wrong ...</div>}
 			<div className='utilBigContainer'>
-				{isLoading ? loadingScreen : <AllProdCards prodData={data} />}
+				{isLoading ? <Loader /> : <AllProdCards prodData={data} />}
 			</div>
 		</Aux>
 	);
