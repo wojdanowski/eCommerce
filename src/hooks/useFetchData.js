@@ -15,7 +15,6 @@ const useDataApi = (initialUrl, initialData) => {
 
 			try {
 				const result = await axios(`${proxy}${url}`);
-				console.log(result);
 				setData(result.data);
 			} catch (error) {
 				setIsError(true);

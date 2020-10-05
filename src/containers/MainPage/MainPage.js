@@ -8,10 +8,7 @@ import useDataApi from './../../hooks/useFetchData';
 
 const Main = (props) => {
 	const [{ data, isLoading, isError }, doFetch] = useDataApi(
-		'https://ecommerceprodmockup.firebaseio.com/products.json',
-		{
-			hits: [],
-		}
+		'https://ecommerceprodmockup.firebaseio.com/products.json'
 	);
 
 	const loadingScreen = <div> Loading... </div>;
