@@ -2,13 +2,12 @@ import React from 'react';
 import classes from './ProductPage.module.scss';
 
 const ProductPage = (props) => {
+	console.log(props.prodData);
 	return (
 		<div className={classes.prodPageContainer}>
-			<p>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit.
-				Similique dolores amet harum quos non reiciendis, commodi illum
-				consequuntur ipsam ut.
-			</p>
+			<p>{props.prodData.name}</p>
+			<p>{props.prodData.price}</p>
+			<p>{props.prodData.oldPrice}</p>
 		</div>
 	);
 };

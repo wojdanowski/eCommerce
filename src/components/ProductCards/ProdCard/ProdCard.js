@@ -13,7 +13,7 @@ const ProdCard = (props) => {
 			{props.productInfo.isSold && soldTag}
 			<div
 				className={classes.prodImgContainer}
-				onClick={() => props.clicked(props.productInfo.id)}
+				onClick={() => props.clicked(props.prodId)}
 			>
 				<img
 					className={classes.productImg}
@@ -25,7 +25,7 @@ const ProdCard = (props) => {
 				<h4>{props.productInfo.name}</h4>
 				<div className={classes.productPrice}>
 					<span className={classes.beforePrice}>
-						{props.productInfo.old_price} zł
+						{props.productInfo.oldPrice} zł
 					</span>
 					<span className={classes.newPrice}>
 						{props.productInfo.price} zł
