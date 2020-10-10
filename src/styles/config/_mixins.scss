@@ -7,3 +7,7 @@
 @mixin dotted_border_top {
 	border-top: 1px dotted $lightColor;
 }
+
+@mixin shadowToLeft {
+	box-shadow: 0 0 20px 0 $lightColor;
+}

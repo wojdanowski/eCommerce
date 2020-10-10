@@ -11,7 +11,13 @@
 	overflow-y: scroll;
 
 	&.left {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
 		left: -100vw;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
 
 		&.opened {
 			transform: translateX(100vw);
@@ -23,7 +29,16 @@
 	}
 
 	&.right {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+
 		right: -100vw;
+		width: 400px;
+		@include shadowToLeft;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
 
 		&.opened {
 			transform: translateX(-100vw);
