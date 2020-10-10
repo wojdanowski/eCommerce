@@ -37,12 +37,12 @@ const MainPage = (props) => {
 		],
 	};
 
-	useEffect(() => {
-		axios.post(
-			'https://ecommerceprodmockup.firebaseio.com/products.json',
-			dummyProd
-		);
-	}, []);
+	// useEffect(() => {
+	// 	axios.post(
+	// 		'https://ecommerceprodmockup.firebaseio.com/products.json',
+	// 		dummyProd
+	// 	);
+	// }, []);
 
 	const [selectedProd, setSelectedProd] = useState(null);
 

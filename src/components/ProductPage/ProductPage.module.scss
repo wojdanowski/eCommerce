@@ -1,5 +1,34 @@
 @import '../../styles/config.module.scss';
 
 .prodPageContainer {
-	background: red;
+	display: flex;
+	flex-direction: column;
+
+	.firstRow {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+
+		.imgGalleryContainer {
+			flex-grow: 3;
+		}
+
+		.shortDescription {
+			text-align: right;
+			flex-grow: 1;
+
+			h1 {
+				text-transform: uppercase;
+				color: $accentColor;
+			}
+
+			p {
+				padding-bottom: 1rem;
+			}
+		}
+	}
+
+	.fullDescription {
+		padding-top: 1rem;
+	}
 }

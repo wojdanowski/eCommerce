@@ -31,7 +31,7 @@ const ProdCard = (props) => {
 						{props.productInfo.price} zł
 					</span>
 				</div>
-				<GenericButton label='buy' />
+				<GenericButton label='Add To Cart' />
 			</div>
 		</div>
 	);
