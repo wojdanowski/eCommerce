@@ -1,6 +1,6 @@
 import React from 'react';
 import './app.scss';
-import Main from './MainPage/MainPage';
+import MainPage from './MainPage/MainPage';
 import Layout from './../hoc/Layout/Layout';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -13,7 +13,7 @@ function App() {
 	return (
 		<Provider store={store}>
 			<Layout>
-				<Main />
+				<MainPage />
 			</Layout>
 		</Provider>
 	);
