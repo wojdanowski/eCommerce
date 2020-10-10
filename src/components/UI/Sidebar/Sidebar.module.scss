@@ -58,3 +58,9 @@
 		padding: 4rem 2rem 2rem 1rem;
 	}
 }
+
+@media (max-width: $mobile) {
+	.sidebarContainer.right {
+		width: 100vw;
+	}
+}

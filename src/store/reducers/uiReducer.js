@@ -11,7 +11,6 @@ const initialState = {
 const uiReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.TOGGLE_LEFT_SIDEBAR:
-			console.log('toggle LEFT sidebar from redux');
 			return {
 				...state,
 				sidebars: {
@@ -20,7 +19,6 @@ const uiReducer = (state = initialState, action) => {
 				},
 			};
 		case actionTypes.TOGGLE_RIGHT_SIDEBAR:
-			console.log('toggle RIGHT sidebar from redux');
 			return {
 				...state,
 				sidebars: {
@@ -29,7 +27,6 @@ const uiReducer = (state = initialState, action) => {
 				},
 			};
 		case actionTypes.TOGGLE_MODAL:
-			console.log('toggle MODAL from redux');
 			return {
 				...state,
 				modalVisible: !state.modalVisible,
@@ -39,7 +36,6 @@ const uiReducer = (state = initialState, action) => {
 			};
 
 		default:
-			console.log(`Default State`);
 			return state;
 	}
 };
