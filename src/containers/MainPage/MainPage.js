@@ -48,7 +48,7 @@ const Main = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		modalVisible: state.modalVisible,
+		modalVisible: state.uiState.modalVisible,
 	};
 };
 
