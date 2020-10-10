@@ -1,5 +1,43 @@
 @import '../../styles/config.module.scss';
 
 .prodPageContainer {
-	background: red;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	overflow-y: scroll;
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	.firstRow {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding-bottom: 1rem;
+
+		.imgGalleryContainer {
+			flex-grow: 3;
+		}
+
+		.shortDescription {
+			text-align: right;
+			flex-grow: 1;
+
+			h1 {
+				text-transform: uppercase;
+				color: $accentColor;
+			}
+
+			p {
+				padding-bottom: 1rem;
+			}
+		}
+	}
+
+	.fullDescription {
+		padding-top: 1rem;
+	}
 }

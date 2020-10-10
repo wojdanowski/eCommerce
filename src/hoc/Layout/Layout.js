@@ -45,8 +45,8 @@ const Layout = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		leftSidebarVisible: state.sidebars.leftSidebarVisible,
-		rightSidebarVisible: state.sidebars.rightSidebarVisible,
+		leftSidebarVisible: state.uiState.sidebars.leftSidebarVisible,
+		rightSidebarVisible: state.uiState.sidebars.rightSidebarVisible,
 	};
 };
 
