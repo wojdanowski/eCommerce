@@ -1,0 +1,14 @@
+@import '../../styles/config.module.scss';
+
+.cartContainer {
+	text-align: center;
+
+	.cartHead {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.items .item:nth-child(odd) {
+		background: $lightColor2;
+	}
+}

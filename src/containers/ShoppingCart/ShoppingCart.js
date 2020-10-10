@@ -1,8 +1,10 @@
 import React from 'react';
-import classes from './ShoppingCart.module.scss';
 
-const ShoppingCart = (props) => {
-	return <div></div>;
+import CartList from './../../components/CartList/CartList';
+
+const ShoppingCart = () => {
+	return <CartList />;
+
 };
 
 export default ShoppingCart;

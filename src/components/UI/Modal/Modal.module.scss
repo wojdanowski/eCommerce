@@ -1,0 +1,15 @@
+@import '../../../styles/config.module.scss';
+
+.Modal {
+	position: fixed;
+	z-index: 500;
+	background-color: white;
+	width: 70%;
+	min-height: 40%;
+	border: 1px solid $lightColor;
+	padding: 16px;
+	left: 15%;
+	top: 10%;
+	box-sizing: border-box;
+	transition: all 0.3s ease-out;
+}
