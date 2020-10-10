@@ -8,6 +8,7 @@ const ProdCard = (props) => {
 			<span>Sold</span>
 		</div>
 	);
+
 	return (
 		<div className={classes.productCard}>
 			{props.productInfo.isSold && soldTag}
