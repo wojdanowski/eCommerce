@@ -10,9 +10,13 @@ import Loader from './../../components/UI/Loader/Loader';
 import Modal from './../../components/UI/Modal/Modal';
 
 const Main = (props) => {
-	const [{ data, isLoading, isError }, doFetch] = useDataApi(
+	const prodData = useDataApi(
 		'https://ecommerceprodmockup.firebaseio.com/products.json'
 	);
+
+	// const { data, isLoading, isError, doFetch}  = useDataApi(
+	// 	'https://ecommerceprodmockup.firebaseio.com/products.json'
+	// );
 	const [selectedProd, setSelectedProd] = useState('');
 
 	let prodctDetails = null;
@@ -29,12 +33,12 @@ const Main = (props) => {
 				<CategoriesBar />
 			</div>
 			<div className='utilBigContainer'>
-				{isError && <div>Something went wrong ...</div>}
-				{isLoading ? (
+				{prodData.isError && <div>Something went wrong ...</div>}
+				{prodData.isLoading ? (
 					<Loader />
 				) : (
 					<AllProdCards
-						prodData={data}
+						prodData={prodData.data}
 						productClicked={productClickedHandler}
 					/>
 				)}
