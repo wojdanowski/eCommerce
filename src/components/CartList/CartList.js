@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as cartActionTypes from '../../store/actions/cartActions';
 import classes from './CartList.module.scss';
@@ -6,6 +6,10 @@ import CartItem from './../CartList/CartItem/CartItem';
 import GenericButton from './../UI/Buttons/GenericButton/GenericButton';
 
 const CartList = (props) => {
+	useEffect(() => {
+		props.loadCartFromStorage();
+	}, []);
+
 	let cartListContent = null;
 	if (props.prodsInCart.length) {
 		cartListContent = (
@@ -47,6 +51,10 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch({
 				type: cartActionTypes.REM_ITEM_FROM_CART,
 				product: productData,
+			}),
+		loadCartFromStorage: () =>
+			dispatch({
+				type: cartActionTypes.LOAD_CART_FROM_STORAGE,
 			}),
 	};
 };

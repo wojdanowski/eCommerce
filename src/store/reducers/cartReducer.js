@@ -13,7 +13,6 @@ const cartReducer = (state = initialState, action) => {
 
 	const saveStateToStorage = (localCart) => {
 		localStorage.setItem('cartInStorage', JSON.stringify(localCart));
-		console.log(JSON.parse(localStorage.getItem('cartInStorage')));
 	};
 
 	switch (action.type) {
@@ -44,6 +43,14 @@ const cartReducer = (state = initialState, action) => {
 			return {
 				...newState,
 			};
+		case actionTypes.LOAD_CART_FROM_STORAGE:
+			const cartInStorage = localStorage.getItem('cartInStorage');
+			if (cartInStorage) {
+				const newState = JSON.parse(cartInStorage);
+				return {
+					...newState,
+				};
+			} else return state;
 		default:
 			return state;
 	}
