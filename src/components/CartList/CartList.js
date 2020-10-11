@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as cartActionTypes from '../../store/actions/cartActions';
 import classes from './CartList.module.scss';
 import CartItem from './../CartList/CartItem/CartItem';
 import GenericButton from './../UI/Buttons/GenericButton/GenericButton';
@@ -32,4 +34,17 @@ const CartList = (props) => {
 	);
 };
 
-export default CartList;
+const mapStateToProps = (state) => {
+	return {
+		prodsInCart: state.cartState.products,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		removeProdFromCart: () =>
+			dispatch({ type: cartActionTypes.REM_ITEM_FROM_CART }),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartList);
