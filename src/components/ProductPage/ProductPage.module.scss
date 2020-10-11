@@ -40,3 +40,36 @@
 		}
 	}
 }
+
+@media (max-width: $mobile) {
+	.prodPageContainer {
+		height: 100%;
+		font-size: 0.8em;
+
+		.firstRow {
+			flex-direction: column;
+
+			.description {
+				.shortDescription {
+					margin-top: 0.5rem;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+
+					.nameAndPrice {
+						text-align: left;
+						padding-right: 0.3rem;
+					}
+				}
+
+				.fullDescription {
+					padding-top: 0.3rem;
+				}
+			}
+
+			.imgGalleryContainer {
+				min-width: 100%;
+			}
+		}
+	}
+}

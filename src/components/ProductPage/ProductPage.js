@@ -11,11 +11,17 @@ const ProductPage = (props) => {
 					<ProdGallery />
 				</div>
 				<div className={classes.description}>
-					<h1>{props.prodData.name}</h1>
-					<h3>PRICE: {props.prodData.price}</h3>
-					<h4>OLD PRICE: {props.prodData.oldPrice}</h4>
-					<p>{props.prodData.shortDescription}</p>
-					<GenericButton label='Add To Cart' />
+					<div className={classes.shortDescription}>
+						<div className={classes.nameAndPrice}>
+							<h1>{props.prodData.name}</h1>
+							<h3>PRICE: {props.prodData.price}</h3>
+							<h4 className='textLineThrough'>
+								OLD PRICE: {props.prodData.oldPrice}
+							</h4>
+							<p>{props.prodData.shortDescription}</p>
+						</div>
+						<GenericButton label='Add To Cart' />
+					</div>
 					<div className={classes.fullDescription}>
 						{/* <p>{props.prodData.fullDescription}</p> */}
 						<p>
