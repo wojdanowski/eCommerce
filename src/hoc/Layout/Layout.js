@@ -8,8 +8,7 @@ import Sidebar from './../../components/UI/Sidebar/Sidebar';
 import MainNav from './../../components/UI/Navigation/MainNav/MainNav';
 import Categories from './../../components/Categories/Categories';
 import Footer from './../../components/UI/Footer/Footer';
-
-import ShoppingCart from './../../containers/ShoppingCart/ShoppingCart';
+import CartList from './../../components/CartList/CartList';
 
 const Layout = (props) => {
 	return (
@@ -30,7 +29,7 @@ const Layout = (props) => {
 				isOpen={props.rightSidebarVisible}
 				toggleSidebar={props.toggleRightSidebar}
 			>
-				<ShoppingCart />
+				<CartList />
 			</Sidebar>
 
 			<Toolbar

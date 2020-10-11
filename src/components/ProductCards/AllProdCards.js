@@ -5,13 +5,11 @@ import ProdCard from './ProdCard/ProdCard';
 const AllProdCards = (props) => {
 	let prodList;
 	if (props.prodData) {
-		const prodIds = Object.keys(props.prodData);
 		prodList = Object.values(props.prodData).map((product, index) => (
 			<ProdCard
-				key={prodIds[index]}
+				key={product.id}
 				productInfo={product}
 				clicked={props.productClicked}
-				prodId={prodIds[index]}
 			/>
 		));
 	}

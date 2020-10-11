@@ -1,29 +1,56 @@
 import * as actionTypes from '../actions/cartActions';
 
 const initialState = {
-	products: [
-		{
-			id: '123123123',
-			name: 'someName',
-			short_description: 'short description',
-			description: 'normal desccription',
-			price: 14.99,
-		},
-	],
+	products: [],
+	totalPrice: 0,
 };
 
 const cartReducer = (state = initialState, action) => {
+	const isPresent = (id) => {
+		const found = state.products.find((element) => element.id === id);
+		return found ? true : false;
+	};
+
+	const saveStateToStorage = (localCart) => {
+		localStorage.setItem('cartInStorage', JSON.stringify(localCart));
+	};
+
 	switch (action.type) {
 		case actionTypes.ADD_ITEM_TO_CART:
-			console.log(`add item to cart`);
-			return {
-				...state,
-			};
+			if (!isPresent(action.product.id)) {
+				const updatedArray = state.products.concat([action.product]);
+				const newState = {
+					...state,
+					products: updatedArray,
+					totalPrice: state.totalPrice + action.product.price,
+				};
+				saveStateToStorage(newState);
+				return {
+					...newState,
+				};
+			} else return state;
+
 		case actionTypes.REM_ITEM_FROM_CART:
-			console.log(`rem item from cart`);
-			return {
+			const updatedArray = state.products.filter(
+				(product) => product.id !== action.product.id
+			);
+			const newState = {
 				...state,
+				products: updatedArray,
+				totalPrice: state.totalPrice - action.product.price,
 			};
+			saveStateToStorage(newState);
+			return {
+				...newState,
+			};
+		case actionTypes.LOAD_CART_FROM_STORAGE:
+			const cartInStorage = localStorage.getItem('cartInStorage');
+			if (cartInStorage) {
+				const newState = JSON.parse(cartInStorage);
+				return {
+					...newState,
+				};
+			} else return state;
 		default:
 			return state;
 	}

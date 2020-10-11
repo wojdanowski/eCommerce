@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as cartActionTypes from '../../../store/actions/cartActions';
 import classes from './ProdCard.module.scss';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 
@@ -14,7 +16,7 @@ const ProdCard = (props) => {
 			{props.productInfo.isSold && soldTag}
 			<div
 				className={classes.prodImgContainer}
-				onClick={() => props.clicked(props.prodId)}
+				onClick={() => props.clicked(props.productInfo.id)}
 			>
 				<img
 					className={classes.productImg}
@@ -32,10 +34,23 @@ const ProdCard = (props) => {
 						{props.productInfo.price} zł
 					</span>
 				</div>
-				<GenericButton label='Add To Cart' />
+				<GenericButton
+					label='Add To Cart'
+					clicked={() => props.addProdToCart(props.productInfo)}
+				/>
 			</div>
 		</div>
 	);
 };
 
-export default ProdCard;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addProdToCart: (productInfo) =>
+			dispatch({
+				type: cartActionTypes.ADD_ITEM_TO_CART,
+				product: productInfo,
+			}),
+	};
+};
+
+export default connect(null, mapDispatchToProps)(ProdCard);

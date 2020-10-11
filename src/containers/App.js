@@ -12,7 +12,10 @@ const rootReducer = combineReducers({
 	uiState: uiReducer,
 	cartState: cartReducer,
 });
-const store = createStore(rootReducer);
+const store = createStore(
+	rootReducer,
+	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 function App() {
 	return (
