@@ -11,14 +11,23 @@ const cartReducer = (state = initialState, action) => {
 		return found ? true : false;
 	};
 
+	const saveStateToStorage = (localCart) => {
+		localStorage.setItem('cartInStorage', JSON.stringify(localCart));
+		console.log(JSON.parse(localStorage.getItem('cartInStorage')));
+	};
+
 	switch (action.type) {
 		case actionTypes.ADD_ITEM_TO_CART:
 			if (!isPresent(action.product.id)) {
 				const updatedArray = state.products.concat([action.product]);
-				return {
+				const newState = {
 					...state,
 					products: updatedArray,
 					totalPrice: state.totalPrice + action.product.price,
+				};
+				saveStateToStorage(newState);
+				return {
+					...newState,
 				};
 			} else return state;
 
@@ -26,10 +35,14 @@ const cartReducer = (state = initialState, action) => {
 			const updatedArray = state.products.filter(
 				(product) => product.id !== action.product.id
 			);
-			return {
+			const newState = {
 				...state,
 				products: updatedArray,
 				totalPrice: state.totalPrice - action.product.price,
+			};
+			saveStateToStorage(newState);
+			return {
+				...newState,
 			};
 		default:
 			return state;
