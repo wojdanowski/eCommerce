@@ -12,7 +12,7 @@ const CartList = (props) => {
 			<Fragment>
 				<div className={`${classes.cartHead} utilContainer`}>
 					<h1>Your Cart</h1>
-					<h1>Total: 100$</h1>
+					<h1>Total: {props.totalPrice}$</h1>
 				</div>
 				<div className={classes.items}>
 					{props.prodsInCart.map((product) => (
@@ -37,15 +37,16 @@ const CartList = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		prodsInCart: state.cartState.products,
+		totalPrice: state.cartState.totalPrice,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		removeProdFromCart: (id) =>
+		removeProdFromCart: (productData) =>
 			dispatch({
 				type: cartActionTypes.REM_ITEM_FROM_CART,
-				productId: id,
+				product: productData,
 			}),
 	};
 };

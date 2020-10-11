@@ -21,7 +21,7 @@ const CartItem = (props) => {
 				<div className={classes.tools}>
 					<GenericButton
 						label='remove'
-						clicked={() => props.removeHandler(props.prodData.id)}
+						clicked={() => props.removeHandler(props.prodData)}
 					/>
 				</div>
 			</div>

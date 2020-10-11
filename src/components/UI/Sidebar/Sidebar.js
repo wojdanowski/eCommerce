@@ -16,11 +16,11 @@ const Sidebar = (props) => {
 
 	return (
 		<Fragment>
-			{/* <Backdrop
+			<Backdrop
 				show={props.isOpen}
 				isTransparent={true}
 				clicked={props.toggleSidebar}
-			/> */}
+			/>
 			<div className={attachedClasses.join(' ')}>
 				<div className={classes.sidebarContent}>
 					<CloseButton clicked={props.toggleSidebar} />

@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/cartActions';
 
 const initialState = {
 	products: [],
+	totalPrice: 0,
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -17,16 +18,18 @@ const cartReducer = (state = initialState, action) => {
 				return {
 					...state,
 					products: updatedArray,
+					totalPrice: state.totalPrice + action.product.price,
 				};
 			} else return state;
 
 		case actionTypes.REM_ITEM_FROM_CART:
 			const updatedArray = state.products.filter(
-				(product) => product.id !== action.productId
+				(product) => product.id !== action.product.id
 			);
 			return {
 				...state,
 				products: updatedArray,
+				totalPrice: state.totalPrice - action.product.price,
 			};
 		default:
 			return state;
