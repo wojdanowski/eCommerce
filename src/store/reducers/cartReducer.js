@@ -5,16 +5,29 @@ const initialState = {
 };
 
 const cartReducer = (state = initialState, action) => {
+	const isPresent = (id) => {
+		const found = state.products.find((element) => element.id === id);
+		return found ? true : false;
+	};
+
 	switch (action.type) {
 		case actionTypes.ADD_ITEM_TO_CART:
-			return {
-				...state,
-				products: state.products.concat([action.product]),
-			};
+			if (!isPresent(action.product.id)) {
+				console.log('adding');
+				const updatedArray = state.products.concat([action.product]);
+				return {
+					...state,
+					products: updatedArray,
+				};
+			} else return state;
+
 		case actionTypes.REM_ITEM_FROM_CART:
-			console.log(`rem item from cart`);
+			const updatedArray = state.products.filter(
+				(product) => product.id !== action.product.id
+			);
 			return {
 				...state,
+				products: updatedArray,
 			};
 		default:
 			return state;
