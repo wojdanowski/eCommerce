@@ -16,7 +16,15 @@ const useDataApi = (initialUrl, initialData) => {
 
 			try {
 				const result = await axios(`${proxy}${url}`);
-				setData(result.data);
+				const dataWithIds = {};
+
+				for (const property in result.data) {
+					dataWithIds[property] = {
+						...result.data[property],
+						id: property,
+					};
+				}
+				setData(dataWithIds);
 			} catch (error) {
 				setIsError(true);
 			}

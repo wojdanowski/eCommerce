@@ -14,7 +14,7 @@ const ProdCard = (props) => {
 			{props.productInfo.isSold && soldTag}
 			<div
 				className={classes.prodImgContainer}
-				onClick={() => props.clicked(props.prodId)}
+				onClick={() => props.clicked(props.productInfo.id)}
 			>
 				<img
 					className={classes.productImg}
