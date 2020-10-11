@@ -13,7 +13,6 @@ const cartReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.ADD_ITEM_TO_CART:
 			if (!isPresent(action.product.id)) {
-				console.log('adding');
 				const updatedArray = state.products.concat([action.product]);
 				return {
 					...state,
@@ -23,7 +22,7 @@ const cartReducer = (state = initialState, action) => {
 
 		case actionTypes.REM_ITEM_FROM_CART:
 			const updatedArray = state.products.filter(
-				(product) => product.id !== action.product.id
+				(product) => product.id !== action.productId
 			);
 			return {
 				...state,
