@@ -4,7 +4,7 @@
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 	overflow-y: scroll;
-	height: 70vh;
+	height: 80vh;
 	display: flex;
 	flex-direction: column;
 
@@ -19,12 +19,11 @@
 		padding-bottom: 1rem;
 
 		.imgGalleryContainer {
-			flex-grow: 3;
+			min-width: 40%;
 		}
 
-		.shortDescription {
+		.description {
 			text-align: right;
-			flex-grow: 1;
 
 			h1 {
 				text-transform: uppercase;
@@ -34,10 +33,43 @@
 			p {
 				padding-bottom: 1rem;
 			}
+
+			.fullDescription {
+				padding-top: 1rem;
+			}
 		}
 	}
+}
 
-	.fullDescription {
-		padding-top: 1rem;
+@media (max-width: $mobile) {
+	.prodPageContainer {
+		height: 100%;
+		font-size: 0.8em;
+
+		.firstRow {
+			flex-direction: column;
+
+			.description {
+				.shortDescription {
+					margin-top: 0.5rem;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+
+					.nameAndPrice {
+						text-align: left;
+						padding-right: 0.3rem;
+					}
+				}
+
+				.fullDescription {
+					padding-top: 0.3rem;
+				}
+			}
+
+			.imgGalleryContainer {
+				min-width: 100%;
+			}
+		}
 	}
 }

@@ -16,6 +16,11 @@
 	padding: 10px;
 }
 
+.textLineThrough {
+	text-decoration: line-through;
+	color: $mediumColor;
+}
+
 @media (max-width: $mobile) {
 	.hideOnMobile {
 		display: none;
