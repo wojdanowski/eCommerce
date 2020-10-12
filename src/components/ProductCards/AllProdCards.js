@@ -10,7 +10,10 @@ import Modal from './../UI/Modal/Modal';
 import ProductPage from './../ProductPage/ProductPage';
 
 const AllProdCards = (props) => {
-	const [pagination, setPagination] = useState('&limitToFirst=4');
+	const maxProdsOnPage = 13;
+	const [pagination, setPagination] = useState(
+		`&limitToFirst=${maxProdsOnPage}`
+	);
 	const [selectedProd, setSelectedProd] = useState(null);
 
 	const query =
@@ -27,15 +30,13 @@ const AllProdCards = (props) => {
 	const paginateHandler = (forward = true) => {
 		let paginationProperties;
 		if (forward) {
-			paginationProperties = `&limitToFirst=4&startAt="${getLastItem(
+			paginationProperties = `&limitToFirst=${maxProdsOnPage}&startAt="${getLastItem(
 				prodData.data
 			)}"`;
-			console.log(`moving forward`);
 		} else {
-			paginationProperties = `&limitToLast=4&endAt="${getFirstItem(
+			paginationProperties = `&limitToLast=${maxProdsOnPage}&endAt="${getFirstItem(
 				prodData.data
 			)}"`;
-			console.log(`moving back`);
 		}
 
 		setPagination(paginationProperties);
