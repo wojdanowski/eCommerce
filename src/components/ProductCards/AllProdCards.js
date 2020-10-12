@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
@@ -10,14 +10,40 @@ import Modal from './../UI/Modal/Modal';
 import ProductPage from './../ProductPage/ProductPage';
 
 const AllProdCards = (props) => {
-	const [query, setQuery] = useState(
-		`https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"&limitToFirst=4`
-	);
+	const [pagination, setPagination] = useState('&limitToFirst=4');
 	const [selectedProd, setSelectedProd] = useState(null);
-	// const [lastItem, setLastItem] = useState();
-	// const [prevLastItem, setPrevLastItem] = useState();
 
-	const prodData = useDataApi(query);
+	const query =
+		'https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"';
+	const prodData = useDataApi(query.concat(pagination));
+
+	const getLastItem = (obj) => {
+		return Object.keys(obj)[Object.keys(obj).length - 1];
+	};
+	const getFirstItem = (obj) => {
+		return Object.keys(obj)[0];
+	};
+
+	const paginateHandler = (forward = true) => {
+		let paginationProperties;
+		if (forward) {
+			paginationProperties = `&limitToFirst=4&startAt="${getLastItem(
+				prodData.data
+			)}"`;
+			console.log(`moving forward`);
+		} else {
+			paginationProperties = `&limitToLast=4&endAt="${getFirstItem(
+				prodData.data
+			)}"`;
+			console.log(`moving back`);
+		}
+
+		setPagination(paginationProperties);
+	};
+
+	useEffect(() => {
+		prodData.setUrl(query.concat(pagination));
+	}, [prodData, pagination]);
 
 	const productClickedHandler = (id) => {
 		setSelectedProd(id);
@@ -26,7 +52,6 @@ const AllProdCards = (props) => {
 
 	let filteredProdList;
 	if (!prodData.isLoading && prodData.data) {
-		console.log(prodData);
 		const prodList = Object.values(prodData.data);
 		filteredProdList = prodList.map((product, index) => {
 			if (index !== prodList.length - 1) {
@@ -37,35 +62,9 @@ const AllProdCards = (props) => {
 						clicked={productClickedHandler}
 					/>
 				);
-			}
+			} else return null;
 		});
 	}
-
-	// let lastItem;
-	// let prevLastItem;
-	// if (prodData.data) {
-	// 	prevLastItem = lastItem;
-	// 	lastItem = Object.keys(prodData.data)[
-	// 		Object.keys(prodData.data).length - 1
-	// 	];
-	// }
-
-	// const paginateHandler = (forward = true) => {
-	// 	let direction = '';
-	// 	let item;
-	// 	if (forward) {
-	// 		direction = 'startAt';
-	// 		item = lastItem;
-	// 	} else {
-	// 		direction = 'endAt';
-	// 		item = prevLastItem;
-	// 	}
-	// 	console.log(`[MainPage] items`);
-	// 	console.log(prevLastItem);
-	// 	console.log(lastItem);
-	// 	const paginationString = `&${direction}="${item}"`;
-	// 	prodData.setUrl(query.concat(paginationString));
-	// };
 
 	return (
 		<Fragment>
@@ -78,16 +77,16 @@ const AllProdCards = (props) => {
 						<div className={classes.productsGrid}>
 							{filteredProdList}
 						</div>
-						{/* <div className={classes.paginationNav}>
+						<div className={classes.paginationNav}>
 							<GenericButton
 								label={'< Previous Page'}
-								clicked={() => props.paginateHandler(false)}
+								clicked={() => paginateHandler(false)}
 							/>
 							<GenericButton
 								label={'Next Page >'}
-								clicked={() => props.paginateHandler()}
+								clicked={() => paginateHandler()}
 							/>
-						</div> */}
+						</div>
 					</Fragment>
 				)}
 			</div>
