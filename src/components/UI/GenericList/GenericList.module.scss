@@ -1,0 +1,9 @@
+@import '../../../styles/config.module.scss';
+
+.genericListItem {
+	list-style: none;
+}
+
+.genericList .genericListItem:nth-child(odd) {
+	background: $lightColor2;
+}
