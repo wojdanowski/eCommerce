@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as cartActionTypes from '../../store/actions/cartActions';
 import classes from './ProductPage.module.scss';
 import GenericButton from './../UI/Buttons/GenericButton/GenericButton';
-import ProdGallery from './../ImageGallery/ProdGallery';
+import ProdGallery from './../ProdGallery/ProdGallery';
 
 const ProductPage = (props) => {
 	return (
