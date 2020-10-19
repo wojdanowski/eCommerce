@@ -6,18 +6,15 @@ import CartItem from './../CartItem/CartItem';
 import * as cartActionTypes from '../../../store/actions/cartActions';
 
 const CartList = (props) => {
-	return (
-		<div className={classes.items}>
-			{props.prodsInCart.map((product) => (
-				<div key={product.id} className={classes.item}>
-					<CartItem
-						prodData={product}
-						removeHandler={props.removeProdFromCart}
-					/>
-				</div>
-			))}
-		</div>
-	);
+	let listContent = props.prodsInCart.map((product) => (
+		<CartItem
+			key={product.id}
+			prodData={product}
+			removeHandler={props.removeProdFromCart}
+		/>
+	));
+
+	return listContent;
 };
 
 const mapStateToProps = (state) => {

@@ -5,7 +5,7 @@ import CartStatusInfo from './../Cart/CartStatusInfo/CartStatusInfo';
 const Checkout = () => {
 	return (
 		<Fragment>
-			<h1>some text on the top</h1>
+			<CartStatusInfo />
 			<CartList />
 		</Fragment>
 	);
