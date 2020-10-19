@@ -21,3 +21,12 @@
 .image-gallery-bullets .image-gallery-bullet.active {
 	background: $mainColor;
 }
+
+.image-gallery-content.left .image-gallery-slide .image-gallery-image,
+.image-gallery-content.right .image-gallery-slide .image-gallery-image {
+	max-height: calc(100vh - 150px);
+}
+
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+	max-height: calc(100vh - 150px);
+}

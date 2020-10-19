@@ -2,10 +2,10 @@
 
 .close {
 	position: absolute;
-	right: 32px;
-	top: 32px;
-	width: 32px;
-	height: 32px;
+	right: calc(#{$closeButtonSize} / 2);
+	top: calc(#{$closeButtonSize} / 2);
+	width: $closeButtonSize;
+	height: $closeButtonSize;
 	opacity: 0.3;
 	transition: all 0.1s linear;
 }
@@ -22,9 +22,9 @@
 .close:before,
 .close:after {
 	position: absolute;
-	left: 1rem;
+	left: calc(#{$closeButtonSize} / 2);
 	content: ' ';
-	height: 2rem;
+	height: $closeButtonSize;
 	width: 2px;
 	background-color: #333;
 }
