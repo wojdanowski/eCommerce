@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as cartActionTypes from '../../store/actions/cartActions';
-import classes from './CartList.module.scss';
-import CartItem from './../CartList/CartItem/CartItem';
-import GenericButton from './../UI/Buttons/GenericButton/GenericButton';
+import classes from './Cart.module.scss';
+import GenericButton from '../UI/Buttons/GenericButton/GenericButton';
+import CartList from './CartList/CartList';
 
-const CartList = (props) => {
+const Cart = (props) => {
 	useEffect(() => {
 		props.loadCartFromStorage();
 	}, []);
@@ -18,16 +18,7 @@ const CartList = (props) => {
 					<h1>Your Cart</h1>
 					<h1>Total: {props.totalPrice}$</h1>
 				</div>
-				<div className={classes.items}>
-					{props.prodsInCart.map((product) => (
-						<div key={product.id} className={classes.item}>
-							<CartItem
-								prodData={product}
-								removeHandler={props.removeProdFromCart}
-							/>
-						</div>
-					))}
-				</div>
+				<CartList />
 				<GenericButton label='checkout' />
 			</Fragment>
 		);
@@ -59,4 +50,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartList);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

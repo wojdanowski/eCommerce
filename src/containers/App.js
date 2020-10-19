@@ -10,6 +10,7 @@ import Layout from './../hoc/Layout/Layout';
 
 import uiReducer from '../store/reducers/uiReducer';
 import cartReducer from '../store/reducers/cartReducer';
+import Checkout from './../components/Checkout/Checkout';
 
 const rootReducer = combineReducers({
 	uiState: uiReducer,
@@ -27,6 +28,7 @@ function App() {
 				<Layout>
 					<Switch>
 						<Route path='/products' component={MainPage} />
+						<Route path='/checkout' component={Checkout} />
 						<Route path='/' exact component={MainPage} />
 					</Switch>
 				</Layout>
