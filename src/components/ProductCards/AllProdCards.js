@@ -67,6 +67,14 @@ const AllProdCards = (props) => {
 		});
 	}
 
+	let modalProdContent = null;
+
+	if (selectedProd && props.modalVisible) {
+		modalProdContent = (
+			<ProductPage prodData={prodData.data[selectedProd]} />
+		);
+	} else modalProdContent = <p>No product...</p>;
+
 	return (
 		<Fragment>
 			<div className='utilBigContainer'>
@@ -92,9 +100,7 @@ const AllProdCards = (props) => {
 				)}
 			</div>
 			<Modal show={props.modalVisible} modalClosed={props.toggleModal}>
-				{selectedProd && (
-					<ProductPage prodData={prodData.data[selectedProd]} />
-				)}
+				{modalProdContent}
 			</Modal>
 		</Fragment>
 	);
