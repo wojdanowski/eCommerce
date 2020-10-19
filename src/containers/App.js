@@ -27,6 +27,7 @@ function App() {
 			<BrowserRouter>
 				<Layout>
 					<Switch>
+						<Route path='/index.html' exact component={MainPage} />
 						<Route path='/products' component={MainPage} />
 						<Route path='/checkout' component={Checkout} />
 						<Route path='/' exact component={MainPage} />

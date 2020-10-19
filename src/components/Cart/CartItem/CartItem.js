@@ -4,7 +4,7 @@ import GenericButton from '../../UI/Buttons/GenericButton/GenericButton';
 
 const CartItem = (props) => {
 	return (
-		<div className={`${classes.cartItemContainer}`}>
+		<div className={classes.cartItemContainer}>
 			<div className={classes.prodImgContainer}>
 				<img
 					className={classes.prodImg}
