@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/cartActions';
 const initialState = {
 	products: [],
 	totalPrice: 0,
+	cartIsEmpty: true,
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ const cartReducer = (state = initialState, action) => {
 					...state,
 					products: updatedArray,
 					totalPrice: state.totalPrice + action.product.price,
+					cartIsEmpty: false,
 				};
 				saveStateToStorage(newState);
 				return {
@@ -34,10 +36,13 @@ const cartReducer = (state = initialState, action) => {
 			const updatedArray = state.products.filter(
 				(product) => product.id !== action.product.id
 			);
+			let isCartEmpty = state.cartIsEmpty;
+			updatedArray.length === 0 && (isCartEmpty = true);
 			const newState = {
 				...state,
 				products: updatedArray,
 				totalPrice: state.totalPrice - action.product.price,
+				cartIsEmpty: isCartEmpty,
 			};
 			saveStateToStorage(newState);
 			return {

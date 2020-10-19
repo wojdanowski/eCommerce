@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './CartItem.module.scss';
-import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
+import GenericButton from '../../UI/Buttons/GenericButton/GenericButton';
 
 const CartItem = (props) => {
 	return (
