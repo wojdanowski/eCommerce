@@ -1,0 +1,13 @@
+@import '../../../styles/config.module.scss';
+
+.genericList {
+	margin-bottom: 1rem;
+
+	.genericListItem:nth-child(odd) {
+		background: $lightColor2;
+	}
+
+	.genericListItem {
+		list-style: none;
+	}
+}

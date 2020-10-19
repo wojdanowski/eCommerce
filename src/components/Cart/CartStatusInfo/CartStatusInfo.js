@@ -10,7 +10,7 @@ const CartStatusInfo = (props) => {
 		info = <h1>Your Cart is Empty</h1>;
 	} else {
 		info = (
-			<div className={`${classes.cartHead} utilContainer`}>
+			<div className={`${classes.cartHead}`}>
 				<h1>Your Cart</h1>
 				<h1>Total: {props.totalPrice}$</h1>
 			</div>

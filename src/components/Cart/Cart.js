@@ -6,8 +6,9 @@ import * as cartActionTypes from '../../store/actions/cartActions';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './Cart.module.scss';
 import GenericButton from '../UI/Buttons/GenericButton/GenericButton';
-import CartList from './CartList/CartList';
 import CartStatusInfo from './CartStatusInfo/CartStatusInfo';
+import GenericList from '../UI/GenericList/GenericList';
+import CartItem from './CartItem/CartItem';
 
 const Cart = (props) => {
 	let history = useHistory();
@@ -22,11 +23,14 @@ const Cart = (props) => {
 	};
 
 	let cartListContent = null;
-
 	if (!props.cartIsEmpty) {
 		cartListContent = (
 			<Fragment>
-				<CartList />
+				<GenericList
+					dataArray={props.prodsInCart}
+					displayWith={CartItem}
+					additional={{ removeHandler: props.removeProdFromCart }}
+				/>
 				<GenericButton
 					label='checkout'
 					clicked={checkoutClickedHandler}
@@ -46,7 +50,6 @@ const Cart = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		prodsInCart: state.cartState.products,
-		totalPrice: state.cartState.totalPrice,
 		cartIsEmpty: state.cartState.cartIsEmpty,
 	};
 };
