@@ -13,26 +13,19 @@ const Checkout = (props) => {
 		props.loadCartFromStorage();
 	}, []);
 
-	let checkoutContent = null;
-	if (!props.cartIsEmpty) {
-		checkoutContent = (
-			<Fragment>
-				<div
-					className={`${classes.checkoutContainer} utilBigContainer`}
-				>
-					<CartStatusInfo />
-					<GenericList
-						dataArray={props.prodsInCart}
-						displayWith={CheckoutItem}
-						additional={{ removeHandler: props.removeProdFromCart }}
-					/>
-					<GenericButton label='Confirm' />
-				</div>
-			</Fragment>
-		);
-	}
-
-	return checkoutContent;
+	return (
+		<Fragment>
+			<div className={`${classes.checkoutContainer} utilBigContainer`}>
+				<CartStatusInfo />
+				<GenericList
+					dataArray={props.prodsInCart}
+					displayWith={CheckoutItem}
+					additional={{ removeHandler: props.removeProdFromCart }}
+				/>
+				<GenericButton label='Confirm' status='inactive' />
+			</div>
+		</Fragment>
+	);
 };
 
 const mapStateToProps = (state) => {
