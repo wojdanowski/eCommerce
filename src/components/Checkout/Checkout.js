@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import * as cartActionTypes from '../../store/actions/cartActions';
 import GenericButton from '../UI/Buttons/GenericButton/GenericButton';
@@ -13,6 +14,7 @@ const Checkout = (props) => {
 		props.loadCartFromStorage();
 	}, []);
 
+	let history = useHistory();
 	return (
 		<Fragment>
 			<div className={`${classes.checkoutContainer} utilBigContainer`}>
@@ -23,11 +25,13 @@ const Checkout = (props) => {
 					additional={{ removeHandler: props.removeProdFromCart }}
 				/>
 				{!props.cartIsEmpty ? (
+					<GenericButton label='Confirm' />
+				) : (
 					<GenericButton
-						label='Confirm'
-						isDisabled={props.cartIsEmpty}
+						label='back to products'
+						clicked={() => history.push('/')}
 					/>
-				) : null}
+				)}
 			</div>
 		</Fragment>
 	);
