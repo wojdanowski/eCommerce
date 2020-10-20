@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import MainHeader from '../MainHeader/MainHeader';
 import CategoriesBar from '../CategoriesBar/CategoriesBar';
-import AllProdCards from '../ProductCards/AllProdCards';
+import AllProdCards from '../../containers/AllProdCards/AllProdCards';
 
 const MainPage = (props) => {
 	const [selectedProd, setSelectedProd] = useState(null);
