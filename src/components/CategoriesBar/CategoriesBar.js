@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './CategoriesBar.module.scss';
-import SearchTools from './../../components/UI/SearchTools/SearchTools';
-import Categories from './../../components/Categories/Categories';
+import SearchTools from '../UI/SearchTools/SearchTools';
+import Categories from '../Categories/Categories';
 
 const CategoriesBar = () => {
 	return (

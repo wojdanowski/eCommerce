@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import MainHeader from '../MainHeader/MainHeader';
-import CategoriesBar from '../../containers/CategoriesBar/CategoriesBar';
+import CategoriesBar from '../CategoriesBar/CategoriesBar';
 import AllProdCards from '../ProductCards/AllProdCards';
 
 const MainPage = (props) => {
