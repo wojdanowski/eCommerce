@@ -3,9 +3,13 @@ import classes from './GenericButton.module.scss';
 
 const GenericButton = (props) => {
 	return (
-		<div className={classes.genericButton} onClick={props.clicked}>
+		<button
+			className={classes.genericButton}
+			disabled={props.isDisabled}
+			onClick={props.clicked}
+		>
 			{props.label}
-		</div>
+		</button>
 	);
 };
 

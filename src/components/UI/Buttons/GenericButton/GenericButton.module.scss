@@ -1,19 +1,23 @@
 @import '../../../../styles/config.module.scss';
 
 .genericButton {
-	display: inline-block;
-	height: 100%;
-
+	border: none;
+	outline: none;
 	text-transform: uppercase;
 	text-align: center;
 	padding: 0.5rem 2.5rem;
 	background: $blackColor;
 	color: $lightColor;
-	// margin-top: 1rem;
 
 	&:hover {
 		background: $mainColor;
 		color: $darkColor;
 		cursor: pointer;
+	}
+
+	&:disabled {
+		background: $lightColor;
+		color: $darkColor;
+		cursor: not-allowed;
 	}
 }

@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import * as cartActionTypes from '../../store/actions/cartActions';
 import GenericButton from '../UI/Buttons/GenericButton/GenericButton';
@@ -13,26 +14,27 @@ const Checkout = (props) => {
 		props.loadCartFromStorage();
 	}, []);
 
-	let checkoutContent = null;
-	if (!props.cartIsEmpty) {
-		checkoutContent = (
-			<Fragment>
-				<div
-					className={`${classes.checkoutContainer} utilBigContainer`}
-				>
-					<CartStatusInfo />
-					<GenericList
-						dataArray={props.prodsInCart}
-						displayWith={CheckoutItem}
-						additional={{ removeHandler: props.removeProdFromCart }}
-					/>
+	let history = useHistory();
+	return (
+		<Fragment>
+			<div className={`${classes.checkoutContainer} utilBigContainer`}>
+				<CartStatusInfo />
+				<GenericList
+					dataArray={props.prodsInCart}
+					displayWith={CheckoutItem}
+					additional={{ removeHandler: props.removeProdFromCart }}
+				/>
+				{!props.cartIsEmpty ? (
 					<GenericButton label='Confirm' />
-				</div>
-			</Fragment>
-		);
-	}
-
-	return checkoutContent;
+				) : (
+					<GenericButton
+						label='back to products'
+						clicked={() => history.push('/')}
+					/>
+				)}
+			</div>
+		</Fragment>
+	);
 };
 
 const mapStateToProps = (state) => {
