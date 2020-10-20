@@ -8,59 +8,68 @@ import classes from './CheckoutForm.module.scss';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import Input from '../../UI/Input/Input';
 
-const CheckoutForm = () => {
+const CheckoutForm = (props) => {
 	let history = useHistory();
 
-	// const formElementsArray = [];
-	// for (let key in this.state.orderForm) {
-	// 	formElementsArray.push({
-	// 		id: key,
-	// 		config: this.state.orderForm[key],
-	// 	});
-	// }
+	const formElementsArray = [];
+	for (let key in props.formFields) {
+		formElementsArray.push({
+			id: key,
+			config: props.formFields[key],
+		});
+	}
+
+	let form = (
+		<form>
+			{formElementsArray.map((formElement) => (
+				<Input
+					key={formElement.id}
+					elementType={formElement.config.elementType}
+					elementConfig={formElement.config.elementConfig}
+					value={formElement.config.value}
+					// changed={event =>
+					// 	this.inputChangedHandler(event, formElement.id)
+					// }
+				/>
+			))}
+			{/* <Button btnType='Success' clicked={this.orderHandler}>
+				ORDER
+			</Button> */}
+		</form>
+	);
 
 	return (
 		<div className={`${classes.formContainer} utilBigContainer`}>
 			<h1>Shipping Address:</h1>
 			<div className={`${classes.inputsContainer} utilMarBot_1`}>
-				<Input />
-			</div>
-			<div className='genericFlexRow'>
-				<GenericButton
-					label='< back'
-					clicked={() => history.push('/checkout')}
-				/>
-				<GenericButton
-					label='confirm'
-					clicked={() => history.push('/checkout')}
-				/>
+				{form}
+				<div className='genericFlexRow'>
+					<GenericButton
+						label='< back'
+						clicked={() => history.push('/checkout')}
+					/>
+					<GenericButton
+						label='confirm'
+						clicked={() => history.push('/checkout')}
+					/>
+				</div>
 			</div>
 		</div>
 	);
 };
 
-// const mapStateToProps = (state) => {
-// 	return {
-// 		prodsInCart: state.cartState.products,
-// 		cartIsEmpty: state.cartState.cartIsEmpty,
-// 	};
-// };
+const mapStateToProps = (state) => {
+	return {
+		formFields: state.checkoutFormState.orderForm,
+		isOrderLoading: state.checkoutFormState.isLoading,
+	};
+};
 
-// const mapDispatchToProps = (dispatch) => {
-// 	return {
-// 		removeProdFromCart: (productData) =>
-// 			dispatch({
-// 				type: checkoutFormActions.REM_ITEM_FROM_CART,
-// 				product: productData,
-// 			}),
-// 		loadCartFromStorage: () =>
-// 			dispatch({
-// 				type: checkoutFormActions.LOAD_CART_FROM_STORAGE,
-// 			}),
-// 		toggleRightSidebar: () =>
-// 			dispatch({ type: checkoutFormActions.TOGGLE_RIGHT_SIDEBAR }),
-// 	};
-// };
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setIsLoading: () =>
+			dispatch({ type: checkoutFormActions.SET_IS_LOADING }),
+	};
+};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
-export default CheckoutForm;
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

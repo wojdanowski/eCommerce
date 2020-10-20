@@ -8,7 +8,7 @@ import './app.scss';
 
 import uiReducer from '../store/reducers/uiReducer';
 import cartReducer from '../store/reducers/cartReducer';
-import checkoutFormReducer from './../store/reducers/cartReducer';
+import checkoutFormReducer from './../store/reducers/checkoutFormReducer';
 
 import Layout from './../hoc/Layout/Layout';
 import Checkout from './../components/Checkout/Checkout';
@@ -18,7 +18,7 @@ import CheckoutForm from './../components/Checkout/CheckoutForm/CheckoutForm';
 const rootReducer = combineReducers({
 	uiState: uiReducer,
 	cartState: cartReducer,
-	checkoutState: checkoutFormReducer,
+	checkoutFormState: checkoutFormReducer,
 });
 const store = createStore(
 	rootReducer,

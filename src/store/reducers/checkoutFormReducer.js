@@ -61,12 +61,6 @@ const checkoutFormReducer = (state = initialState, action) => {
 		case actionTypes.SET_IS_LOADING:
 			return state;
 
-		case actionTypes.IS_LOADING:
-			return state;
-
-		case actionTypes.ORDER_FORM:
-			return state;
-
 		default:
 			return state;
 	}
