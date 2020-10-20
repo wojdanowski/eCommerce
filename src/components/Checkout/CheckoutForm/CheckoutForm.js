@@ -1,8 +1,8 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import { useHistory } from 'react-router-dom';
 import * as checkoutFormActions from '../../../store/actions/checkoutFormActions';
+import axios from 'axios';
 
 import classes from './CheckoutForm.module.scss';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
@@ -25,7 +25,37 @@ const CheckoutForm = (props) => {
 
 	const orderSubmitHandler = (event) => {
 		event.preventDefault();
-		const formData = props.getAllFormData();
+		props.setIsLoading(true);
+		const formData = {};
+		for (let inputId in props.formFields) {
+			formData[inputId] = props.formFields[inputId].value;
+		}
+		const shortProdList = [];
+		props.prodsInCart.forEach((el) =>
+			shortProdList.push({
+				id: el.id,
+				shortDescription: el.shortDescription,
+				price: el.price,
+			})
+		);
+		const query = 'https://ecommerceprodmockup.firebaseio.com/orders.json';
+		const order = {
+			products: {
+				...shortProdList,
+			},
+			contact: {
+				...formData,
+			},
+		};
+		axios
+			.post(query, order)
+			.then((response) => {
+				props.setIsLoading(false);
+			})
+			.catch((error) => {
+				console.log(error);
+				props.setIsLoading(false);
+			});
 	};
 
 	let form = (
@@ -44,9 +74,6 @@ const CheckoutForm = (props) => {
 					}
 				/>
 			))}
-			{/* <Button btnType='Success' clicked={this.orderHandler}>
-				ORDER
-			</Button> */}
 		</form>
 	);
 
@@ -63,7 +90,7 @@ const CheckoutForm = (props) => {
 					<GenericButton
 						label='confirm'
 						isDisabled={!props.formIsValid}
-						clicked={() => history.push('/checkout')}
+						clicked={orderSubmitHandler}
 					/>
 				</div>
 			</div>
@@ -76,15 +103,14 @@ const mapStateToProps = (state) => {
 		formFields: state.checkoutFormState.orderForm,
 		isOrderLoading: state.checkoutFormState.isLoading,
 		formIsValid: state.checkoutFormState.formIsValid,
+		prodsInCart: state.cartState.products,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setIsLoading: () =>
-			dispatch({ type: checkoutFormActions.SET_IS_LOADING }),
-		getAllFormData: () =>
-			dispatch({ type: checkoutFormActions.GET_CONTACT_INFO }),
+		setIsLoading: (isLoading) =>
+			dispatch({ type: checkoutFormActions.SET_IS_LOADING, isLoading }),
 		updateFormField: (enteredValue, selectedInputId) =>
 			dispatch({
 				type: checkoutFormActions.UPDATE_FIELD,

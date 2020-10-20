@@ -110,14 +110,10 @@ const checkValidity = (value, rules) => {
 const checkoutFormReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.SET_IS_LOADING:
-			return state;
-
-		case actionTypes.GET_CONTACT_INFO:
-			const formData = {};
-			for (let inputId in state.orderForm) {
-				formData[inputId] = state.orderForm[inputId].value;
-			}
-			return formData;
+			return {
+				...state,
+				loading: action.isLoading,
+			};
 
 		case actionTypes.UPDATE_FIELD:
 			const updatedInput = {

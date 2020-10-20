@@ -32,7 +32,7 @@ const useDataApi = (initialUrl, method = 'GET', initialData = null) => {
 		};
 
 		fetchData();
-	}, [url]);
+	}, [url, method, initialData]);
 	return { data, isLoading, isError, setUrl };
 };
 
