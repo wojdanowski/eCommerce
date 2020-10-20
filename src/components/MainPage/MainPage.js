@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
-import MainHeader from './../../components/MainHeader/MainHeader';
-import CategoriesBar from '../CategoriesBar/CategoriesBar';
-import AllProdCards from './../../components/ProductCards/AllProdCards';
+import MainHeader from '../MainHeader/MainHeader';
+import CategoriesBar from '../../containers/CategoriesBar/CategoriesBar';
+import AllProdCards from '../ProductCards/AllProdCards';
 
 const MainPage = (props) => {
 	const [selectedProd, setSelectedProd] = useState(null);
