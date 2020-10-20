@@ -5,12 +5,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 
 import './app.scss';
-import MainPage from './MainPage/MainPage';
 import Layout from './../hoc/Layout/Layout';
 
 import uiReducer from '../store/reducers/uiReducer';
 import cartReducer from '../store/reducers/cartReducer';
 import Checkout from './../components/Checkout/Checkout';
+import MainPage from '../components/MainPage/MainPage';
 
 const rootReducer = combineReducers({
 	uiState: uiReducer,

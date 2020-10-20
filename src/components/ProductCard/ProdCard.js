@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as cartActionTypes from '../../../store/actions/cartActions';
+import * as cartActionTypes from '../../store/actions/cartActions';
 import classes from './ProdCard.module.scss';
-import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
+import GenericButton from '../UI/Buttons/GenericButton/GenericButton';
 
 const ProdCard = (props) => {
 	const soldTag = (

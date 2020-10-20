@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
-import MainHeader from './../../components/MainHeader/MainHeader';
+import MainHeader from '../MainHeader/MainHeader';
 import CategoriesBar from '../CategoriesBar/CategoriesBar';
-import AllProdCards from './../../components/ProductCards/AllProdCards';
+import AllProdCards from '../../containers/AllProdCards/AllProdCards';
 
 const MainPage = (props) => {
-	const [selectedProd, setSelectedProd] = useState(null);
-
 	return (
 		<Aux>
 			<MainHeader />

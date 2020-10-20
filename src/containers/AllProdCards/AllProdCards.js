@@ -1,13 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+
+import useDataApi from '../../hooks/useFetchData';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
-import ProdCard from './ProdCard/ProdCard';
-import GenericButton from './../UI/Buttons/GenericButton/GenericButton';
-import Loader from './../UI/Loader/Loader';
-import useDataApi from './../../hooks/useFetchData';
-import Modal from './../UI/Modal/Modal';
-import ProductPage from './../ProductPage/ProductPage';
+import ProdCard from '../../components/ProductCard/ProdCard';
+import GenericButton from '../../components/UI/Buttons/GenericButton/GenericButton';
+import Loader from '../../components/UI/Loader/Loader';
+import Modal from '../../components/UI/Modal/Modal';
+import ProductPage from '../../components/ProductPage/ProductPage';
 
 const AllProdCards = (props) => {
 	const maxProdsOnPage = 13;
