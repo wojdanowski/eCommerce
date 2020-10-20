@@ -61,6 +61,25 @@ const checkoutFormReducer = (state = initialState, action) => {
 		case actionTypes.SET_IS_LOADING:
 			return state;
 
+		case actionTypes.UPDATE_FIELD:
+			// const newInputValue = state.orderForm[action.inputId].value;
+			const updatedInput = {
+				...state.orderForm[action.inputId],
+				value: action.newValue,
+			};
+
+			const updatedState = {
+				...state,
+				orderForm: {
+					...state.orderForm,
+					[action.inputId]: {
+						...updatedInput,
+					},
+				},
+			};
+
+			return updatedState;
+
 		default:
 			return state;
 	}

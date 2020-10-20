@@ -19,17 +19,21 @@ const CheckoutForm = (props) => {
 		});
 	}
 
+	const inputChangedHandler = (event, inputId) => {
+		props.updateFormField(event.target.value, inputId);
+	};
+
 	let form = (
-		<form>
+		<form className='utilMarBot_1'>
 			{formElementsArray.map((formElement) => (
 				<Input
 					key={formElement.id}
 					elementType={formElement.config.elementType}
 					elementConfig={formElement.config.elementConfig}
 					value={formElement.config.value}
-					// changed={event =>
-					// 	this.inputChangedHandler(event, formElement.id)
-					// }
+					changed={(event) =>
+						inputChangedHandler(event, formElement.id)
+					}
 				/>
 			))}
 			{/* <Button btnType='Success' clicked={this.orderHandler}>
@@ -41,7 +45,7 @@ const CheckoutForm = (props) => {
 	return (
 		<div className={`${classes.formContainer} utilBigContainer`}>
 			<h1>Shipping Address:</h1>
-			<div className={`${classes.inputsContainer} utilMarBot_1`}>
+			<div className={`${classes.inputsContainer}`}>
 				{form}
 				<div className='genericFlexRow'>
 					<GenericButton
@@ -69,6 +73,12 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setIsLoading: () =>
 			dispatch({ type: checkoutFormActions.SET_IS_LOADING }),
+		updateFormField: (enteredValue, selectedInputId) =>
+			dispatch({
+				type: checkoutFormActions.UPDATE_FIELD,
+				newValue: enteredValue,
+				inputId: selectedInputId,
+			}),
 	};
 };
 
