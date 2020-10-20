@@ -4,31 +4,37 @@ import classes from './Input.module.scss';
 
 const Input = (props) => {
 	let inputElement = null;
+	const inputClasses = [classes.inputElement];
+
+	if (props.invalid && props.shouldValidate && props.touched) {
+		inputClasses.push(classes.invalid);
+	}
 
 	switch (props.elementType) {
 		case 'input':
 			inputElement = (
 				<input
-					className={classes.inputElement}
-					onChange={props.changed}
+					className={inputClasses.join(' ')}
 					{...props.elementConfig}
 					value={props.value}
+					onChange={props.changed}
 				/>
 			);
 			break;
 		case 'textarea':
 			inputElement = (
 				<textarea
-					className={classes.inputElement}
-					onChange={props.changed}
+					className={inputClasses.join(' ')}
 					{...props.elementConfig}
+					value={props.value}
+					onChange={props.changed}
 				/>
 			);
 			break;
 		case 'select':
 			inputElement = (
 				<select
-					className={classes.inputElement}
+					className={inputClasses.join(' ')}
 					value={props.value}
 					onChange={props.changed}
 				>
@@ -43,15 +49,17 @@ const Input = (props) => {
 		default:
 			inputElement = (
 				<input
-					className={classes.inputElement}
+					className={inputClasses.join(' ')}
 					{...props.elementConfig}
+					value={props.value}
+					onChange={props.changed}
 				/>
 			);
 	}
 
 	return (
 		<div className={classes.input}>
-			<label className={classes.Label}>{props.label}</label>
+			<label className={classes.label}>{props.label}</label>
 			{inputElement}
 		</div>
 	);

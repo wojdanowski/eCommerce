@@ -9,6 +9,11 @@ const initialState = {
 				placeholder: 'Your Name',
 			},
 			value: '',
+			validation: {
+				required: true,
+			},
+			valid: false,
+			touched: false,
 		},
 		street: {
 			elementType: 'input',
@@ -17,6 +22,11 @@ const initialState = {
 				placeholder: 'Street',
 			},
 			value: '',
+			validation: {
+				required: true,
+			},
+			valid: false,
+			touched: false,
 		},
 		zipCode: {
 			elementType: 'input',
@@ -25,6 +35,14 @@ const initialState = {
 				placeholder: 'ZIP Code',
 			},
 			value: '',
+			validation: {
+				required: true,
+				minLength: 5,
+				maxLength: 5,
+				isNumeric: true,
+			},
+			valid: false,
+			touched: false,
 		},
 		country: {
 			elementType: 'input',
@@ -33,6 +51,11 @@ const initialState = {
 				placeholder: 'Country',
 			},
 			value: '',
+			validation: {
+				required: true,
+			},
+			valid: false,
+			touched: false,
 		},
 		email: {
 			elementType: 'input',
@@ -41,19 +64,47 @@ const initialState = {
 				placeholder: 'Your E-Mail',
 			},
 			value: '',
-		},
-		deliveryMethod: {
-			elementType: 'select',
-			elementConfig: {
-				options: [
-					{ value: 'fastest', displayValue: 'Fastest' },
-					{ value: 'cheapest', displayValue: 'Cheapest' },
-				],
+			validation: {
+				required: true,
+				isEmail: true,
 			},
-			value: '',
+			valid: false,
+			touched: false,
 		},
 	},
 	loading: false,
+	formIsValid: false,
+};
+
+const checkValidity = (value, rules) => {
+	let isValid = true;
+	if (!rules) {
+		return true;
+	}
+
+	if (rules.required) {
+		isValid = value.trim() !== '' && isValid;
+	}
+
+	if (rules.minLength) {
+		isValid = value.length >= rules.minLength && isValid;
+	}
+
+	if (rules.maxLength) {
+		isValid = value.length <= rules.maxLength && isValid;
+	}
+
+	if (rules.isEmail) {
+		const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+		isValid = pattern.test(value) && isValid;
+	}
+
+	if (rules.isNumeric) {
+		const pattern = /^\d+$/;
+		isValid = pattern.test(value) && isValid;
+	}
+
+	return isValid;
 };
 
 const checkoutFormReducer = (state = initialState, action) => {
@@ -62,13 +113,17 @@ const checkoutFormReducer = (state = initialState, action) => {
 			return state;
 
 		case actionTypes.UPDATE_FIELD:
-			// const newInputValue = state.orderForm[action.inputId].value;
 			const updatedInput = {
 				...state.orderForm[action.inputId],
 				value: action.newValue,
+				touched: true,
+				valid: checkValidity(
+					action.newValue,
+					state.orderForm[action.inputId].validation
+				),
 			};
 
-			const updatedState = {
+			let updatedState = {
 				...state,
 				orderForm: {
 					...state.orderForm,
@@ -78,7 +133,17 @@ const checkoutFormReducer = (state = initialState, action) => {
 				},
 			};
 
-			return updatedState;
+			let formIsValidAfterUpdate = true;
+			for (let inputIdentifier in updatedState.orderForm) {
+				formIsValidAfterUpdate =
+					updatedState.orderForm[inputIdentifier].valid &&
+					formIsValidAfterUpdate;
+			}
+
+			return {
+				...updatedState,
+				formIsValid: formIsValidAfterUpdate,
+			};
 
 		default:
 			return state;

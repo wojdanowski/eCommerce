@@ -5,7 +5,7 @@
 	padding: 10px;
 	box-sizing: border-box;
 
-	.Label {
+	.label {
 		font-weight: bold;
 		display: block;
 		margin-bottom: 8px;
@@ -24,6 +24,12 @@
 
 	.inputElement:focus {
 		outline: none;
-		background-color: $lightColor;
+		background-color: $lightColor2;
+	}
+
+	.invalid,
+	.invalid:focus {
+		border: 1px solid red;
+		background-color: $mainColorBright;
 	}
 }
