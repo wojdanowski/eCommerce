@@ -57,6 +57,7 @@ const CheckoutForm = (props) => {
 					/>
 					<GenericButton
 						label='confirm'
+						isDisabled={!props.formIsValid}
 						clicked={() => history.push('/checkout')}
 					/>
 				</div>
@@ -69,6 +70,7 @@ const mapStateToProps = (state) => {
 	return {
 		formFields: state.checkoutFormState.orderForm,
 		isOrderLoading: state.checkoutFormState.isLoading,
+		formIsValid: state.checkoutFormState.formIsValid,
 	};
 };
 
