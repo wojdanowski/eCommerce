@@ -5,16 +5,20 @@ import { BrowserRouter } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 
 import './app.scss';
-import Layout from './../hoc/Layout/Layout';
 
 import uiReducer from '../store/reducers/uiReducer';
 import cartReducer from '../store/reducers/cartReducer';
+import checkoutFormReducer from './../store/reducers/checkoutFormReducer';
+
+import Layout from './../hoc/Layout/Layout';
 import Checkout from './../components/Checkout/Checkout';
 import MainPage from '../components/MainPage/MainPage';
+import CheckoutForm from './../components/Checkout/CheckoutForm/CheckoutForm';
 
 const rootReducer = combineReducers({
 	uiState: uiReducer,
 	cartState: cartReducer,
+	checkoutFormState: checkoutFormReducer,
 });
 const store = createStore(
 	rootReducer,
@@ -29,6 +33,10 @@ function App() {
 					<Switch>
 						<Route path='/index.html' exact component={MainPage} />
 						<Route path='/products' component={MainPage} />
+						<Route
+							path='/checkout/shipping'
+							component={CheckoutForm}
+						/>
 						<Route path='/checkout' component={Checkout} />
 						<Route path='/' exact component={MainPage} />
 					</Switch>
