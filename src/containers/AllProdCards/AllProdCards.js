@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import useDataApi from '../../hooks/useFetchData';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
-import ProdCard from '../../components/ProductCards/ProdCard/ProdCard';
+import ProdCard from '../../components/ProductCard/ProdCard';
 import GenericButton from '../../components/UI/Buttons/GenericButton/GenericButton';
 import Loader from '../../components/UI/Loader/Loader';
 import Modal from '../../components/UI/Modal/Modal';
