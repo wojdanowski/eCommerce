@@ -2,6 +2,7 @@
 
 .genericButton {
 	border: none;
+	outline: none;
 	text-transform: uppercase;
 	text-align: center;
 	padding: 0.5rem 2.5rem;
@@ -15,6 +16,8 @@
 	}
 
 	&:disabled {
+		background: $lightColor;
+		color: $darkColor;
 		cursor: not-allowed;
 	}
 }
