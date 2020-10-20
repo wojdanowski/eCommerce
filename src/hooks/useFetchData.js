@@ -25,8 +25,6 @@ const useDataApi = (initialUrl, initialData) => {
 					};
 				}
 				setData(dataWithIds);
-				console.log('[useFetchData] url:');
-				console.log(url);
 			} catch (error) {
 				setIsError(true);
 			}
