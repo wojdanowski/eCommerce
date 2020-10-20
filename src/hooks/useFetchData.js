@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useDataApi = (initialUrl, initialData) => {
+const useDataApi = (initialUrl, method = 'GET', initialData = null) => {
 	const [data, setData] = useState(initialData);
 	const [url, setUrl] = useState(initialUrl);
 	const [isLoading, setIsLoading] = useState(false);
@@ -10,20 +10,23 @@ const useDataApi = (initialUrl, initialData) => {
 	const proxy = '';
 
 	useEffect(() => {
-		if (initialData) {
-			console.log(initialData);
-		} else {
-			console.log(`no initial dta`);
-		}
 		const fetchData = async () => {
 			setIsError(false);
 			setIsLoading(true);
 
 			try {
-				const result = await axios(`${proxy}${url}`);
+				const result = await axios({
+					method: method.toLocaleLowerCase(),
+					url: `${proxy}${url}`,
+					data: {
+						...initialData,
+					},
+				});
 				setData(result.data);
 			} catch (error) {
 				setIsError(true);
+				alert(error);
+				setData(error);
 			}
 			setIsLoading(false);
 		};

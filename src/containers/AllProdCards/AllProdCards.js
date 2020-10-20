@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import useDataApi from '../../hooks/useFetchData';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
+import addIdsToData from './../../utilities/addIdsToData';
+
 import ProdCard from '../../components/ProductCard/ProdCard';
 import GenericButton from '../../components/UI/Buttons/GenericButton/GenericButton';
 import Loader from '../../components/UI/Loader/Loader';
@@ -21,17 +23,10 @@ const AllProdCards = (props) => {
 		'https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"';
 	let fetchedData = useDataApi(query.concat(pagination));
 
-	let dataWithIds = fetchedData.data;
-	for (const property in fetchedData.data) {
-		dataWithIds[property] = {
-			...fetchedData.data[property],
-			id: property,
-		};
-	}
-	let prodData = {
+	const prodData = {
 		...fetchedData,
 		data: {
-			...dataWithIds,
+			...addIdsToData(fetchedData.data),
 		},
 	};
 
