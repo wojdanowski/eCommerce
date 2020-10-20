@@ -22,7 +22,7 @@ const Checkout = (props) => {
 					displayWith={CheckoutItem}
 					additional={{ removeHandler: props.removeProdFromCart }}
 				/>
-				<GenericButton label='Confirm' status='inactive' />
+				<GenericButton label='Confirm' isDisabled={true} />
 			</div>
 		</Fragment>
 	);
