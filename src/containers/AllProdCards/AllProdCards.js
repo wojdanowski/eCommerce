@@ -19,7 +19,21 @@ const AllProdCards = (props) => {
 
 	const query =
 		'https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"';
-	const prodData = useDataApi(query.concat(pagination));
+	let fetchedData = useDataApi(query.concat(pagination));
+
+	let dataWithIds = fetchedData.data;
+	for (const property in fetchedData.data) {
+		dataWithIds[property] = {
+			...fetchedData.data[property],
+			id: property,
+		};
+	}
+	let prodData = {
+		...fetchedData,
+		data: {
+			...dataWithIds,
+		},
+	};
 
 	const getLastItem = (obj) => {
 		return Object.keys(obj)[Object.keys(obj).length - 1];

@@ -23,8 +23,13 @@ const CheckoutForm = (props) => {
 		props.updateFormField(event.target.value, inputId);
 	};
 
+	const orderSubmitHandler = (event) => {
+		event.preventDefault();
+		const formData = props.getAllFormData();
+	};
+
 	let form = (
-		<form className='utilMarBot_1'>
+		<form className='utilMarBot_1' onSubmit={orderSubmitHandler}>
 			{formElementsArray.map((formElement) => (
 				<Input
 					key={formElement.id}
@@ -78,6 +83,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setIsLoading: () =>
 			dispatch({ type: checkoutFormActions.SET_IS_LOADING }),
+		getAllFormData: () =>
+			dispatch({ type: checkoutFormActions.GET_CONTACT_INFO }),
 		updateFormField: (enteredValue, selectedInputId) =>
 			dispatch({
 				type: checkoutFormActions.UPDATE_FIELD,

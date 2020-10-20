@@ -112,6 +112,13 @@ const checkoutFormReducer = (state = initialState, action) => {
 		case actionTypes.SET_IS_LOADING:
 			return state;
 
+		case actionTypes.GET_CONTACT_INFO:
+			const formData = {};
+			for (let inputId in state.orderForm) {
+				formData[inputId] = state.orderForm[inputId].value;
+			}
+			return formData;
+
 		case actionTypes.UPDATE_FIELD:
 			const updatedInput = {
 				...state.orderForm[action.inputId],

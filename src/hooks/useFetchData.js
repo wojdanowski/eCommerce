@@ -10,21 +10,18 @@ const useDataApi = (initialUrl, initialData) => {
 	const proxy = '';
 
 	useEffect(() => {
+		if (initialData) {
+			console.log(initialData);
+		} else {
+			console.log(`no initial dta`);
+		}
 		const fetchData = async () => {
 			setIsError(false);
 			setIsLoading(true);
 
 			try {
 				const result = await axios(`${proxy}${url}`);
-				const dataWithIds = {};
-
-				for (const property in result.data) {
-					dataWithIds[property] = {
-						...result.data[property],
-						id: property,
-					};
-				}
-				setData(dataWithIds);
+				setData(result.data);
 			} catch (error) {
 				setIsError(true);
 			}
