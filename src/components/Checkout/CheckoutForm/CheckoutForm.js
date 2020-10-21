@@ -1,0 +1,159 @@
+import React, { Fragment, useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as checkoutFormActions from '../../../store/actions/checkoutFormActions';
+import * as cartActions from '../../../store/actions/cartActions';
+
+import { useFetchApi } from './../../../hooks/useFetchApi';
+import classes from './CheckoutForm.module.scss';
+import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
+import Input from '../../UI/Input/Input';
+import Loader from './../../UI/Loader/Loader';
+
+const CheckoutForm = (props) => {
+	let history = useHistory();
+	const url = 'https://ecommerceprodmockup.firebaseio.com/orders.json';
+	const fetchApi = useFetchApi('post', [url]);
+	const [orderIsSuccessful, setOrderIsSuccessful] = useState(false);
+
+	useEffect(() => {
+		if (!fetchApi.isLoading && !fetchApi.isError && fetchApi.data) {
+			props.clearCart();
+			setOrderIsSuccessful(true);
+		}
+	}, [fetchApi.data, fetchApi.isError, fetchApi.isLoading]);
+
+	const formElementsArray = [];
+	for (let key in props.formFields) {
+		formElementsArray.push({
+			id: key,
+			config: props.formFields[key],
+		});
+	}
+
+	const inputChangedHandler = (event, inputId) => {
+		props.updateFormField(event.target.value, inputId);
+	};
+
+	const orderSubmitHandler = (event) => {
+		event.preventDefault();
+		const formData = {};
+		for (let inputId in props.formFields) {
+			formData[inputId] = props.formFields[inputId].value;
+		}
+		const shortProdList = [];
+		props.prodsInCart.forEach((el) =>
+			shortProdList.push({
+				id: el.id,
+				shortDescription: el.shortDescription,
+				price: el.price,
+			})
+		);
+
+		const order = {
+			products: {
+				...shortProdList,
+			},
+			contact: {
+				...formData,
+			},
+		};
+		fetchApi.callFetchApi(order);
+	};
+
+	let form;
+
+	if (!fetchApi.data && !fetchApi.isLoading && !fetchApi.isError) {
+		form = (
+			<Fragment>
+				<h1>Shipping Address:</h1>
+				<div className={`${classes.inputsContainer}`}>
+					<form
+						className='utilMarBot_1'
+						onSubmit={orderSubmitHandler}
+					>
+						{formElementsArray.map((formElement) => (
+							<Input
+								key={formElement.id}
+								elementType={formElement.config.elementType}
+								elementConfig={formElement.config.elementConfig}
+								value={formElement.config.value}
+								invalid={!formElement.config.valid}
+								shouldValidate={formElement.config.validation}
+								touched={formElement.config.touched}
+								changed={(event) =>
+									inputChangedHandler(event, formElement.id)
+								}
+							/>
+						))}
+					</form>
+					<div className='genericFlexRow'>
+						<GenericButton
+							label='< back'
+							clicked={() => history.push('/checkout')}
+						/>
+						<GenericButton
+							label='confirm'
+							// isDisabled={!props.formIsValid}
+							clicked={orderSubmitHandler}
+						/>
+					</div>
+				</div>
+			</Fragment>
+		);
+	} else if (fetchApi.isLoading && !fetchApi.isError) {
+		form = <Loader />;
+	} else if (fetchApi.isError) {
+		form = (
+			<Fragment>
+				<h1>Error proceeding your order</h1>
+				<div className='genericFlexRow'>
+					<GenericButton
+						label='< back'
+						clicked={() => history.push('/checkout')}
+					/>
+				</div>
+			</Fragment>
+		);
+	} else {
+		form = (
+			<Fragment>
+				<h1>SUCCESS</h1>
+				<div className='genericFlexRow'>
+					<GenericButton
+						label='Continue shopping'
+						clicked={() => history.push('/')}
+					/>
+				</div>
+			</Fragment>
+		);
+	}
+
+	return (
+		<div className={`${classes.formContainer} utilBigContainer`}>
+			{form}
+		</div>
+	);
+};
+
+const mapStateToProps = (state) => {
+	return {
+		formFields: state.checkoutFormState.orderForm,
+		formIsValid: state.checkoutFormState.formIsValid,
+		prodsInCart: state.cartState.products,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		updateFormField: (enteredValue, selectedInputId) =>
+			dispatch({
+				type: checkoutFormActions.UPDATE_FIELD,
+				newValue: enteredValue,
+				inputId: selectedInputId,
+			}),
+		clearCart: () => dispatch({ type: cartActions.CLEAR_CART }),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

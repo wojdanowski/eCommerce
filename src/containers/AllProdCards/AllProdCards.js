@@ -1,9 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import useDataApi from '../../hooks/useFetchData';
+import { useFetchApi } from './../../hooks/useFetchApi';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
+import addIdsToData from './../../utilities/addIdsToData';
+
 import ProdCard from '../../components/ProductCard/ProdCard';
 import GenericButton from '../../components/UI/Buttons/GenericButton/GenericButton';
 import Loader from '../../components/UI/Loader/Loader';
@@ -12,14 +14,24 @@ import ProductPage from '../../components/ProductPage/ProductPage';
 
 const AllProdCards = (props) => {
 	const maxProdsOnPage = 13;
+	const url = `https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"`;
 	const [pagination, setPagination] = useState(
 		`&limitToFirst=${maxProdsOnPage}`
 	);
 	const [selectedProd, setSelectedProd] = useState(null);
 
-	const query =
-		'https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"';
-	const prodData = useDataApi(query.concat(pagination));
+	let fetchData = useFetchApi('get', [`${url}${pagination}`]);
+
+	useEffect(() => {
+		fetchData.callFetchApi();
+	}, [pagination]);
+
+	const prodData = {
+		...fetchData,
+		data: {
+			...addIdsToData(fetchData.data),
+		},
+	};
 
 	const getLastItem = (obj) => {
 		return Object.keys(obj)[Object.keys(obj).length - 1];
@@ -39,13 +51,9 @@ const AllProdCards = (props) => {
 				prodData.data
 			)}"`;
 		}
-
+		fetchData.setUrl(url.concat(paginationProperties));
 		setPagination(paginationProperties);
 	};
-
-	useEffect(() => {
-		prodData.setUrl(query.concat(pagination));
-	}, [prodData, pagination]);
 
 	const productClickedHandler = (id) => {
 		setSelectedProd(id);

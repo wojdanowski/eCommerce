@@ -16,9 +16,21 @@
 	padding: 10px;
 }
 
+.genericFlexRow {
+	display: flex;
+	width: 100%;
+	justify-content: space-around;
+	align-items: center;
+	text-align: center;
+}
+
 .textLineThrough {
 	text-decoration: line-through;
 	color: $mediumColor;
+}
+
+.utilMarBot_1 {
+	margin-bottom: 1.5rem;
 }
 
 @media (max-width: $mobile) {

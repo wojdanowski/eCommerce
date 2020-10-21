@@ -18,20 +18,26 @@ const Checkout = (props) => {
 	return (
 		<Fragment>
 			<div className={`${classes.checkoutContainer} utilBigContainer`}>
-				<CartStatusInfo />
-				<GenericList
-					dataArray={props.prodsInCart}
-					displayWith={CheckoutItem}
-					additional={{ removeHandler: props.removeProdFromCart }}
-				/>
-				{!props.cartIsEmpty ? (
-					<GenericButton label='Confirm' />
-				) : (
+				<div className='utilMarBot_1'>
+					<CartStatusInfo />
+					<GenericList
+						dataArray={props.prodsInCart}
+						displayWith={CheckoutItem}
+						additional={{ removeHandler: props.removeProdFromCart }}
+					/>
+				</div>
+				<div className='genericFlexRow'>
 					<GenericButton
-						label='back to products'
+						label='< back to products'
 						clicked={() => history.push('/')}
 					/>
-				)}
+					{!props.cartIsEmpty ? (
+						<GenericButton
+							label='shipping >'
+							clicked={() => history.push('/checkout/shipping')}
+						/>
+					) : null}
+				</div>
 			</div>
 		</Fragment>
 	);
