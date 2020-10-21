@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosCall from './../utilities/axiosCall';
 
-const useDataApi = (initialUrl, method = 'GET', initialData = null) => {
+export const useDataApi = (initialUrl, method = 'GET', initialData = null) => {
 	const [data, setData] = useState(initialData);
 	const [url, setUrl] = useState(initialUrl);
 	const [isLoading, setIsLoading] = useState(false);
@@ -13,26 +13,11 @@ const useDataApi = (initialUrl, method = 'GET', initialData = null) => {
 		const fetchData = async () => {
 			setIsError(false);
 			setIsLoading(true);
-
-			try {
-				const result = await axios({
-					method: method.toLocaleLowerCase(),
-					url: `${proxy}${url}`,
-					data: {
-						...initialData,
-					},
-				});
-				setData(result.data);
-			} catch (error) {
-				setIsError(true);
-				alert(error);
-				setData(error);
-			}
+			await axiosCall(url, initialData, [setData, setIsError]);
 			setIsLoading(false);
 		};
-
 		fetchData();
-	}, [url, method, initialData]);
+	}, [url, initialData]);
 	return { data, isLoading, isError, setUrl };
 };
 
