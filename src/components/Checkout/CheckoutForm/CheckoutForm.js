@@ -85,7 +85,7 @@ const CheckoutForm = (props) => {
 						/>
 						<GenericButton
 							label='confirm'
-							// isDisabled={!props.formIsValid}
+							isDisabled={!props.formIsValid}
 							clicked={orderSubmitHandler}
 						/>
 					</div>
@@ -95,10 +95,30 @@ const CheckoutForm = (props) => {
 	} else if (fetchApi.isLoading && !fetchApi.isError) {
 		form = <Loader />;
 	} else if (fetchApi.isError) {
-		form = <p>error proceeding your order</p>;
+		form = (
+			<Fragment>
+				<h1>Error proceeding your order</h1>
+				<div className='genericFlexRow'>
+					<GenericButton
+						label='< back'
+						clicked={() => history.push('/checkout')}
+					/>
+				</div>
+			</Fragment>
+		);
 		console.log(fetchApi.data);
 	} else {
-		form = <p>SUCCESS</p>;
+		form = (
+			<Fragment>
+				<h1>SUCCESS</h1>
+				<div className='genericFlexRow'>
+					<GenericButton
+						label='Continue shopping'
+						clicked={() => history.push('/')}
+					/>
+				</div>
+			</Fragment>
+		);
 	}
 
 	return (
