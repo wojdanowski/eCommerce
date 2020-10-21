@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import useDataApi from '../../hooks/useFetchData';
 import { useFetchApi } from './../../hooks/useFetchApi';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
@@ -24,7 +23,6 @@ const AllProdCards = (props) => {
 	let fetchData = useFetchApi('get', [`${url}${pagination}`]);
 
 	useEffect(() => {
-		console.log('use efect with call fetch api runs');
 		fetchData.callFetchApi();
 	}, [pagination]);
 
@@ -53,8 +51,8 @@ const AllProdCards = (props) => {
 				prodData.data
 			)}"`;
 		}
-		setPagination(paginationProperties);
 		fetchData.setUrl(url.concat(paginationProperties));
+		setPagination(paginationProperties);
 	};
 
 	const productClickedHandler = (id) => {

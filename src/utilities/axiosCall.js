@@ -14,7 +14,6 @@ const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 		onError();
 		console.log(error);
 	}
-	console.log(`axios call`);
 };
 
 export default axiosCall;

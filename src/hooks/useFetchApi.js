@@ -9,12 +9,8 @@ export const useFetchApi = (
 	const [url, setUrl] = useState(initialUrl);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
-	const proxy = '';
 
 	const callFetchApi = useCallback(async () => {
-		console.log(`[callFechApi]`);
-		console.log(`url: ${url}`);
-		console.log(`initialUrl: ${initialUrl}`);
 		setIsError(false);
 		setIsLoading(true);
 		await axiosCall(url, payload, [setData, setIsError], method);
