@@ -28,7 +28,6 @@ const CheckoutForm = (props) => {
 
 	const orderSubmitHandler = (event) => {
 		event.preventDefault();
-		props.setIsLoading(true);
 		const formData = {};
 		for (let inputId in props.formFields) {
 			formData[inputId] = props.formFields[inputId].value;
@@ -112,7 +111,6 @@ const CheckoutForm = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		formFields: state.checkoutFormState.orderForm,
-		isOrderLoading: state.checkoutFormState.isLoading,
 		formIsValid: state.checkoutFormState.formIsValid,
 		prodsInCart: state.cartState.products,
 	};
@@ -120,8 +118,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setIsLoading: (isLoading) =>
-			dispatch({ type: checkoutFormActions.SET_IS_LOADING, isLoading }),
 		updateFormField: (enteredValue, selectedInputId) =>
 			dispatch({
 				type: checkoutFormActions.UPDATE_FIELD,

@@ -72,7 +72,6 @@ const initialState = {
 			touched: false,
 		},
 	},
-	loading: false,
 	formIsValid: false,
 };
 
@@ -109,12 +108,6 @@ const checkValidity = (value, rules) => {
 
 const checkoutFormReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case actionTypes.SET_IS_LOADING:
-			return {
-				...state,
-				loading: action.isLoading,
-			};
-
 		case actionTypes.UPDATE_FIELD:
 			const updatedInput = {
 				...state.orderForm[action.inputId],
