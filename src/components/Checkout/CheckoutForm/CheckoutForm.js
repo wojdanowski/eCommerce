@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as checkoutFormActions from '../../../store/actions/checkoutFormActions';
-import axios from 'axios';
 
+import { useFetchApi } from './../../../hooks/useFetchApi';
 import classes from './CheckoutForm.module.scss';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import Input from '../../UI/Input/Input';
+import Loader from './../../UI/Loader/Loader';
 
 const CheckoutForm = (props) => {
 	let history = useHistory();
+	const url = 'https://ecommerceprodmockup.firebaseio.com/orders.json';
+	const fetchApi = useFetchApi('post', [url]);
 
 	const formElementsArray = [];
 	for (let key in props.formFields) {
@@ -38,7 +41,7 @@ const CheckoutForm = (props) => {
 				price: el.price,
 			})
 		);
-		const query = 'https://ecommerceprodmockup.firebaseio.com/orders.json';
+
 		const order = {
 			products: {
 				...shortProdList,
@@ -47,53 +50,61 @@ const CheckoutForm = (props) => {
 				...formData,
 			},
 		};
-		axios
-			.post(query, order)
-			.then((response) => {
-				props.setIsLoading(false);
-			})
-			.catch((error) => {
-				console.log(error);
-				props.setIsLoading(false);
-			});
+		fetchApi.callFetchApi(order);
 	};
 
-	let form = (
-		<form className='utilMarBot_1' onSubmit={orderSubmitHandler}>
-			{formElementsArray.map((formElement) => (
-				<Input
-					key={formElement.id}
-					elementType={formElement.config.elementType}
-					elementConfig={formElement.config.elementConfig}
-					value={formElement.config.value}
-					invalid={!formElement.config.valid}
-					shouldValidate={formElement.config.validation}
-					touched={formElement.config.touched}
-					changed={(event) =>
-						inputChangedHandler(event, formElement.id)
-					}
-				/>
-			))}
-		</form>
-	);
+	let form;
+
+	if (!fetchApi.data && !fetchApi.isLoading && !fetchApi.isError) {
+		form = (
+			<Fragment>
+				<h1>Shipping Address:</h1>
+				<div className={`${classes.inputsContainer}`}>
+					<form
+						className='utilMarBot_1'
+						onSubmit={orderSubmitHandler}
+					>
+						{formElementsArray.map((formElement) => (
+							<Input
+								key={formElement.id}
+								elementType={formElement.config.elementType}
+								elementConfig={formElement.config.elementConfig}
+								value={formElement.config.value}
+								invalid={!formElement.config.valid}
+								shouldValidate={formElement.config.validation}
+								touched={formElement.config.touched}
+								changed={(event) =>
+									inputChangedHandler(event, formElement.id)
+								}
+							/>
+						))}
+					</form>
+					<div className='genericFlexRow'>
+						<GenericButton
+							label='< back'
+							clicked={() => history.push('/checkout')}
+						/>
+						<GenericButton
+							label='confirm'
+							// isDisabled={!props.formIsValid}
+							clicked={orderSubmitHandler}
+						/>
+					</div>
+				</div>
+			</Fragment>
+		);
+	} else if (fetchApi.isLoading && !fetchApi.isError) {
+		form = <Loader />;
+	} else if (fetchApi.isError) {
+		form = <p>error proceeding your order</p>;
+		console.log(fetchApi.data);
+	} else {
+		form = <p>SUCCESS</p>;
+	}
 
 	return (
 		<div className={`${classes.formContainer} utilBigContainer`}>
-			<h1>Shipping Address:</h1>
-			<div className={`${classes.inputsContainer}`}>
-				{form}
-				<div className='genericFlexRow'>
-					<GenericButton
-						label='< back'
-						clicked={() => history.push('/checkout')}
-					/>
-					<GenericButton
-						label='confirm'
-						isDisabled={!props.formIsValid}
-						clicked={orderSubmitHandler}
-					/>
-				</div>
-			</div>
+			{form}
 		</div>
 	);
 };
