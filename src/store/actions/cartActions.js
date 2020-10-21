@@ -1,3 +1,4 @@
 export const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 export const REM_ITEM_FROM_CART = 'REM_ITEM_FROM_CART';
 export const LOAD_CART_FROM_STORAGE = 'LOAD_CART_FROM_STORAGE';
+export const CLEAR_CART = 'CLEAR_CART';

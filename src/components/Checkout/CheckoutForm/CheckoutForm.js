@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as checkoutFormActions from '../../../store/actions/checkoutFormActions';
+import * as cartActions from '../../../store/actions/cartActions';
 
 import { useFetchApi } from './../../../hooks/useFetchApi';
 import classes from './CheckoutForm.module.scss';
@@ -13,6 +14,14 @@ const CheckoutForm = (props) => {
 	let history = useHistory();
 	const url = 'https://ecommerceprodmockup.firebaseio.com/orders.json';
 	const fetchApi = useFetchApi('post', [url]);
+	const [orderIsSuccessful, setOrderIsSuccessful] = useState(false);
+
+	useEffect(() => {
+		if (!fetchApi.isLoading && !fetchApi.isError && fetchApi.data) {
+			props.clearCart();
+			setOrderIsSuccessful(true);
+		}
+	}, [fetchApi.data, fetchApi.isError, fetchApi.isLoading]);
 
 	const formElementsArray = [];
 	for (let key in props.formFields) {
@@ -85,7 +94,7 @@ const CheckoutForm = (props) => {
 						/>
 						<GenericButton
 							label='confirm'
-							isDisabled={!props.formIsValid}
+							// isDisabled={!props.formIsValid}
 							clicked={orderSubmitHandler}
 						/>
 					</div>
@@ -106,7 +115,6 @@ const CheckoutForm = (props) => {
 				</div>
 			</Fragment>
 		);
-		console.log(fetchApi.data);
 	} else {
 		form = (
 			<Fragment>
@@ -144,6 +152,7 @@ const mapDispatchToProps = (dispatch) => {
 				newValue: enteredValue,
 				inputId: selectedInputId,
 			}),
+		clearCart: () => dispatch({ type: cartActions.CLEAR_CART }),
 	};
 };
 
