@@ -15,17 +15,6 @@ const MainNavItem = (props) => {
 		? (appendClass = classes.vertical)
 		: (appendClass = classes.horizontal);
 
-	const clickedHandler = (event) => {
-		event.preventDefault();
-		if (props.clicked) {
-			props.clicked();
-		} else {
-			if (props.link) {
-				history.push(props.link);
-			} else console.log(`No link specified in component`);
-		}
-	};
-
 	return (
 		<li className={`${classes.navItem} ${appendClass}`}>
 			<NavLink
