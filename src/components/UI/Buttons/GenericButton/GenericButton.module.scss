@@ -1,11 +1,13 @@
 @import '../../../../styles/config.module.scss';
 
 .genericButton {
+	height: 100%;
 	border: none;
 	outline: none;
+	margin: 0 auto;
 	text-transform: uppercase;
 	text-align: center;
-	padding: 0.5rem 2.5rem;
+	padding: 0.5rem 2rem;
 	background: $blackColor;
 	color: $lightColor;
 

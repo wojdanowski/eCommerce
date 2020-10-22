@@ -1,7 +1,8 @@
 import React from 'react';
 
 import classes from './CheckoutItem.module.scss';
-import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
+import IconButton from './../../UI/Buttons/IconButton/IconButton';
+import { FiTrash2 } from 'react-icons/fi';
 
 const CheckoutItem = (props) => {
 	return (
@@ -16,7 +17,9 @@ const CheckoutItem = (props) => {
 			<div className={classes.descriptionArea}>
 				<div>
 					<h3>{props.itemData.name}</h3>
-					<p>{props.itemData.shortDescription}</p>
+					<span className={classes.shortDescription}>
+						<p>{props.itemData.shortDescription}</p>
+					</span>
 				</div>
 				<div className={classes.priceBox}>
 					<p>
@@ -25,9 +28,9 @@ const CheckoutItem = (props) => {
 					</p>
 				</div>
 			</div>
-			<GenericButton
-				label='remove'
+			<IconButton
 				clicked={() => props.additional.removeHandler(props.itemData)}
+				icon={<FiTrash2 />}
 			/>
 		</div>
 	);

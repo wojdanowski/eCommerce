@@ -11,3 +11,9 @@
 		width: 40%;
 	}
 }
+
+@media (max-width: $mobile) {
+	.formContainer .inputsContainer {
+		width: 100%;
+	}
+}

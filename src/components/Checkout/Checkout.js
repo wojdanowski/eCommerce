@@ -28,12 +28,12 @@ const Checkout = (props) => {
 				</div>
 				<div className='genericFlexRow'>
 					<GenericButton
-						label='< back to products'
+						label='< products'
 						clicked={() => history.push('/')}
 					/>
 					{!props.cartIsEmpty ? (
 						<GenericButton
-							label='shipping >'
+							label='order >'
 							clicked={() => history.push('/checkout/shipping')}
 						/>
 					) : null}
