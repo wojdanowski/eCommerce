@@ -1,13 +1,13 @@
 import React from 'react';
 import classes from './MainNavItem.module.scss';
-import { useHistory } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 
 const MainNavItem = (props) => {
 	const history = useHistory();
-	let isCurrentClass;
-	props.isCurrent
-		? (isCurrentClass = classes.currentLink)
-		: (isCurrentClass = null);
+	// let isCurrentClass;
+	// props.active
+	// 	? (isCurrentClass = classes.currentLink)
+	// 	: (isCurrentClass = null);
 
 	let appendClass = '';
 
@@ -28,13 +28,13 @@ const MainNavItem = (props) => {
 
 	return (
 		<li className={`${classes.navItem} ${appendClass}`}>
-			<a
-				href={props.link}
-				className={isCurrentClass}
-				onClick={clickedHandler}
+			<NavLink
+				to={props.link}
+				exact={props.exact}
+				activeClassName={classes.active}
 			>
 				{props.label}
-			</a>
+			</NavLink>
 		</li>
 	);
 };

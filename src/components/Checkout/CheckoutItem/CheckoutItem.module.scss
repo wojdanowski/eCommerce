@@ -12,9 +12,27 @@
 
 	.descriptionArea {
 		width: 100%;
-		padding: 1rem;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		padding: 1rem;
+	}
+}
+
+@media (max-width: $mobile) {
+	.itemContainer {
+		.imgContainer {
+			width: 5rem;
+		}
+
+		.descriptionArea {
+			flex-direction: column;
+			padding: 0.3rem;
+			font-size: 0.9em;
+
+			.shortDescription {
+				display: none;
+			}
+		}
 	}
 }

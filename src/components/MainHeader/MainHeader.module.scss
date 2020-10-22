@@ -7,6 +7,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	height: 30vh;
 
 	&::before {
 		content: '';
@@ -26,27 +27,28 @@
 		position: relative;
 		z-index: 1;
 		height: 100%;
-	}
 
-	.logo {
-		display: flex;
-		height: 100%;
-		flex-direction: column;
-		justify-content: center;
-		text-align: center;
-		align-items: center;
-	}
+		.logo {
+			display: flex;
+			height: 100%;
+			flex-direction: column;
+			justify-content: center;
+			text-align: center;
+			align-items: center;
+		}
 
-	h1 {
-		text-transform: uppercase;
-		transform: translateY(-50%);
-		letter-spacing: $wideKerning;
-		font-weight: 100;
-	}
+		h1 {
+			text-transform: uppercase;
+			transform: translateY(-50%);
+			letter-spacing: $wideKerning;
+			font-weight: 100;
+			margin-top: 1rem;
+		}
 
-	img {
-		opacity: 0.9;
-		width: 200px;
-		height: 200px;
+		img {
+			opacity: 0.9;
+			width: 200px;
+			height: 200px;
+		}
 	}
 }

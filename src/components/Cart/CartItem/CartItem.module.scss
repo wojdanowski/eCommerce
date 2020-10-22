@@ -7,7 +7,7 @@
 	padding: 1rem;
 
 	.prodImgContainer {
-		width: 250px;
+		width: 50%;
 
 		.prodImg {
 			max-width: 100%;
@@ -17,6 +17,7 @@
 	}
 
 	.prodDescription {
+		width: 50%;
 		padding: 10px;
 		text-align: center;
 		display: flex;
@@ -37,6 +38,7 @@
 
 		.tools {
 			text-align: right;
+			align-self: flex-end;
 		}
 	}
 }

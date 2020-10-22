@@ -1,6 +1,8 @@
 import React from 'react';
 import classes from './CartItem.module.scss';
 import GenericButton from '../../UI/Buttons/GenericButton/GenericButton';
+import IconButton from '../../UI/Buttons/IconButton/IconButton';
+import { FiTrash2 } from 'react-icons/fi';
 
 const CartItem = (props) => {
 	return (
@@ -19,11 +21,11 @@ const CartItem = (props) => {
 					<p>{props.itemData.shortDescription}</p>
 				</div>
 				<div className={classes.tools}>
-					<GenericButton
-						label='remove'
+					<IconButton
 						clicked={() =>
 							props.additional.removeHandler(props.itemData)
 						}
+						icon={<FiTrash2 />}
 					/>
 				</div>
 			</div>
