@@ -13,7 +13,7 @@ import checkoutFormReducer from './../store/reducers/checkoutFormReducer';
 import Layout from './../hoc/Layout/Layout';
 import Checkout from './../components/Checkout/Checkout';
 import MainPage from '../components/MainPage/MainPage';
-import CheckoutForm from './../components/Checkout/CheckoutForm/CheckoutForm';
+import CheckoutForm from './CheckoutForm/CheckoutForm';
 
 const rootReducer = combineReducers({
 	uiState: uiReducer,

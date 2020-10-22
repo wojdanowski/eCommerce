@@ -1,14 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import * as checkoutFormActions from '../../../store/actions/checkoutFormActions';
-import * as cartActions from '../../../store/actions/cartActions';
+import * as checkoutFormActions from '../../store/actions/checkoutFormActions';
+import * as cartActions from '../../store/actions/cartActions';
 
-import { useFetchApi } from './../../../hooks/useFetchApi';
+import { useFetchApi } from '../../hooks/useFetchApi';
 import classes from './CheckoutForm.module.scss';
-import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
-import Input from '../../UI/Input/Input';
-import Loader from './../../UI/Loader/Loader';
+import GenericButton from '../../components/UI/Buttons/GenericButton/GenericButton';
+import Input from '../../components/UI/Input/Input';
+import Loader from '../../components/UI/Loader/Loader';
 
 const CheckoutForm = (props) => {
 	let history = useHistory();
