@@ -15,10 +15,11 @@ const MainNav = (props) => {
 		<div className={`${classes.navItems} ${appendClass}`}>
 			<ul>
 				<MainNavItem
-					link='index.html'
+					link='/'
 					label='Home'
-					isCurrent={true}
+					// active={true}
 					direction={props.direction}
+					exact
 				/>
 				<IconButton
 					clicked={props.toggleRightSidebar}

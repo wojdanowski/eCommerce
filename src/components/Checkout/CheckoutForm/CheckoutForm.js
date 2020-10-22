@@ -94,7 +94,7 @@ const CheckoutForm = (props) => {
 						/>
 						<GenericButton
 							label='confirm'
-							// isDisabled={!props.formIsValid}
+							isDisabled={!props.formIsValid}
 							clicked={orderSubmitHandler}
 						/>
 					</div>
