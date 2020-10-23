@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Aux from '../../hoc/Auxiliary/Auxiliary';
 import MainHeader from '../MainHeader/MainHeader';
 import CategoriesBar from '../CategoriesBar/CategoriesBar';
 import AllProdCards from '../../containers/AllProdCards/AllProdCards';

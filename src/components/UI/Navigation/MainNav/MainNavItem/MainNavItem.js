@@ -1,14 +1,8 @@
 import React from 'react';
 import classes from './MainNavItem.module.scss';
-import { useHistory, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const MainNavItem = (props) => {
-	const history = useHistory();
-	// let isCurrentClass;
-	// props.active
-	// 	? (isCurrentClass = classes.currentLink)
-	// 	: (isCurrentClass = null);
-
 	let appendClass = '';
 
 	props.direction === 'vertical'

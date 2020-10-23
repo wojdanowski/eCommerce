@@ -14,12 +14,10 @@ const CheckoutForm = (props) => {
 	let history = useHistory();
 	const url = 'https://ecommerceprodmockup.firebaseio.com/orders.json';
 	const fetchApi = useFetchApi('post', [url]);
-	const [orderIsSuccessful, setOrderIsSuccessful] = useState(false);
 
 	useEffect(() => {
 		if (!fetchApi.isLoading && !fetchApi.isError && fetchApi.data) {
 			props.clearCart();
-			setOrderIsSuccessful(true);
 		}
 	}, [fetchApi.data, fetchApi.isError, fetchApi.isLoading]);
 

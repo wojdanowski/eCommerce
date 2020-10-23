@@ -1,8 +1,9 @@
 import React from 'react';
 
-const AdminMainPage = () => {
+const ProductScreen = () => {
 	return (
 		<div>
+			<h1>ACTIVE PRODUCTS</h1>
 			<p>
 				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea
 				suscipit perspiciatis, qui totam voluptas perferendis quod.
@@ -16,4 +17,4 @@ const AdminMainPage = () => {
 	);
 };
 
-export default AdminMainPage;
+export default ProductScreen;

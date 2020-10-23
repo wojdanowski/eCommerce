@@ -1,0 +1,36 @@
+@import '../../styles/config.module.scss';
+
+.dashboard {
+	display: grid;
+	grid-template-columns: 1fr 6fr;
+	grid-template-areas:
+		'toolbar headNav'
+		'toolbar screen'
+		'footer footer';
+	min-height: 100vh;
+	grid-template-rows: min-content auto min-content;
+	align-items: center;
+
+	&HeadNav {
+		border: 5px solid green;
+		grid-area: headNav;
+		place-self: start stretch;
+	}
+
+	&SideToolbar {
+		border: 5px solid red;
+		grid-area: toolbar;
+		place-self: stretch;
+	}
+
+	&ScreenContainer {
+		border: 5px solid orange;
+		grid-area: screen;
+	}
+
+	&FooterArea {
+		border: 5px solid green;
+		grid-area: footer;
+		place-self: start stretch;
+	}
+}

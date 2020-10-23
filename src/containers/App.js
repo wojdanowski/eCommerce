@@ -10,8 +10,8 @@ import uiReducer from '../store/reducers/uiReducer';
 import cartReducer from '../store/reducers/cartReducer';
 import checkoutFormReducer from './../store/reducers/checkoutFormReducer';
 
-import AdminMainPage from './../components/Admin/AdminMainPage/AdminMainPage';
 import HomeRouter from './HomeRouter';
+import DashboardRouter from './DashboardRouter';
 
 const rootReducer = combineReducers({
 	uiState: uiReducer,
@@ -28,7 +28,7 @@ function App() {
 		<Provider store={store}>
 			<BrowserRouter>
 				<Switch>
-					<Route path='/admin' exact component={AdminMainPage} />
+					<Route path='/admin' exact component={DashboardRouter} />
 					<Route path='/' component={HomeRouter} />
 				</Switch>
 			</BrowserRouter>
