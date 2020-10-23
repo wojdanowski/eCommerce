@@ -6,30 +6,42 @@
 	grid-template-areas:
 		'toolbar headNav'
 		'toolbar screen'
-		'footer footer';
+		'toolbar footer';
 	min-height: 100vh;
 	grid-template-rows: min-content auto min-content;
 	align-items: center;
 
+	&::before {
+		content: '';
+		background: url('../../assets/img/header01.jpg') no-repeat center center /
+			cover;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0.05;
+		z-index: -1;
+	}
+
 	&HeadNav {
-		border: 5px solid green;
 		grid-area: headNav;
 		place-self: start stretch;
+		@include dotted_border_bottom;
 	}
 
 	&SideToolbar {
-		border: 5px solid red;
+		background: $mainColorBright;
 		grid-area: toolbar;
 		place-self: stretch;
 	}
 
 	&ScreenContainer {
-		border: 5px solid orange;
 		grid-area: screen;
+		place-self: center;
 	}
 
 	&FooterArea {
-		border: 5px solid green;
 		grid-area: footer;
 		place-self: start stretch;
 	}

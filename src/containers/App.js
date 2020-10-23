@@ -28,7 +28,7 @@ function App() {
 		<Provider store={store}>
 			<BrowserRouter>
 				<Switch>
-					<Route path='/admin' exact component={DashboardRouter} />
+					<Route path='/admin' component={DashboardRouter} />
 					<Route path='/' component={HomeRouter} />
 				</Switch>
 			</BrowserRouter>

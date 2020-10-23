@@ -14,7 +14,8 @@ export const useFetchApi = (
 		async (providedData) => {
 			setIsError(false);
 			setIsLoading(true);
-			const data = providedData ? providedData : payload;
+			const dataToSend = providedData ? providedData : payload;
+			setData(dataToSend);
 			await axiosCall(url, data, [setData, setIsError], method);
 			setIsLoading(false);
 		},

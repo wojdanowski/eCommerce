@@ -2,7 +2,6 @@
 
 .footerContainer {
 	@include dotted_border_top;
-	margin-top: 2rem;
 	color: $darkColor;
 	background: #fff;
 	display: flex;
