@@ -38,7 +38,7 @@
 
 	&ScreenContainer {
 		grid-area: screen;
-		place-self: center;
+		place-self: stretch;
 	}
 
 	&FooterArea {

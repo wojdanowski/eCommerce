@@ -9,7 +9,6 @@ const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 				...data,
 			},
 		});
-		console.log(result);
 		onSuccess(result.data);
 	} catch (error) {
 		onError(true);

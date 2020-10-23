@@ -10,8 +10,9 @@ import CheckoutItem from './CheckoutItem/CheckoutItem';
 import classes from './Checkout.module.scss';
 
 const Checkout = (props) => {
+	const loadCartFromStorage = props.loadCartFromStorage;
 	useEffect(() => {
-		props.loadCartFromStorage();
+		loadCartFromStorage();
 	}, []);
 
 	let history = useHistory();
