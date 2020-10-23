@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as checkoutFormActions from '../../store/actions/checkoutFormActions';
@@ -14,12 +14,13 @@ const CheckoutForm = (props) => {
 	let history = useHistory();
 	const url = 'https://ecommerceprodmockup.firebaseio.com/orders.json';
 	const fetchApi = useFetchApi('post', [url]);
+	const clearCart = props.clearCart;
 
 	useEffect(() => {
-		if (!fetchApi.isLoading && !fetchApi.isError && fetchApi.data) {
-			props.clearCart();
+		if (!fetchApi.isLoading && !fetchApi.isError && fetchApi.res) {
+			clearCart();
 		}
-	}, [fetchApi.data, fetchApi.isError, fetchApi.isLoading]);
+	}, [fetchApi.res, fetchApi.isError, fetchApi.isLoading, clearCart]);
 
 	const formElementsArray = [];
 	for (let key in props.formFields) {
@@ -56,12 +57,13 @@ const CheckoutForm = (props) => {
 				...formData,
 			},
 		};
+
 		fetchApi.callFetchApi(order);
 	};
 
 	let form;
 
-	if (!fetchApi.data && !fetchApi.isLoading && !fetchApi.isError) {
+	if (!fetchApi.res && !fetchApi.isLoading && !fetchApi.isError) {
 		form = (
 			<Fragment>
 				<h1>Shipping Address:</h1>

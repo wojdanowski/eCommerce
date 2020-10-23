@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { useFetchApi } from './../../hooks/useFetchApi';
 import { useContinuousFetchApi } from './../../hooks/useContinuousFetchApi';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
@@ -14,7 +13,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import ProductPage from '../../components/ProductPage/ProductPage';
 
 const AllProdCards = (props) => {
-	const maxProdsOnPage = 4;
+	const maxProdsOnPage = 13;
 	const url = `https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"`;
 	const [pagination, setPagination] = useState(
 		`&limitToFirst=${maxProdsOnPage}`

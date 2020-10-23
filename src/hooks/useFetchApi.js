@@ -5,7 +5,7 @@ export const useFetchApi = (
 	method,
 	[initialUrl, payload = null, headers = null]
 ) => {
-	const [data, setData] = useState(payload);
+	const [res, setRes] = useState();
 	const [url, setUrl] = useState(initialUrl);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
@@ -15,14 +15,13 @@ export const useFetchApi = (
 			setIsError(false);
 			setIsLoading(true);
 			const dataToSend = providedData ? providedData : payload;
-			setData(dataToSend);
-			await axiosCall(url, data, [setData, setIsError], method);
+			await axiosCall(url, dataToSend, [setRes, setIsError], method);
 			setIsLoading(false);
 		},
 		[url, payload, method]
 	);
 
-	return { data, isLoading, isError, callFetchApi, setUrl, setData };
+	return { res, isLoading, isError, callFetchApi, setUrl };
 };
 
 export default useFetchApi;
