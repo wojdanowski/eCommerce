@@ -13,7 +13,7 @@ const Checkout = (props) => {
 	const loadCartFromStorage = props.loadCartFromStorage;
 	useEffect(() => {
 		loadCartFromStorage();
-	}, []);
+	}, [loadCartFromStorage]);
 
 	let history = useHistory();
 	return (

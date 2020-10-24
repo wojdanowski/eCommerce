@@ -6,8 +6,6 @@ export const useContinuousFetchApi = (initialUrl, initialData = null) => {
 	const [url, setUrl] = useState(initialUrl);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
-	// const proxy = 'https://cors-anywhere.herokuapp.com/';
-	const proxy = '';
 
 	useEffect(() => {
 		const fetchData = async () => {

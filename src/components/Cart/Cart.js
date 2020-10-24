@@ -12,10 +12,10 @@ import CartItem from './CartItem/CartItem';
 
 const Cart = (props) => {
 	let history = useHistory();
-
+	const loadCartFromStorage = props.loadCartFromStorage;
 	useEffect(() => {
-		props.loadCartFromStorage();
-	}, []);
+		loadCartFromStorage();
+	}, [loadCartFromStorage]);
 
 	const checkoutClickedHandler = () => {
 		props.toggleRightSidebar();

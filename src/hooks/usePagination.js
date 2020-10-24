@@ -22,12 +22,9 @@ const usePagination = (url, maxPages) => {
 					object[key] = fetchApi.data[key];
 					return object;
 				} else {
-					console.log(`removing`);
 					return object;
 				}
 			}, {});
-			console.log(`filteredData`);
-			console.log(filteredData);
 			setFilteredData({
 				...filteredData,
 			});
@@ -74,7 +71,6 @@ const usePagination = (url, maxPages) => {
 
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {
-			console.log(`nex page`);
 			setIsInitial(false);
 			setPagination(
 				`&limitToFirst=${maxPerPage}&startAt="${getLastItemName(
@@ -86,7 +82,6 @@ const usePagination = (url, maxPages) => {
 
 	const prevPage = useCallback(() => {
 		if (fetchApi.data) {
-			console.log(`prev page`);
 			setIsInitial(false);
 			setPagination(
 				`&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
