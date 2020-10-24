@@ -3,27 +3,48 @@ import { getLastItemName, getFirstItemName } from '../utilities/getObjName';
 import { useContinuousFetchApi } from './useContinuousFetchApi';
 
 const usePagination = (url, maxPages) => {
-	const [maxPerPage, setMaxPerPage] = useState(maxPages);
-	const [pagination, setPagination] = useState(`&limitToFirst=${maxPages}`);
+	const [maxPerPage, setMaxPerPage] = useState(maxPages + 1);
+	const [pagination, setPagination] = useState(`&limitToFirst=${maxPerPage}`);
 	const [isInitial, setIsInitial] = useState(true);
 	const [firstItemName, setFirstItemName] = useState();
 	const [prevPageDisable, setPrevPageDisable] = useState(false);
 	const [nextPageDisable, setNextPageDisable] = useState(false);
+	const [filteredData, setFilteredData] = useState();
 
 	const fetchApi = useContinuousFetchApi(url.concat(pagination));
 
 	useEffect(() => {
-		fetchApi.setUrl(url.concat(pagination));
 		if (fetchApi.data) {
-			const fetchDataLength = Object.keys(fetchApi.data).length;
-			console.log(`fetchDataLength: ${fetchDataLength}`);
-			console.log(fetchApi.data);
+			const lastItem = getLastItemName(fetchApi.data);
+			const dataKeys = Object.keys(fetchApi.data);
+			let filteredData = dataKeys.reduce((object, key) => {
+				if (key !== lastItem || dataKeys.length < maxPerPage) {
+					object[key] = fetchApi.data[key];
+					return object;
+				} else {
+					console.log(`removing`);
+					return object;
+				}
+			}, {});
+			console.log(`filteredData`);
+			console.log(filteredData);
+			setFilteredData({
+				...filteredData,
+			});
+		}
+	}, [fetchApi.data, prevPageDisable, nextPageDisable, maxPerPage]);
+
+	useEffect(() => {
+		fetchApi.setUrl(url.concat(pagination));
+		if (filteredData) {
+			const fetchedDataLength = Object.keys(fetchApi.data).length;
+			const filteredDataLength = Object.keys(filteredData).length;
 			if (isInitial) {
-				const firstItem = getFirstItemName(fetchApi.data);
+				const firstItem = getFirstItemName(filteredData);
 				setFirstItemName(firstItem);
 				setPrevPageDisable(true);
 			} else if (!isInitial) {
-				const found = Object.keys(fetchApi.data).find(
+				const found = Object.keys(filteredData).find(
 					(key) => key === firstItemName
 				);
 				if (found) {
@@ -31,14 +52,25 @@ const usePagination = (url, maxPages) => {
 				} else {
 					setPrevPageDisable(false);
 				}
-				if (fetchDataLength < maxPages || fetchDataLength === 0) {
+				if (
+					filteredDataLength === 0 ||
+					fetchedDataLength === filteredDataLength
+				) {
 					setNextPageDisable(true);
 				} else {
 					setNextPageDisable(false);
 				}
 			}
 		}
-	}, [pagination, fetchApi, url, isInitial, maxPages, firstItemName]);
+	}, [
+		pagination,
+		fetchApi,
+		url,
+		isInitial,
+		maxPerPage,
+		firstItemName,
+		filteredData,
+	]);
 
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {
@@ -71,6 +103,9 @@ const usePagination = (url, maxPages) => {
 		prevPageDisable,
 		nextPageDisable,
 		...fetchApi,
+		data: {
+			...filteredData,
+		},
 	};
 };
 

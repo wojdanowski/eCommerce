@@ -32,22 +32,14 @@ const AllProdCards = (props) => {
 	let filteredProdList;
 	if (!prodData.isLoading && prodData.data) {
 		const prodList = Object.values(prodData.data);
-		filteredProdList = prodList.map((product, index) => {
-			if (
-				index === prodList.length - 1 &&
-				!prodData.nextPageDisable &&
-				!prodData.prevPageDisable
-			) {
-				return null;
-			} else {
-				return (
-					<ProdCard
-						key={product.id}
-						productInfo={product}
-						clicked={productClickedHandler}
-					/>
-				);
-			}
+		filteredProdList = prodList.map((product) => {
+			return (
+				<ProdCard
+					key={product.id}
+					productInfo={product}
+					clicked={productClickedHandler}
+				/>
+			);
 		});
 	}
 
