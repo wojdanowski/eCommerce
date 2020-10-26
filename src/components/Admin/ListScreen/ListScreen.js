@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 
 import addIdsToData from '../../../utilities/addIdsToData';
@@ -10,9 +10,33 @@ import usePagination from '../../../hooks/usePagination';
 import ProdListItem from './ProdListItem/ProdListItem';
 
 const ListScreen = ({ match }) => {
-	const url = `https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"`;
+	const links = {
+		products: `${match.url}/products`,
+		orders: `${match.url}/orders`,
+	};
+
 	const location = useLocation();
-	let fetchData = usePagination(url, 10);
+	const maxPerPage = 10;
+	const [selectedList, setSelectedList] = useState();
+
+	useEffect(() => {
+		console.log('useEffect');
+		switch (location.pathname) {
+			case links.products: {
+				setSelectedList('products');
+				break;
+			}
+			case links.orders: {
+				setSelectedList('orders');
+				break;
+			}
+			default: {
+			}
+		}
+	}, [links.orders, links.products, location.pathname]);
+
+	const url = `https://ecommerceprodmockup.firebaseio.com/${selectedList}.json?orderBy="$key"`;
+	let fetchData = usePagination(url, maxPerPage);
 
 	const prodData = {
 		...fetchData,
@@ -37,7 +61,7 @@ const ListScreen = ({ match }) => {
 	return (
 		<div className={classes.prodScreenContainer}>
 			<Switch>
-				<Route path={`${match.url}/products`}>
+				<Route path={links.products}>
 					<h1>ACTIVE PRODUCTS</h1>
 					<GenericList
 						dataArray={Object.values(prodData.data)}
@@ -48,21 +72,17 @@ const ListScreen = ({ match }) => {
 						}}
 					/>
 				</Route>
-				{/* <Route path={`${match.url}/orders`} exact={true}>
-					<h1>ACTIVE ORDERS</h1>
-					<GenericList
+				<Route path={links.orders}>
+					<h1>ACTIVE Orders</h1>
+					{/* <GenericList
 						dataArray={Object.values(prodData.data)}
-						displayWith={ListItem}
+						displayWith={ProdListItem}
 						additional={{
-							listOf: ProdDescription,
-							tools: [
-								{handler: }
-							],
-							removeHandler: () =>
-								console.log(`[ListScreen] remove`),
+							removeHandler,
+							editHandler,
 						}}
-					/>
-				</Route> */}
+					/> */}
+				</Route>
 			</Switch>
 
 			<div className={classes.buttonsContainer}>
