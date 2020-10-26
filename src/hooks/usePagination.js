@@ -12,6 +12,7 @@ const usePagination = (url, maxPages) => {
 	const [filteredData, setFilteredData] = useState();
 
 	const fetchApi = useContinuousFetchApi(url.concat(pagination));
+	console.log(`[usePagination]`);
 
 	useEffect(() => {
 		if (fetchApi.data) {

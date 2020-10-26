@@ -12,7 +12,7 @@ const OrderListItem = (props) => {
 			handler: () => props.additional.removeHandler(props.itemData),
 		},
 	];
-	console.log(props.itemData);
+	// console.log(props.itemData);
 
 	const totalPrice = props.itemData.products
 		.map((el) => el.price)
