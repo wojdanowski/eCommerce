@@ -1,48 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-import addIdsToData from '../../../utilities/addIdsToData';
 import classes from './ListScreen.module.scss';
-import GenericList from '../../UI/GenericList/GenericList';
 
-import GenericButton from '../../UI/Buttons/GenericButton/GenericButton';
-import usePagination from '../../../hooks/usePagination';
-import ProdListItem from './ProdListItem/ProdListItem';
+import OrderScreen from './Screens/OrderScreen';
+import ProductsScreen from './Screens/ProductsScreen';
 
 const ListScreen = ({ match }) => {
 	const links = {
 		products: `${match.url}/products`,
 		orders: `${match.url}/orders`,
-	};
-
-	const location = useLocation();
-	const maxPerPage = 10;
-	const [selectedList, setSelectedList] = useState();
-
-	useEffect(() => {
-		console.log('useEffect');
-		switch (location.pathname) {
-			case links.products: {
-				setSelectedList('products');
-				break;
-			}
-			case links.orders: {
-				setSelectedList('orders');
-				break;
-			}
-			default: {
-			}
-		}
-	}, [links.orders, links.products, location.pathname]);
-
-	const url = `https://ecommerceprodmockup.firebaseio.com/${selectedList}.json?orderBy="$key"`;
-	let fetchData = usePagination(url, maxPerPage);
-
-	const prodData = {
-		...fetchData,
-		data: {
-			...addIdsToData(fetchData.data),
-		},
 	};
 
 	const removeHandler = (data) => {
@@ -63,40 +30,20 @@ const ListScreen = ({ match }) => {
 			<Switch>
 				<Route path={links.products}>
 					<h1>ACTIVE PRODUCTS</h1>
-					<GenericList
-						dataArray={Object.values(prodData.data)}
-						displayWith={ProdListItem}
-						additional={{
-							removeHandler,
-							editHandler,
-						}}
+					<ProductsScreen
+						onRemove={removeHandler}
+						onEdit={editHandler}
 					/>
 				</Route>
+
 				<Route path={links.orders}>
-					<h1>ACTIVE Orders</h1>
-					{/* <GenericList
-						dataArray={Object.values(prodData.data)}
-						displayWith={ProdListItem}
-						additional={{
-							removeHandler,
-							editHandler,
-						}}
-					/> */}
+					<h1>ACTIVE ORDERS</h1>
+					<OrderScreen
+						onRemove={removeHandler}
+						onEdit={editHandler}
+					/>
 				</Route>
 			</Switch>
-
-			<div className={classes.buttonsContainer}>
-				<GenericButton
-					label={'< Previous Page'}
-					clicked={prodData.prevPage}
-					isDisabled={prodData.prevPageDisable}
-				/>
-				<GenericButton
-					label={'Next Page >'}
-					clicked={prodData.nextPage}
-					isDisabled={prodData.nextPageDisable}
-				/>
-			</div>
 		</div>
 	);
 };

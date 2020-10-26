@@ -7,6 +7,7 @@ const ListItem = (props) => {
 	const [isRemoved, setIsRemoved] = useState(false);
 	const removed = isRemoved ? classes.onRemove : null;
 	const appendClasses = [classes.itemContainer, removed];
+	const buttons = props.buttons ? props.buttons : [];
 
 	const onRemove = () => {
 		console.log('onRemove');
@@ -17,7 +18,7 @@ const ListItem = (props) => {
 		<div className={appendClasses.join(' ')}>
 			{props.children}
 			<div className={'utilToolbox'}>
-				{props.buttons.map((button, index) => {
+				{buttons.map((button, index) => {
 					let disabledStatus = isRemoved;
 					let buttonHandler = () => {
 						button.handler();
