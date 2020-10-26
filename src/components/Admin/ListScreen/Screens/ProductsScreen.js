@@ -33,6 +33,7 @@ const ProductsScreen = (props) => {
 				additional={{
 					removeHandler: props.onRemove,
 					editHandler: props.onEdit,
+					viewHandler: props.onView,
 				}}
 			/>
 		);

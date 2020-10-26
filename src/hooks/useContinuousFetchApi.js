@@ -6,7 +6,6 @@ export const useContinuousFetchApi = (initialUrl, initialData = null) => {
 	const [url, setUrl] = useState(initialUrl);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
-
 	useEffect(() => {
 		const fetchData = async () => {
 			setIsError(false);

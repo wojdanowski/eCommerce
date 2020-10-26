@@ -12,8 +12,8 @@ const usePagination = (url, maxPages) => {
 	const [filteredData, setFilteredData] = useState();
 
 	const fetchApi = useContinuousFetchApi(url.concat(pagination));
-	console.log(`[usePagination]`);
 
+	// Remove last item from fetched data.
 	useEffect(() => {
 		if (fetchApi.data) {
 			const lastItem = getLastItemName(fetchApi.data);
@@ -32,6 +32,7 @@ const usePagination = (url, maxPages) => {
 		}
 	}, [fetchApi.data, prevPageDisable, nextPageDisable, maxPerPage]);
 
+	// Disable nex and prev page buttons on end pages.
 	useEffect(() => {
 		fetchApi.setUrl(url.concat(pagination));
 		if (filteredData) {

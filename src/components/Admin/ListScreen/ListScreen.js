@@ -25,12 +25,17 @@ const ListScreen = ({ match }) => {
 		console.log(`[ListScreen] view`);
 	};
 
+	const confirmOrderHandler = () => {
+		console.log(`[ListScreen] confirmOrder`);
+	};
+
 	return (
 		<div className={classes.prodScreenContainer}>
 			<Switch>
 				<Route path={links.products}>
 					<h1>ACTIVE PRODUCTS</h1>
 					<ProductsScreen
+						onView={viewHandler}
 						onRemove={removeHandler}
 						onEdit={editHandler}
 					/>
@@ -40,7 +45,8 @@ const ListScreen = ({ match }) => {
 					<h1>ACTIVE ORDERS</h1>
 					<OrderScreen
 						onRemove={removeHandler}
-						onEdit={editHandler}
+						onView={viewHandler}
+						onConfirm={confirmOrderHandler}
 					/>
 				</Route>
 			</Switch>

@@ -31,8 +31,9 @@ const OrderScreen = (props) => {
 				dataArray={Object.values(ordersData.data)}
 				displayWith={OrderListItem}
 				additional={{
-					removeHandler: props.removeHandler,
-					editHandler: props.editHandler,
+					removeHandler: props.onRemove,
+					viewHandler: props.onView,
+					confirmHandler: props.onConfirm,
 				}}
 			/>
 		);
