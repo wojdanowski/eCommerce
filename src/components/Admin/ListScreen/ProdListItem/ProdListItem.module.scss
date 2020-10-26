@@ -1,4 +1,4 @@
-@import '../../../styles/config.module.scss';
+@import '../../../../styles/config.module.scss';
 
 .itemContainer {
 	display: flex;
@@ -16,6 +16,11 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem;
+	}
+
+	&.onRemove {
+		// background: red;
+		color: red;
 	}
 }
 

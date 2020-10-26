@@ -33,6 +33,11 @@
 	margin-bottom: 1.5rem;
 }
 
+.utilToolbox {
+	display: flex;
+	flex-direction: row;
+}
+
 @media (max-width: $mobile) {
 	.hideOnMobile {
 		display: none;

@@ -6,7 +6,8 @@ import * as cartActionTypes from '../../store/actions/cartActions';
 import GenericButton from '../UI/Buttons/GenericButton/GenericButton';
 import CartStatusInfo from './../Cart/CartStatusInfo/CartStatusInfo';
 import GenericList from './../UI/GenericList/GenericList';
-import CheckoutItem from './CheckoutItem/CheckoutItem';
+import CheckoutItem from './../ListItems/CheckoutItem/CheckoutItem';
+
 import classes from './Checkout.module.scss';
 
 const Checkout = (props) => {

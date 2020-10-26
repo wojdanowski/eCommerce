@@ -1,7 +1,8 @@
 @import '../../../../styles/config.module.scss';
 
 .genericButton {
-	height: 100%;
+	height: fit-content;
+	display: block;
 	border: none;
 	outline: none;
 	margin: 0 auto;

@@ -1,0 +1,13 @@
+@import '../../../../styles/config.module.scss';
+
+.itemContainer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.3rem;
+
+	&.onRemove {
+		// background: red;
+		color: red;
+	}
+}

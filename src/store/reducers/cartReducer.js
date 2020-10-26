@@ -63,12 +63,15 @@ const cartReducer = (state = initialState, action) => {
 
 		case actionTypes.LOAD_CART_FROM_STORAGE: {
 			const cartInStorage = localStorage.getItem('cartInStorage');
-			if (cartInStorage) {
-				const newState = JSON.parse(cartInStorage);
-				return {
-					...newState,
-				};
-			} else return state;
+			let newState = {};
+			if (!cartInStorage.cartIsEmpty) {
+				newState = JSON.parse(cartInStorage);
+			} else {
+				newState = { ...initialState };
+			}
+			return {
+				...newState,
+			};
 		}
 
 		default:

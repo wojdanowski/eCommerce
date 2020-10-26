@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import classes from './CheckoutItem.module.scss';
-import IconButton from './../../UI/Buttons/IconButton/IconButton';
-import { FiTrash2 } from 'react-icons/fi';
+import classes from './ProdDescription.module.scss';
 
-const CheckoutItem = (props) => {
+const ProdDescription = (props) => {
 	return (
-		<div className={classes.itemContainer}>
+		<Fragment>
 			<div className={classes.imgContainer}>
 				<img
 					className={classes.prodImg}
@@ -28,12 +26,8 @@ const CheckoutItem = (props) => {
 					</p>
 				</div>
 			</div>
-			<IconButton
-				clicked={() => props.additional.removeHandler(props.itemData)}
-				icon={<FiTrash2 />}
-			/>
-		</div>
+		</Fragment>
 	);
 };
 
-export default CheckoutItem;
+export default ProdDescription;

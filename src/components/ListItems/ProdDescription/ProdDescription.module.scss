@@ -1,0 +1,33 @@
+@import '../../../styles/config.module.scss';
+
+.imgContainer {
+	width: 3rem;
+
+	img {
+		display: block;
+	}
+}
+
+.descriptionArea {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.3rem;
+}
+
+@media (max-width: $mobile) {
+	.imgContainer {
+		width: 5rem;
+	}
+
+	.descriptionArea {
+		flex-direction: column;
+		padding: 0.3rem;
+		font-size: 0.9em;
+
+		.shortDescription {
+			display: none;
+		}
+	}
+}
