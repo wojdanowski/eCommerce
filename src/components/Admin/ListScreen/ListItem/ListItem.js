@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import classes from './ListItem.module.scss';
 import IconButton from '../../../UI/Buttons/IconButton/IconButton';
-import { FiTrash2, FiEdit } from 'react-icons/fi';
 
 const ListItem = (props) => {
 	const [isRemoved, setIsRemoved] = useState(false);
@@ -12,7 +11,6 @@ const ListItem = (props) => {
 	const onRemove = () => {
 		console.log('onRemove');
 		setIsRemoved((prevState) => !prevState);
-		// props.additional.removeHandler(props.itemData);
 	};
 
 	return (
@@ -43,19 +41,6 @@ const ListItem = (props) => {
 					);
 				})}
 			</div>
-
-			{/* <div className={classes.toolbox}>
-				<IconButton
-					clicked={props.additional.editHandler}
-					isDisabled={isRemoved}
-					icon={<FiEdit />}
-				/>
-				<IconButton
-					clicked={onRemove}
-					isRemoved={isRemoved}
-					icon={<FiTrash2 />}
-				/>
-			</div> */}
 		</div>
 	);
 };
