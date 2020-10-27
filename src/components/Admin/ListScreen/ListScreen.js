@@ -19,7 +19,7 @@ const ListScreen = ({ match }) => {
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
 	};
-	const [updateScreen, setUpdateScreen] = useState();
+
 	const [deletedItems, setDeletedItems] = useState([]);
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
 	const removeApi = useFetchApi('delete', [
@@ -76,7 +76,6 @@ const ListScreen = ({ match }) => {
 			} catch (err) {
 				console.log(err);
 			}
-			// resetHandler();
 			window.location.reload();
 		}
 	};
@@ -111,6 +110,7 @@ const ListScreen = ({ match }) => {
 							label={'save'}
 							type={'green'}
 							clicked={saveHandler}
+							isDisabled={deletedItems.length ? false : true}
 						/>
 					</div>
 					<OrderScreen
