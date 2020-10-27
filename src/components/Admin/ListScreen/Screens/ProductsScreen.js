@@ -8,7 +8,7 @@ import PaginationButtons from './../../../UI/PaginationButtons/PaginationButtons
 import ProdListItem from './../ProdListItem/ProdListItem';
 
 const ProductsScreen = (props) => {
-	const maxPerPage = 15;
+	const maxPerPage = 10;
 	const url = `https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"`;
 	let fetchData = usePagination(url, maxPerPage);
 

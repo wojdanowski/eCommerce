@@ -8,12 +8,10 @@ import Loader from './../../../UI/Loader/Loader';
 import PaginationButtons from './../../../UI/PaginationButtons/PaginationButtons';
 
 const OrderScreen = (props) => {
-	const maxPerPage = 50;
+	const maxPerPage = 7;
 	const url = `https://ecommerceprodmockup.firebaseio.com/orders.json?orderBy="$key"`;
 
 	let fetchData = usePagination(url, maxPerPage);
-
-	console.log(`[OrderScreen]`);
 
 	const ordersData = {
 		...fetchData,

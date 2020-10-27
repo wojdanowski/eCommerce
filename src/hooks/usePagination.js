@@ -4,7 +4,7 @@ import { useContinuousFetchApi } from './useContinuousFetchApi';
 
 const usePagination = (url, maxPages) => {
 	const [maxPerPage, setMaxPerPage] = useState(maxPages + 1);
-	const [pagination, setPagination] = useState(`&limitToFirst=${maxPerPage}`);
+	const pagination = `&limitToFirst=${maxPerPage}`;
 	const [isInitial, setIsInitial] = useState(true);
 	const [firstItemName, setFirstItemName] = useState();
 	const [prevPageDisable, setPrevPageDisable] = useState(false);
@@ -30,11 +30,10 @@ const usePagination = (url, maxPages) => {
 				...filteredData,
 			});
 		}
-	}, [fetchApi.data, prevPageDisable, nextPageDisable, maxPerPage]);
+	}, [fetchApi.data, maxPerPage]);
 
 	// Disable nex and prev page buttons on end pages.
 	useEffect(() => {
-		fetchApi.setUrl(url.concat(pagination));
 		if (filteredData) {
 			const fetchedDataLength = Object.keys(fetchApi.data).length;
 			const filteredDataLength = Object.keys(filteredData).length;
@@ -42,6 +41,9 @@ const usePagination = (url, maxPages) => {
 				const firstItem = getFirstItemName(filteredData);
 				setFirstItemName(firstItem);
 				setPrevPageDisable(true);
+				if (filteredDataLength < maxPages) {
+					setNextPageDisable(true);
+				}
 			} else if (!isInitial) {
 				const found = Object.keys(filteredData).find(
 					(key) => key === firstItemName
@@ -62,29 +64,27 @@ const usePagination = (url, maxPages) => {
 				}
 			}
 		}
-	}, [pagination, fetchApi, url, isInitial, firstItemName, filteredData]);
+	}, [filteredData, isInitial, fetchApi.data, firstItemName, maxPages]);
 
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			setPagination(
-				`&limitToFirst=${maxPerPage}&startAt="${getLastItemName(
-					fetchApi.data
-				)}"`
-			);
+			const pagination = `&limitToFirst=${maxPerPage}&startAt="${getLastItemName(
+				fetchApi.data
+			)}"`;
+			fetchApi.setUrl(url.concat(pagination));
 		}
-	}, [fetchApi.data, maxPerPage]);
+	}, [fetchApi, maxPerPage, url]);
 
 	const prevPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			setPagination(
-				`&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
-					fetchApi.data
-				)}"`
-			);
+			const pagination = `&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
+				fetchApi.data
+			)}"`;
+			fetchApi.setUrl(url.concat(pagination));
 		}
-	}, [fetchApi.data, maxPerPage]);
+	}, [fetchApi, maxPerPage, url]);
 
 	return {
 		nextPage,
