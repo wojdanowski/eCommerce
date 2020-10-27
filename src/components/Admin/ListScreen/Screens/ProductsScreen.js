@@ -34,6 +34,7 @@ const ProductsScreen = (props) => {
 					removeHandler: props.onRemove,
 					editHandler: props.onEdit,
 					viewHandler: props.onView,
+					removedItems: props.removedItems,
 				}}
 			/>
 		);

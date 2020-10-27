@@ -3,6 +3,7 @@ import React from 'react';
 import { FiTrash2, FiEdit, FiEye } from 'react-icons/fi';
 import ProdDescription from './../../../ListItems/ProdDescription/ProdDescription';
 import ListItem from './../ListItem/ListItem';
+import isPresent from './../../../../utilities/isPresent';
 
 const ProdListItem = (props) => {
 	const tools = [
@@ -15,8 +16,13 @@ const ProdListItem = (props) => {
 		},
 	];
 
+	const isRemoved = isPresent(
+		props.itemData.id,
+		props.additional.removedItems
+	);
+
 	return (
-		<ListItem buttons={tools}>
+		<ListItem removed={isRemoved} buttons={tools}>
 			<ProdDescription itemData={props.itemData} />
 		</ListItem>
 	);

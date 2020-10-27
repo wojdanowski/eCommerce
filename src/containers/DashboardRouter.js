@@ -6,7 +6,6 @@ import ListScreen from '../components/Admin/ListScreen/ListScreen';
 import MainDashboard from './../components/Admin/MainDashboard/MainDashboard';
 
 const DashboardRouter = ({ match }) => {
-	console.log(`[DashboardRouter] ${match.url}`);
 	return (
 		<DashboardLayout>
 			<Switch>

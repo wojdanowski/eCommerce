@@ -2,6 +2,7 @@ import React from 'react';
 
 import { FiTrash2, FiBox, FiEye } from 'react-icons/fi';
 import ListItem from './../ListItem/ListItem';
+import isPresent from './../../../../utilities/isPresent';
 
 const OrderListItem = (props) => {
 	const tools = [
@@ -18,8 +19,13 @@ const OrderListItem = (props) => {
 		.map((el) => el.price)
 		.reduce((acc, cur) => acc + cur);
 
+	const isRemoved = isPresent(
+		props.itemData.id,
+		props.additional.removedItems
+	);
+
 	return (
-		<ListItem buttons={tools}>
+		<ListItem removed={isRemoved} buttons={tools}>
 			<p>Id: {props.itemData.id}</p>
 			<p>Quantity: {props.itemData.products.length}</p>
 			<p>Total Price: {totalPrice}</p>

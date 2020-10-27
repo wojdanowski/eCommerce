@@ -4,7 +4,7 @@ import classes from './GenericButton.module.scss';
 const GenericButton = (props) => {
 	return (
 		<button
-			className={classes.genericButton}
+			className={`${classes.genericButton} ${classes[props.type]}`}
 			disabled={props.isDisabled}
 			onClick={props.clicked}
 		>

@@ -5,13 +5,12 @@ import IconButton from '../../../UI/Buttons/IconButton/IconButton';
 
 const ListItem = (props) => {
 	const [isRemoved, setIsRemoved] = useState(false);
-	const removed = isRemoved ? classes.onRemove : null;
+	const removed = props.removed ? classes.onRemove : null;
 	const appendClasses = [classes.itemContainer, removed];
 	const buttons = props.buttons ? props.buttons : [];
 
 	const onRemove = () => {
 		console.log('onRemove');
-		setIsRemoved((prevState) => !prevState);
 	};
 
 	return (
@@ -19,7 +18,7 @@ const ListItem = (props) => {
 			{props.children}
 			<div className={'utilToolbox'}>
 				{buttons.map((button, index) => {
-					let disabledStatus = isRemoved;
+					let disabledStatus = props.removed;
 					let buttonHandler = () => {
 						button.handler();
 					};
@@ -37,7 +36,7 @@ const ListItem = (props) => {
 							icon={button.icon}
 							clicked={buttonHandler}
 							isDisabled={disabledStatus}
-							isRemoved={isRemoved}
+							isRemoved={props.removed}
 						/>
 					);
 				})}

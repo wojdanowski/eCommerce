@@ -5,12 +5,19 @@
 	display: block;
 	border: none;
 	outline: none;
-	margin: 0 auto;
 	text-transform: uppercase;
 	text-align: center;
 	padding: 0.5rem 2rem;
 	background: $blackColor;
 	color: $lightColor;
+
+	&.red {
+		background: red;
+	}
+
+	&.green {
+		background: green;
+	}
 
 	&:hover {
 		background: $mainColor;

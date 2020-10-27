@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/cartActions';
+import isPresent from './../../utilities/isPresent';
 
 const initialState = {
 	products: [],
@@ -7,18 +8,13 @@ const initialState = {
 };
 
 const cartReducer = (state = initialState, action) => {
-	const isPresent = (id) => {
-		const found = state.products.find((element) => element.id === id);
-		return found ? true : false;
-	};
-
 	const saveStateToStorage = (localCart) => {
 		localStorage.setItem('cartInStorage', JSON.stringify(localCart));
 	};
 
 	switch (action.type) {
 		case actionTypes.ADD_ITEM_TO_CART: {
-			if (!isPresent(action.product.id)) {
+			if (!isPresent(action.product.id, state.products)) {
 				const updatedArray = state.products.concat([action.product]);
 				const newState = {
 					...state,

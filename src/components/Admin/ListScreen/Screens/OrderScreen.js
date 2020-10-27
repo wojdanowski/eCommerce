@@ -34,6 +34,7 @@ const OrderScreen = (props) => {
 					removeHandler: props.onRemove,
 					viewHandler: props.onView,
 					confirmHandler: props.onConfirm,
+					removedItems: props.removedItems,
 				}}
 			/>
 		);
