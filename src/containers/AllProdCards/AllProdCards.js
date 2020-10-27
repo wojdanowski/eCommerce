@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 
 import usePagination from './../../hooks/usePagination';
@@ -15,8 +15,10 @@ import ProductPage from '../../components/ProductPage/ProductPage';
 const AllProdCards = (props) => {
 	const url = `https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"`;
 	const [selectedProd, setSelectedProd] = useState(null);
+	const { toggleModal } = props;
 
 	let fetchData = usePagination(url, 16);
+
 	const prodData = {
 		...fetchData,
 		data: {
@@ -24,10 +26,13 @@ const AllProdCards = (props) => {
 		},
 	};
 
-	const productClickedHandler = (id) => {
-		setSelectedProd(id);
-		props.toggleModal();
-	};
+	const productClickedHandler = useCallback(
+		(id) => {
+			setSelectedProd(id);
+			toggleModal();
+		},
+		[toggleModal]
+	);
 
 	let filteredProdList;
 	if (!prodData.isLoading && prodData.data) {
