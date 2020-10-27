@@ -51,6 +51,7 @@ const usePagination = (url, maxPages) => {
 				} else {
 					setPrevPageDisable(false);
 				}
+
 				if (
 					filteredDataLength === 0 ||
 					fetchedDataLength === filteredDataLength
@@ -61,15 +62,7 @@ const usePagination = (url, maxPages) => {
 				}
 			}
 		}
-	}, [
-		pagination,
-		fetchApi,
-		url,
-		isInitial,
-		maxPerPage,
-		firstItemName,
-		filteredData,
-	]);
+	}, [pagination, fetchApi, url, isInitial, firstItemName, filteredData]);
 
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {

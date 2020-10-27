@@ -10,18 +10,21 @@ import ProductsScreen from './Screens/ProductsScreen';
 import isPresent from './../../../utilities/isPresent';
 
 const ListScreen = ({ match }) => {
+	const location = useLocation();
 	const links = {
 		products: `${match.url}/products`,
 		orders: `${match.url}/orders`,
 	};
-	const [deletedItems, setDeletedItems] = useState([]);
-	const url = `https://ecommerceprodmockup.firebaseio.com/products.json`;
-	const location = useLocation();
 
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
 	};
-	const removeApi = useFetchApi('delete', url);
+	const [updateScreen, setUpdateScreen] = useState();
+	const [deletedItems, setDeletedItems] = useState([]);
+	const url = `https://ecommerceprodmockup.firebaseio.com/`;
+	const removeApi = useFetchApi('delete', [
+		url.concat(getCollectionName(), '.json'),
+	]);
 
 	const removeHandler = (data) => {
 		const isElementPresent = isPresent(data.id, deletedItems);
@@ -52,8 +55,29 @@ const ListScreen = ({ match }) => {
 	};
 
 	const resetHandler = () => {
+		console.log(`reseting`);
 		if (deletedItems.length) {
 			setDeletedItems([]);
+		}
+	};
+
+	const saveHandler = async () => {
+		if (deletedItems.length) {
+			try {
+				await Promise.all(
+					deletedItems.map((el) => {
+						return removeApi.callFetchApi(
+							null,
+							el.action,
+							url.concat(getCollectionName(), `/${el.id}.json`)
+						);
+					})
+				);
+			} catch (err) {
+				console.log(err);
+			}
+			// resetHandler();
+			window.location.reload();
 		}
 	};
 
@@ -63,7 +87,11 @@ const ListScreen = ({ match }) => {
 				<Route path={links.products}>
 					<div className={classes.actionButtonsContainer}>
 						<h1>ACTIVE PRODUCTS</h1>
-						<GenericButton label={'save'} type={'green'} />
+						<GenericButton
+							label={'save'}
+							type={'green'}
+							clicked={saveHandler}
+						/>
 					</div>
 					<ProductsScreen
 						onReset={resetHandler}
@@ -79,7 +107,11 @@ const ListScreen = ({ match }) => {
 				<Route path={links.orders}>
 					<div className={classes.actionButtonsContainer}>
 						<h1>ACTIVE Orders</h1>
-						<GenericButton label={'save'} type={'green'} />
+						<GenericButton
+							label={'save'}
+							type={'green'}
+							clicked={saveHandler}
+						/>
 					</div>
 					<OrderScreen
 						onReset={resetHandler}

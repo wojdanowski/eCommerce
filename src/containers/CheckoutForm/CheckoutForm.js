@@ -17,10 +17,10 @@ const CheckoutForm = (props) => {
 	const clearCart = props.clearCart;
 
 	useEffect(() => {
-		if (!fetchApi.isLoading && !fetchApi.isError && fetchApi.res) {
-			clearCart();
+		if (!fetchApi.isLoading && !fetchApi.isError && fetchApi.data) {
+			// clearCart();
 		}
-	}, [fetchApi.res, fetchApi.isError, fetchApi.isLoading, clearCart]);
+	}, [fetchApi.data, fetchApi.isError, fetchApi.isLoading, clearCart]);
 
 	const formElementsArray = [];
 	for (let key in props.formFields) {
@@ -63,7 +63,7 @@ const CheckoutForm = (props) => {
 
 	let form;
 
-	if (!fetchApi.res && !fetchApi.isLoading && !fetchApi.isError) {
+	if (!fetchApi.data && !fetchApi.isLoading && !fetchApi.isError) {
 		form = (
 			<Fragment>
 				<h1>Shipping Address:</h1>
@@ -94,7 +94,7 @@ const CheckoutForm = (props) => {
 						/>
 						<GenericButton
 							label='confirm'
-							isDisabled={!props.formIsValid}
+							// isDisabled={!props.formIsValid}
 							clicked={orderSubmitHandler}
 						/>
 					</div>

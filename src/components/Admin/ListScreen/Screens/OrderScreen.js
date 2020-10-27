@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 import usePagination from './../../../../hooks/usePagination';
 import GenericList from './../../../UI/GenericList/GenericList';
@@ -6,11 +6,21 @@ import OrderListItem from './../OrderListItem/OrderListItem';
 import addIdsToData from './../../../../utilities/addIdsToData';
 import Loader from './../../../UI/Loader/Loader';
 import PaginationButtons from './../../../UI/PaginationButtons/PaginationButtons';
+import { useFetchApi } from './../../../../hooks/useFetchApi';
 
 const OrderScreen = (props) => {
-	const maxPerPage = 15;
+	const maxPerPage = 50;
 	const url = `https://ecommerceprodmockup.firebaseio.com/orders.json?orderBy="$key"`;
+
 	let fetchData = usePagination(url, maxPerPage);
+	// let fetchData = useFetchApi('get', [url]);
+	// const { callFetchApi } = fetchData;
+
+	// useEffect(() => {
+	// 	callFetchApi();
+	// }, [callFetchApi]);
+
+	console.log(`[OrderScreen]`);
 
 	const ordersData = {
 		...fetchData,

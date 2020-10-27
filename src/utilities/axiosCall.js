@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 	try {
+		console.log(`[axiosCall]`);
+		console.log(url);
+		console.log(method);
 		const result = await axios({
 			method: method.toLocaleLowerCase(),
 			url,
