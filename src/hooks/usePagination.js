@@ -1,8 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getLastItemName, getFirstItemName } from '../utilities/getObjName';
-import { useContinuousFetchApi } from './useContinuousFetchApi';
 
-const usePagination = (url, maxPages) => {
+const usePagination = (url, maxPages, fetchHook, method) => {
 	const [maxPerPage, setMaxPerPage] = useState(maxPages + 1);
 	const pagination = `&limitToFirst=${maxPerPage}`;
 	const [isInitial, setIsInitial] = useState(true);
@@ -11,7 +10,7 @@ const usePagination = (url, maxPages) => {
 	const [nextPageDisable, setNextPageDisable] = useState(false);
 	const [filteredData, setFilteredData] = useState();
 
-	const fetchApi = useContinuousFetchApi(url.concat(pagination));
+	const fetchApi = fetchHook(method, [url.concat(pagination)]);
 
 	// Remove last item from fetched data.
 	useEffect(() => {
@@ -72,7 +71,7 @@ const usePagination = (url, maxPages) => {
 			const pagination = `&limitToFirst=${maxPerPage}&startAt="${getLastItemName(
 				fetchApi.data
 			)}"`;
-			fetchApi.setUrl(url.concat(pagination));
+			fetchApi.callFetchApi(null, null, url.concat(pagination));
 		}
 	}, [fetchApi, maxPerPage, url]);
 
@@ -82,7 +81,7 @@ const usePagination = (url, maxPages) => {
 			const pagination = `&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
 				fetchApi.data
 			)}"`;
-			fetchApi.setUrl(url.concat(pagination));
+			fetchApi.callFetchApi(null, null, url.concat(pagination));
 		}
 	}, [fetchApi, maxPerPage, url]);
 

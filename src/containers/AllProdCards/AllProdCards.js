@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { Fragment, useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import usePagination from './../../hooks/usePagination';
@@ -11,13 +11,16 @@ import GenericButton from '../../components/UI/Buttons/GenericButton/GenericButt
 import Loader from '../../components/UI/Loader/Loader';
 import Modal from '../../components/UI/Modal/Modal';
 import ProductPage from '../../components/ProductPage/ProductPage';
+import { useFetchApi } from './../../hooks/useFetchApi';
 
 const AllProdCards = (props) => {
 	const url = `https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"`;
 	const [selectedProd, setSelectedProd] = useState(null);
 	const { toggleModal } = props;
+	const maxPerPage = 16;
+	const [isUpdated, setIsUpdated] = useState(false);
 
-	let fetchData = usePagination(url, 16);
+	let fetchData = usePagination(url, maxPerPage, useFetchApi, 'get');
 
 	const prodData = {
 		...fetchData,
@@ -25,6 +28,13 @@ const AllProdCards = (props) => {
 			...addIdsToData(fetchData.data),
 		},
 	};
+
+	useEffect(() => {
+		if (!isUpdated) {
+			fetchData.callFetchApi();
+			setIsUpdated(true);
+		}
+	}, [isUpdated, fetchData]);
 
 	const productClickedHandler = useCallback(
 		(id) => {
