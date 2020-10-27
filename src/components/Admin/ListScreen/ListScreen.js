@@ -24,11 +24,8 @@ const ListScreen = ({ match }) => {
 	const removeApi = useFetchApi('delete', url);
 
 	const removeHandler = (data) => {
-		console.log(`[ListScreen] remove`);
-		console.log(data);
 		const isElementPresent = isPresent(data.id, deletedItems);
 		if (!isElementPresent) {
-			console.log(`is Not Present`);
 			setDeletedItems((prevState) =>
 				prevState.concat({
 					...data,
