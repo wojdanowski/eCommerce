@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import GenericButton from '../../UI/Buttons/GenericButton/GenericButton';
 
 import classes from './ListScreen.module.scss';
 import { useFetchApi } from './../../../hooks/useFetchApi';
 
-import OrderScreen from './Screens/OrderScreen';
 import ProductsScreen from './Screens/ProductsScreen';
 import isPresent from './../../../utilities/isPresent';
+import OrderScreen from './Screens/OrderScreen/OrderScreen';
 
 const ListScreen = ({ match }) => {
 	const location = useLocation();
@@ -76,7 +76,7 @@ const ListScreen = ({ match }) => {
 			} catch (err) {
 				console.log(err);
 			}
-			window.location.reload();
+			resetHandler();
 		}
 	};
 
@@ -90,6 +90,7 @@ const ListScreen = ({ match }) => {
 							label={'save'}
 							type={'green'}
 							clicked={saveHandler}
+							isDisabled={deletedItems.length ? false : true}
 						/>
 					</div>
 					<ProductsScreen
@@ -104,7 +105,7 @@ const ListScreen = ({ match }) => {
 				</Route>
 
 				<Route path={links.orders}>
-					<div className={classes.actionButtonsContainer}>
+					{/* <div className={classes.actionButtonsContainer}>
 						<h1>ACTIVE Orders</h1>
 						<GenericButton
 							label={'save'}
@@ -112,8 +113,10 @@ const ListScreen = ({ match }) => {
 							clicked={saveHandler}
 							isDisabled={deletedItems.length ? false : true}
 						/>
-					</div>
+					</div> */}
 					<OrderScreen
+						deletedItems={deletedItems}
+						onSave={saveHandler}
 						onReset={resetHandler}
 						onRemove={removeHandler}
 						onView={viewHandler}

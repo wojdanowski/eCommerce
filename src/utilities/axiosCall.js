@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
+	console.log(`[axiosCall]`);
 	try {
 		// console.log(`[axiosCall]`);
 		// console.log(url);
@@ -12,7 +13,12 @@ const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 				...data,
 			},
 		});
-		onSuccess(result.data);
+		if (result.data) {
+			onSuccess(result.data);
+		} else if (!result.data) {
+			onSuccess({});
+		}
+		console.log(result.data);
 	} catch (error) {
 		onError(true);
 		console.log(error);
