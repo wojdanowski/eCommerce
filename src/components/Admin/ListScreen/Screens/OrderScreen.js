@@ -43,7 +43,10 @@ const OrderScreen = (props) => {
 	return (
 		<Fragment>
 			{listContent}
-			<PaginationButtons fetchApi={ordersData} />
+			<PaginationButtons
+				resetChanges={props.onReset}
+				fetchApi={ordersData}
+			/>
 		</Fragment>
 	);
 };

@@ -51,6 +51,12 @@ const ListScreen = ({ match }) => {
 		console.log(`[ListScreen] confirmOrder`);
 	};
 
+	const resetHandler = () => {
+		if (deletedItems.length) {
+			setDeletedItems([]);
+		}
+	};
+
 	return (
 		<div className={classes.prodScreenContainer}>
 			<Switch>
@@ -60,6 +66,7 @@ const ListScreen = ({ match }) => {
 						<GenericButton label={'save'} type={'green'} />
 					</div>
 					<ProductsScreen
+						onReset={resetHandler}
 						onView={viewHandler}
 						onRemove={removeHandler}
 						onEdit={editHandler}
@@ -75,6 +82,7 @@ const ListScreen = ({ match }) => {
 						<GenericButton label={'save'} type={'green'} />
 					</div>
 					<OrderScreen
+						onReset={resetHandler}
 						onRemove={removeHandler}
 						onView={viewHandler}
 						onConfirm={confirmOrderHandler}

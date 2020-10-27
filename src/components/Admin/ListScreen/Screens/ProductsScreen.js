@@ -43,7 +43,10 @@ const ProductsScreen = (props) => {
 	return (
 		<Fragment>
 			{listContent}
-			<PaginationButtons fetchApi={productsData} />
+			<PaginationButtons
+				fetchApi={productsData}
+				resetChanges={props.onReset}
+			/>
 		</Fragment>
 	);
 };

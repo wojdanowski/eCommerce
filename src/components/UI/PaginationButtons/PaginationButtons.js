@@ -8,12 +8,18 @@ const PaginationButtons = (props) => {
 			<div className={classes.buttonsContainer}>
 				<GenericButton
 					label={'< Previous Page'}
-					clicked={props.fetchApi.prevPage}
+					clicked={() => {
+						props.resetChanges();
+						props.fetchApi.prevPage();
+					}}
 					isDisabled={props.fetchApi.prevPageDisable}
 				/>
 				<GenericButton
 					label={'Next Page >'}
-					clicked={props.fetchApi.nextPage}
+					clicked={() => {
+						props.resetChanges();
+						props.fetchApi.nextPage();
+					}}
 					isDisabled={props.fetchApi.nextPageDisable}
 				/>
 			</div>
