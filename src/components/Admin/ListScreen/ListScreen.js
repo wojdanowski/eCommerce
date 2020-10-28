@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import classes from './ListScreen.module.scss';
 import { useFetchApi } from './../../../hooks/useFetchApi';
 
 import isPresent from './../../../utilities/isPresent';
-import GenericList from './../../UI/GenericList/GenericList';
 import FetchList from './FetchList/FetchList';
-import OrderListItem from './ListItem/OrderListItem';
-import ProdListItem from './ListItem/ProdListItem';
 
 const ListScreen = ({ match }) => {
 	const location = useLocation();
-	const links = {
-		products: `${match.url}/products`,
-		orders: `${match.url}/orders`,
-	};
 
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
@@ -43,8 +36,9 @@ const ListScreen = ({ match }) => {
 		}
 	};
 
-	const editHandler = () => {
+	const modifyHandler = (data) => {
 		console.log(`[ListScreen] edit`);
+		console.log(data);
 	};
 
 	const viewHandler = () => {
@@ -82,49 +76,21 @@ const ListScreen = ({ match }) => {
 
 	return (
 		<div className={classes.prodScreenContainer}>
-			<Switch>
-				<Route path={links.products}>
-					<FetchList
-						collection={getCollectionName()}
-						deletedItems={deletedItems}
-						onSave={saveHandler}
-						onReset={resetHandler}
-					>
-						<GenericList
-							displayWith={ProdListItem}
-							additional={{
-								removeHandler,
-								viewHandler,
-								confirmOrderHandler,
-								removedItems: deletedItems.filter(
-									(el) => el.action === 'delete'
-								),
-							}}
-						/>
-					</FetchList>
-				</Route>
-
-				<Route path={links.orders}>
-					<FetchList
-						collection={getCollectionName()}
-						deletedItems={deletedItems}
-						onSave={saveHandler}
-						onReset={resetHandler}
-					>
-						<GenericList
-							displayWith={OrderListItem}
-							additional={{
-								removeHandler,
-								viewHandler,
-								confirmOrderHandler,
-								removedItems: deletedItems.filter(
-									(el) => el.action === 'delete'
-								),
-							}}
-						/>
-					</FetchList>
-				</Route>
-			</Switch>
+			<FetchList
+				isModified={!deletedItems.length}
+				collection={getCollectionName()}
+				onView={viewHandler}
+				onModify={modifyHandler}
+				onRemove={removeHandler}
+				onSave={saveHandler}
+				onReset={resetHandler}
+				modifiedItems={deletedItems.filter(
+					(el) => el.action === 'post'
+				)}
+				removedItems={deletedItems.filter(
+					(el) => el.action === 'delete'
+				)}
+			/>
 		</div>
 	);
 };

@@ -7,7 +7,10 @@ import ListItem from './ListItem';
 const OrderListItem = (props) => {
 	const tools = [
 		{ icon: <FiEye />, handler: props.additional.viewHandler },
-		{ icon: <FiBox />, handler: props.additional.confirmHandler },
+		{
+			icon: <FiBox />,
+			handler: () => props.additional.modifyHandler(props.itemData),
+		},
 		{
 			type: 'delete',
 			icon: <FiTrash2 />,
@@ -24,8 +27,13 @@ const OrderListItem = (props) => {
 		props.additional.removedItems
 	);
 
+	const isModified = isPresent(
+		props.itemData.id,
+		props.additional.modifiedItems
+	);
+
 	return (
-		<ListItem removed={isRemoved} buttons={tools}>
+		<ListItem removed={isRemoved} edited={isModified} buttons={tools}>
 			<p>Id: {props.itemData.id}</p>
 			<p>Quantity: {props.itemData.products.length}</p>
 			<p>Total Price: {totalPrice}</p>

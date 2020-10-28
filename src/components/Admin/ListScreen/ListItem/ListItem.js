@@ -4,8 +4,15 @@ import classes from './ListItem.module.scss';
 import IconButton from '../../../UI/Buttons/IconButton/IconButton';
 
 const ListItem = (props) => {
-	const removed = props.removed ? classes.onRemove : null;
-	const appendClasses = [classes.itemContainer, removed];
+	let colorStyle;
+	if (props.removed) {
+		colorStyle = classes.onRemove;
+	} else if (props.isModified) {
+		colorStyle = classes.onEdit;
+	} else {
+		colorStyle = null;
+	}
+	const appendClasses = [classes.itemContainer, colorStyle];
 	const buttons = props.buttons ? props.buttons : [];
 
 	return (
