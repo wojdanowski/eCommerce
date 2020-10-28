@@ -80,8 +80,23 @@ const ListScreen = ({ match }) => {
 	};
 
 	const modifyHandler = (data, action) => {
-		if (getCollectionName() === 'orders') {
-			modifyItems(data, action);
+		switch (getCollectionName()) {
+			case 'orders': {
+				modifyItems(data, action);
+				break;
+			}
+			case 'products': {
+				if (action === 'remove') {
+					modifyItems(data, action);
+				} else if (action === 'modify') {
+					// TODO	load modal for editing product
+					modifyItems(data, action);
+				}
+				break;
+			}
+			default: {
+				console.log(`[ListScreen] modifyHandler default case`);
+			}
 		}
 	};
 
@@ -125,7 +140,6 @@ const ListScreen = ({ match }) => {
 				collection={getCollectionName()}
 				onView={viewHandler}
 				onModify={modifyHandler}
-				onRemove={modifyHandler}
 				onSave={saveHandler}
 				onReset={resetHandler}
 				modifiedItems={modifiedItems.filter((el) => el.modify === true)}

@@ -7,12 +7,20 @@ import ProdDescription from './../../../ListItems/ProdDescription/ProdDescriptio
 
 const ProdListItem = (props) => {
 	const tools = [
-		{ icon: <FiEye />, handler: props.additional.viewHandler },
-		{ icon: <FiEdit />, handler: props.additional.editHandler },
+		{
+			icon: <FiEye />,
+			handler: () => props.additional.viewHandler(props.itemData),
+		},
+		{
+			icon: <FiEdit />,
+			handler: () =>
+				props.additional.modifyHandler(props.itemData, 'modify'),
+		},
 		{
 			type: 'delete',
 			icon: <FiTrash2 />,
-			handler: () => props.additional.removeHandler(props.itemData),
+			handler: () =>
+				props.additional.modifyHandler(props.itemData, 'remove'),
 		},
 	];
 
@@ -21,8 +29,17 @@ const ProdListItem = (props) => {
 		props.additional.removedItems
 	);
 
+	const isModified = isPresent(
+		props.itemData.id,
+		props.additional.modifiedItems
+	);
 	return (
-		<ListItem removed={isRemoved} buttons={tools}>
+		<ListItem
+			removed={isRemoved}
+			edited={isModified}
+			edited
+			buttons={tools}
+		>
 			<ProdDescription itemData={props.itemData} />
 		</ListItem>
 	);

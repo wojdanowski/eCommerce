@@ -93,11 +93,11 @@ const FetchList = (props) => {
 							displayWith={ProdListItem}
 							dataArray={dataArray}
 							additional={{
-								removeHandler: props.onRemove,
 								viewHandler: props.onView,
 								modifyHandler: props.onModify,
 								removedItems: props.removedItems,
 								modifiedItems: props.modifiedItems,
+								collection: props.collection,
 							}}
 						/>
 					</Route>
@@ -107,7 +107,6 @@ const FetchList = (props) => {
 							displayWith={OrderListItem}
 							dataArray={dataArray}
 							additional={{
-								removeHandler: props.onRemove,
 								viewHandler: props.onView,
 								modifyHandler: props.onModify,
 								removedItems: props.removedItems,

@@ -6,7 +6,10 @@ import ListItem from './ListItem';
 
 const OrderListItem = (props) => {
 	const tools = [
-		{ icon: <FiEye />, handler: props.additional.viewHandler },
+		{
+			icon: <FiEye />,
+			handler: () => props.additional.viewHandler(props.itemData),
+		},
 		{
 			icon: <FiBox />,
 			handler: () =>
@@ -16,7 +19,7 @@ const OrderListItem = (props) => {
 			type: 'delete',
 			icon: <FiTrash2 />,
 			handler: () =>
-				props.additional.removeHandler(props.itemData, 'remove'),
+				props.additional.modifyHandler(props.itemData, 'remove'),
 		},
 	];
 
