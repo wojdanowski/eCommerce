@@ -25,11 +25,14 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 					return object;
 				}
 			}, {});
+			// console.log(`filteredData = fetchApi.data`);
+			// console.log(filteredData);
 			setFilteredData({
 				...filteredData,
 			});
-		} else if (fetchApi.data) {
-			setFilteredData({});
+		} else if (!fetchApi.data) {
+			// console.log(`no fetchApi.data`);
+			setFilteredData();
 		}
 	}, [fetchApi.data, maxPerPage]);
 
@@ -43,26 +46,36 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 				setFirstItemName(firstItem);
 				setPrevPageDisable(true);
 				if (filteredDataLength < maxPages) {
+					// console.log(`max pages = ${maxPages}`);
+					// console.log(
+					// 	`[usePagination] useEffect nexPageDisable true`
+					// );
+					// console.log(filteredData);
+					// console.log(filteredDataLength);
 					setNextPageDisable(true);
 				}
 			} else if (!isInitial) {
 				const found = Object.keys(filteredData).find(
 					(key) => key === firstItemName
 				);
+				// console.log(`first item name: ${firstItemName}`);
+				// console.log(`found: ${found}`);
 				if (found) {
 					setPrevPageDisable(true);
+					// console.log(`found if`);
+					// setIsInitial(true);
 				} else {
 					setPrevPageDisable(false);
 				}
+			}
 
-				if (
-					filteredDataLength === 0 ||
-					fetchedDataLength === filteredDataLength
-				) {
-					setNextPageDisable(true);
-				} else {
-					setNextPageDisable(false);
-				}
+			if (
+				filteredDataLength === 0 ||
+				fetchedDataLength === filteredDataLength
+			) {
+				setNextPageDisable(true);
+			} else {
+				setNextPageDisable(false);
 			}
 		}
 	}, [filteredData, isInitial, fetchApi.data, firstItemName, maxPages]);
@@ -87,6 +100,24 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 		}
 	}, [fetchApi, maxPerPage, url]);
 
+	const callPaginated = (
+		providedData = null,
+		userMethod = method,
+		userUrl = null
+	) => {
+		// console.log(`[usePagination] userUrl ${userUrl}`);
+		// console.log(`[usePagination] url ${url}`);
+
+		let finalUrl;
+		if (userUrl) {
+			finalUrl = userUrl.concat(pagination);
+		} else if (!userUrl) {
+			finalUrl = url.concat(pagination);
+		}
+		fetchApi.callFetchApi(providedData, userMethod, finalUrl);
+		setIsInitial(true);
+	};
+
 	return {
 		nextPage,
 		prevPage,
@@ -94,6 +125,7 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 		prevPageDisable,
 		nextPageDisable,
 		...fetchApi,
+		callPaginated,
 		data: {
 			...filteredData,
 		},

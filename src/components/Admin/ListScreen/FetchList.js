@@ -9,7 +9,7 @@ import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import PaginationButtons from './../../UI/PaginationButtons/PaginationButtons';
 
 const FetchList = (props) => {
-	const maxPerPage = 10;
+	const maxPerPage = 15;
 	const [fetchedCollection, setFetchedCollection] = useState(
 		props.collection
 	);
@@ -30,14 +30,14 @@ const FetchList = (props) => {
 	useEffect(() => {
 		if (update || props.collection !== fetchedCollection) {
 			setFetchedCollection(props.collection);
-			fetchData.callFetchApi(null, null, fullUrl);
+			fetchData.callPaginated(null, null, fullUrl);
 			setUpdate(false);
 		}
 	}, [fetchData, update, props.collection, fetchedCollection, fullUrl]);
 
 	const saveChangesHandler = async () => {
 		await props.onSave();
-		fetchData.callFetchApi();
+		fetchData.callPaginated(null, null, fullUrl);
 	};
 	let listContent = null;
 
@@ -66,7 +66,7 @@ const FetchList = (props) => {
 		listContent = (
 			<Fragment>
 				<div className={classes.actionButtonsContainer}>
-					<h1>ACTIVE Orders</h1>
+					<h1>ACTIVE {props.collection.toUpperCase()}</h1>
 					<GenericButton
 						label={'save'}
 						type={'green'}
