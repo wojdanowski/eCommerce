@@ -14,36 +14,75 @@ const ListScreen = ({ match }) => {
 		return location.pathname.replace('/admin/', '');
 	};
 
-	// useEffect(() => {
-	// 	console.log(`uef runs`);
-	// }, []);
-
-	const [deletedItems, setDeletedItems] = useState([]);
+	const [modifiedItems, setModifiedItems] = useState([]);
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
 	const removeApi = useFetchApi('delete', [
 		url.concat(getCollectionName(), '.json'),
 	]);
 
-	const removeHandler = (data) => {
-		const isElementPresent = isPresent(data.id, deletedItems);
-		if (!isElementPresent) {
-			setDeletedItems((prevState) =>
+	// const removeHandler = (data) => {
+	// 	const foundItem = isPresent(data.id, modifiedItems);
+	// 	if (!foundItem) {
+	// 		setModifiedItems((prevState) =>
+	// 			prevState.concat({
+	// 				...data,
+	// 				removed: true,
+	// 				collection: getCollectionName(),
+	// 			})
+	// 		);
+	// 	} else if (foundItem) {
+	// 		if (!foundItem.modify) {
+	// 			const updatedArray = modifiedItems.filter(
+	// 				(el) => el.id !== data.id
+	// 			);
+	// 			setModifiedItems(updatedArray);
+	// 		} else {
+	// 			setModifiedItems((prevState) =>
+	// 				prevState.concat({
+	// 					...data,
+	// 					removed: false,
+	// 					collection: getCollectionName(),
+	// 				})
+	// 			);
+	// 		}
+	// 	}
+	// };
+
+	const modifyItems = (data, action) => {
+		const foundItem = isPresent(data.id, modifiedItems);
+		if (!foundItem) {
+			setModifiedItems((prevState) =>
 				prevState.concat({
 					...data,
-					action: 'delete',
+					[action]: true,
 					collection: getCollectionName(),
 				})
 			);
-		} else if (isElementPresent) {
-			const updatedArray = deletedItems.filter((el) => el.id !== data.id);
-			setDeletedItems(updatedArray);
+		} else if (foundItem) {
+			if (action === 'remove' && !foundItem.modify) {
+				const updatedArray = modifiedItems.filter(
+					(el) => el.id !== data.id
+				);
+				setModifiedItems(updatedArray);
+			} else if (action === 'remove') {
+				const newArray = modifiedItems.map((el) => {
+					if (foundItem.id === el.id) {
+						return {
+							...el,
+							[action]: !el[action],
+							collection: getCollectionName(),
+						};
+					} else return el;
+				});
+				setModifiedItems(newArray);
+			}
 		}
 	};
 
-	const modifyHandler = (data, collection) => {
-		console.log(`[ListScreen] edit`);
-		console.log(collection);
-		console.log(data);
+	const modifyHandler = (data, action) => {
+		if (getCollectionName() === 'orders') {
+			modifyItems(data, action);
+		}
 	};
 
 	const viewHandler = () => {
@@ -55,16 +94,16 @@ const ListScreen = ({ match }) => {
 	};
 
 	const resetHandler = () => {
-		if (deletedItems.length) {
-			setDeletedItems([]);
+		if (modifiedItems.length) {
+			setModifiedItems([]);
 		}
 	};
 
 	const saveHandler = async () => {
-		if (deletedItems.length) {
+		if (modifiedItems.length) {
 			try {
 				await Promise.all(
-					deletedItems.map((el) => {
+					modifiedItems.map((el) => {
 						return removeApi.callFetchApi(
 							null,
 							el.action,
@@ -82,19 +121,15 @@ const ListScreen = ({ match }) => {
 	return (
 		<div className={classes.prodScreenContainer}>
 			<FetchList
-				isModified={!deletedItems.length}
+				isModified={!modifiedItems.length}
 				collection={getCollectionName()}
 				onView={viewHandler}
 				onModify={modifyHandler}
-				onRemove={removeHandler}
+				onRemove={modifyHandler}
 				onSave={saveHandler}
 				onReset={resetHandler}
-				modifiedItems={deletedItems.filter(
-					(el) => el.action === 'post'
-				)}
-				removedItems={deletedItems.filter(
-					(el) => el.action === 'delete'
-				)}
+				modifiedItems={modifiedItems.filter((el) => el.modify === true)}
+				removedItems={modifiedItems.filter((el) => el.remove === true)}
 			/>
 		</div>
 	);

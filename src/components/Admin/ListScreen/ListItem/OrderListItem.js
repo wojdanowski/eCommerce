@@ -10,15 +10,13 @@ const OrderListItem = (props) => {
 		{
 			icon: <FiBox />,
 			handler: () =>
-				props.additional.modifyHandler(
-					props.itemData,
-					props.additional.collection
-				),
+				props.additional.modifyHandler(props.itemData, 'modify'),
 		},
 		{
 			type: 'delete',
 			icon: <FiTrash2 />,
-			handler: () => props.additional.removeHandler(props.itemData),
+			handler: () =>
+				props.additional.removeHandler(props.itemData, 'remove'),
 		},
 	];
 
