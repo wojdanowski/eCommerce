@@ -1,80 +1,89 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import PaginationButtons from './../../UI/PaginationButtons/PaginationButtons';
+import React, { Fragment, useEffect, useState } from 'react';
+
+import classes from './Screens/OrderScreen/OrderScreen.module.scss';
 import usePagination from './../../../hooks/usePagination';
+import { useFetchApi } from './../../../hooks/useFetchApi';
 import Loader from './../../UI/Loader/Loader';
 import addIdsToData from './../../../utilities/addIdsToData';
+import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
+import PaginationButtons from './../../UI/PaginationButtons/PaginationButtons';
 
 const FetchList = (props) => {
-	const maxPerPage = 15;
-	const url = `https://ecommerceprodmockup.firebaseio.com/${props.collection}.json?orderBy="$key"`;
-	const ListContent = props.listComponent;
-	const [isLoading, setIsLoading] = useState(false);
-	let fetchApi = usePagination(url, maxPerPage);
-	let listContent = null;
+	const maxPerPage = 10;
+	const [fetchedCollection, setFetchedCollection] = useState(
+		props.collection
+	);
+	const orderBy = `.json?orderBy="$key"`;
+	const url = `https://ecommerceprodmockup.firebaseio.com/`;
+	const fullUrl = `${url}${props.collection}${orderBy}`;
+	let fetchData = usePagination(fullUrl, maxPerPage, useFetchApi, 'get');
 
-	const fetchData = {
-		...fetchApi,
+	const [update, setUpdate] = useState(true);
+
+	const dataWithIds = {
+		...fetchData,
 		data: {
-			...addIdsToData(fetchApi.data),
+			...addIdsToData(fetchData.data),
 		},
 	};
-	console.log(fetchApi.isLoading);
-	// useEffect(() => {
-	// 	setIsLoading(true);
-	// 	console.log(`collection: ${props.collection}`);
-	// 	fetchData.setUrl(
-	// 		`https://ecommerceprodmockup.firebaseio.com/${props.collection}.json?orderBy="$key"`
-	// 	);
-	// 	console.log(`UseEffect`);
-	// 	if (!fetchData || fetchData.isLoading) {
-	// 		setIsLoading(true);
-	// 	} else {
-	// 		setIsLoading(false);
-	// 		console.log(`setting is loading to false: ${isLoading}`);
-	// 	}
-	// }, [props.collection, fetchData, isLoading]);
 
-	if (fetchData.isLoading) {
+	useEffect(() => {
+		if (update || props.collection !== fetchedCollection) {
+			setFetchedCollection(props.collection);
+			fetchData.callFetchApi(null, null, fullUrl);
+			setUpdate(false);
+		}
+	}, [fetchData, update, props.collection, fetchedCollection, fullUrl]);
+
+	const saveChangesHandler = async () => {
+		await props.onSave();
+		fetchData.callFetchApi();
+	};
+	let listContent = null;
+
+	if (
+		dataWithIds.isLoading ||
+		update ||
+		props.collection !== fetchedCollection
+	) {
 		listContent = <Loader />;
-	}
-	if (!fetchData.isLoading && fetchData) {
-		console.log(fetchData.data);
+	} else if (dataWithIds.isError) {
+		listContent = <p>ERROR</p>;
+	} else {
+		const dataArray = Object.values(dataWithIds.data);
+		const childrenWithProps = React.Children.map(
+			props.children,
+			(child) => {
+				// checking isValidElement is the safe way and avoids a typescript error too
+				const props = { dataArray };
+				if (React.isValidElement(child)) {
+					return React.cloneElement(child, props);
+				}
+				return child;
+			}
+		);
+
 		listContent = (
 			<Fragment>
-				<ListContent
-					dataArray={Object.values(fetchData.data)}
-					displayWith={props.listItem}
-					additional={{
-						removeHandler: props.onRemove,
-						editHandler: props.onEdit,
-					}}
+				<div className={classes.actionButtonsContainer}>
+					<h1>ACTIVE Orders</h1>
+					<GenericButton
+						label={'save'}
+						type={'green'}
+						clicked={saveChangesHandler}
+						isDisabled={props.deletedItems.length ? false : true}
+					/>
+				</div>
+				{childrenWithProps}
+				<PaginationButtons
+					resetChanges={props.onReset}
+					fetchApi={dataWithIds}
 				/>
-				<PaginationButtons fetchApi={fetchData} />
 			</Fragment>
 		);
 	}
 
-	// if (isLoading) {
-	// 	listContent = <Loader />;
-	// } else if (fetchData.isError) {
-	// 	listContent = <p>ERROR</p>;
-	// } else {
-	// 	listContent = (
-	// 		<Fragment>
-	// 			<ListContent
-	// 				dataArray={Object.values(fetchData.data)}
-	// 				displayWith={props.listItem}
-	// 				additional={{
-	// 					removeHandler: props.onRemove,
-	// 					editHandler: props.onEdit,
-	// 				}}
-	// 			/>
-	// 			<PaginationButtons fetchApi={fetchData} />
-	// 		</Fragment>
-	// 	);
-	// }
-
-	return listContent;
+	return <Fragment>{listContent}</Fragment>;
 };
 
 export default FetchList;

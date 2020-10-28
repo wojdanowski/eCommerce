@@ -1,11 +1,10 @@
 import axios from 'axios';
 
 const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
-	console.log(`[axiosCall]`);
+	// console.log(`[axiosCall]`);
+	// console.log(url);
+	// console.log(method);
 	try {
-		// console.log(`[axiosCall]`);
-		// console.log(url);
-		// console.log(method);
 		const result = await axios({
 			method: method.toLocaleLowerCase(),
 			url,
@@ -18,7 +17,7 @@ const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 		} else if (!result.data) {
 			onSuccess({});
 		}
-		console.log(result.data);
+		// console.log(result.data);
 	} catch (error) {
 		onError(true);
 		console.log(error);

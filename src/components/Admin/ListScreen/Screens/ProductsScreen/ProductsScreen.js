@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-import { useFetchApi } from './../../../../hooks/useFetchApi';
-import usePagination from './../../../../hooks/usePagination';
-import GenericList from './../../../UI/GenericList/GenericList';
-import addIdsToData from './../../../../utilities/addIdsToData';
-import Loader from './../../../UI/Loader/Loader';
-import PaginationButtons from './../../../UI/PaginationButtons/PaginationButtons';
-import ProdListItem from './../ProdListItem/ProdListItem';
+import addIdsToData from './../../../../../utilities/addIdsToData';
+import ProdListItem from './../../ProdListItem/ProdListItem';
+import Loader from './../../../../UI/Loader/Loader';
+import GenericList from './../../../../UI/GenericList/GenericList';
+import usePagination from './../../../../../hooks/usePagination';
+import PaginationButtons from './../../../../UI/PaginationButtons/PaginationButtons';
+import { useFetchApi } from './../../../../../hooks/useFetchApi';
 
 const ProductsScreen = (props) => {
 	const maxPerPage = 10;
