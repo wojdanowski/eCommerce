@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import GenericButton from '../../UI/Buttons/GenericButton/GenericButton';
 
@@ -55,7 +55,6 @@ const ListScreen = ({ match }) => {
 	};
 
 	const resetHandler = () => {
-		console.log(`reseting`);
 		if (deletedItems.length) {
 			setDeletedItems([]);
 		}
@@ -105,15 +104,6 @@ const ListScreen = ({ match }) => {
 				</Route>
 
 				<Route path={links.orders}>
-					{/* <div className={classes.actionButtonsContainer}>
-						<h1>ACTIVE Orders</h1>
-						<GenericButton
-							label={'save'}
-							type={'green'}
-							clicked={saveHandler}
-							isDisabled={deletedItems.length ? false : true}
-						/>
-					</div> */}
 					<OrderScreen
 						deletedItems={deletedItems}
 						onSave={saveHandler}
