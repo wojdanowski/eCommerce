@@ -35,15 +35,23 @@ const FetchList = (props) => {
 			...addIdsToData(fetchData.data),
 		},
 	};
+	const { onReset } = props;
 
 	useEffect(() => {
 		if (update || props.collection !== fetchedCollection) {
 			setFetchedCollection(props.collection);
 			fetchData.callPaginated(null, null, fullUrl);
 			setUpdate(false);
-			props.onReset();
+			onReset();
 		}
-	}, [fetchData, update, props.collection, fetchedCollection, fullUrl]);
+	}, [
+		fetchData,
+		update,
+		props.collection,
+		fetchedCollection,
+		onReset,
+		fullUrl,
+	]);
 
 	const saveChangesHandler = async () => {
 		await props.onSave();
