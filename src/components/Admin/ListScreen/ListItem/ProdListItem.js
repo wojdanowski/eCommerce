@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { FiTrash2, FiEdit, FiEye } from 'react-icons/fi';
-import ProdDescription from './../../../ListItems/ProdDescription/ProdDescription';
-import ListItem from './../ListItem/ListItem';
 import isPresent from './../../../../utilities/isPresent';
+import ListItem from './ListItem';
+import ProdDescription from './../../../ListItems/ProdDescription/ProdDescription';
 
 const ProdListItem = (props) => {
 	const tools = [

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { FiTrash2, FiBox, FiEye } from 'react-icons/fi';
-import ListItem from './../ListItem/ListItem';
 import isPresent from './../../../../utilities/isPresent';
+import ListItem from './ListItem';
 
 const OrderListItem = (props) => {
 	const tools = [

@@ -5,10 +5,10 @@ import classes from './ListScreen.module.scss';
 import { useFetchApi } from './../../../hooks/useFetchApi';
 
 import isPresent from './../../../utilities/isPresent';
-import FetchList from './FetchList';
 import GenericList from './../../UI/GenericList/GenericList';
-import OrderListItem from './OrderListItem/OrderListItem';
-import ProdListItem from './ProdListItem/ProdListItem';
+import FetchList from './FetchList/FetchList';
+import OrderListItem from './ListItem/OrderListItem';
+import ProdListItem from './ListItem/ProdListItem';
 
 const ListScreen = ({ match }) => {
 	const location = useLocation();

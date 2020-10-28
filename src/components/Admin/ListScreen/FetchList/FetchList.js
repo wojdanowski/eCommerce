@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
-import classes from './Screens/OrderScreen/OrderScreen.module.scss';
-import usePagination from './../../../hooks/usePagination';
-import { useFetchApi } from './../../../hooks/useFetchApi';
-import Loader from './../../UI/Loader/Loader';
-import addIdsToData from './../../../utilities/addIdsToData';
-import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
-import PaginationButtons from './../../UI/PaginationButtons/PaginationButtons';
+import classes from './FetchList.module.scss';
+import usePagination from './../../../../hooks/usePagination';
+import { useFetchApi } from './../../../../hooks/useFetchApi';
+import Loader from './../../../UI/Loader/Loader';
+import addIdsToData from './../../../../utilities/addIdsToData';
+import GenericButton from './../../../UI/Buttons/GenericButton/GenericButton';
+import PaginationButtons from './../../../UI/PaginationButtons/PaginationButtons';
 
 const FetchList = (props) => {
 	const maxPerPage = 15;
