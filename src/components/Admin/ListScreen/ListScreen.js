@@ -36,9 +36,9 @@ const ListScreen = ({ match }) => {
 		}
 	};
 
-	const modifyHandler = (data) => {
+	const modifyHandler = (data, collection) => {
 		console.log(`[ListScreen] edit`);
-		console.log(data);
+		console.log(data, collection);
 	};
 
 	const viewHandler = () => {

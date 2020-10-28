@@ -62,14 +62,21 @@ const FetchList = (props) => {
 		const dataArray = Object.values(dataWithIds.data);
 		listContent = (
 			<Fragment>
-				<div className={classes.actionButtonsContainer}>
-					<h1>ACTIVE {props.collection.toUpperCase()}</h1>
-					<GenericButton
-						label={'save'}
-						type={'green'}
-						clicked={saveChangesHandler}
-						isDisabled={props.isModified}
-					/>
+				<div className={classes.listHeader}>
+					<h1>ACTIVE {props.collection}</h1>
+					<div className={classes.actionButtonsContainer}>
+						<GenericButton
+							label={'reset'}
+							clicked={props.onReset}
+							isDisabled={props.isModified}
+						/>
+						<GenericButton
+							label={'save'}
+							type={'green'}
+							clicked={saveChangesHandler}
+							isDisabled={props.isModified}
+						/>
+					</div>
 				</div>
 				<Switch>
 					<Route path={links.products}>
@@ -96,6 +103,7 @@ const FetchList = (props) => {
 								modifyHandler: props.onModify,
 								removedItems: props.removedItems,
 								modifiedItems: props.modifiedItems,
+								collection: props.collection,
 							}}
 						/>
 					</Route>

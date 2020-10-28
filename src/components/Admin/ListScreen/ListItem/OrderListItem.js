@@ -9,7 +9,11 @@ const OrderListItem = (props) => {
 		{ icon: <FiEye />, handler: props.additional.viewHandler },
 		{
 			icon: <FiBox />,
-			handler: () => props.additional.modifyHandler(props.itemData),
+			handler: () =>
+				props.additional.modifyHandler(
+					props.itemDat,
+					props.additional.collection
+				),
 		},
 		{
 			type: 'delete',
