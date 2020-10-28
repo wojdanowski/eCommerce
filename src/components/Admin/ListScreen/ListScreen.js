@@ -136,7 +136,7 @@ const ListScreen = ({ match }) => {
 	return (
 		<div className={classes.prodScreenContainer}>
 			<FetchList
-				isModified={!modifiedItems.length}
+				isModified={modifiedItems.length}
 				collection={getCollectionName()}
 				onView={viewHandler}
 				onModify={modifyHandler}

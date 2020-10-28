@@ -77,13 +77,13 @@ const FetchList = (props) => {
 						<GenericButton
 							label={'reset'}
 							clicked={props.onReset}
-							isDisabled={props.isModified}
+							isDisabled={!props.isModified}
 						/>
 						<GenericButton
 							label={'save'}
 							type={'green'}
 							clicked={saveChangesHandler}
-							isDisabled={props.isModified}
+							isDisabled={!props.isModified}
 						/>
 					</div>
 				</div>
