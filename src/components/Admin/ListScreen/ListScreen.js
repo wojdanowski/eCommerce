@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import classes from './ListScreen.module.scss';
@@ -13,6 +13,10 @@ const ListScreen = ({ match }) => {
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
 	};
+
+	// useEffect(() => {
+	// 	console.log(`uef runs`);
+	// }, []);
 
 	const [deletedItems, setDeletedItems] = useState([]);
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
@@ -38,7 +42,8 @@ const ListScreen = ({ match }) => {
 
 	const modifyHandler = (data, collection) => {
 		console.log(`[ListScreen] edit`);
-		console.log(data, collection);
+		console.log(collection);
+		console.log(data);
 	};
 
 	const viewHandler = () => {

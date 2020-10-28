@@ -11,7 +11,7 @@ const OrderListItem = (props) => {
 			icon: <FiBox />,
 			handler: () =>
 				props.additional.modifyHandler(
-					props.itemDat,
+					props.itemData,
 					props.additional.collection
 				),
 		},

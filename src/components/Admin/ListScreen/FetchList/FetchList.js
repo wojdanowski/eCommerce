@@ -41,6 +41,7 @@ const FetchList = (props) => {
 			setFetchedCollection(props.collection);
 			fetchData.callPaginated(null, null, fullUrl);
 			setUpdate(false);
+			props.onReset();
 		}
 	}, [fetchData, update, props.collection, fetchedCollection, fullUrl]);
 
