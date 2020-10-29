@@ -12,13 +12,21 @@
 		display: none;
 	}
 
+	& > div {
+		margin-bottom: 2rem;
+		@include dotted_border_bottom;
+	}
 	.head {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-	}
 
-	.description {
-		background: red;
+		.buttonContainer {
+			display: flex;
+
+			& * {
+				margin: 0 0.5rem;
+			}
+		}
 	}
 }

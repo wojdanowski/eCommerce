@@ -13,12 +13,9 @@ import Loader from './../../UI/Loader/Loader';
 
 const OrderDetailsPage = (props) => {
 	const { orderData } = props;
-	// console.log(orderData);
-	const orderBy = `.json?orderBy="$key"`;
 	const url = `https://ecommerceprodmockup.firebaseio.com/products/`;
-	let fetchedProducts = useFetchApi('get', [url]);
+	let fetchedProducts = useFetchApi('get', '');
 	const [prodArray, setProdArray] = useState([]);
-	// console.log(fetchedProducts.data);
 	const dataWithIds = {
 		...fetchedProducts,
 		data: {
@@ -53,48 +50,49 @@ const OrderDetailsPage = (props) => {
 
 	let productsList = null;
 
-	if (dataWithIds.isLoading) {
+	if (prodArray.length !== orderData.products.length) {
 		productsList = <Loader />;
 	} else if (dataWithIds.isError) {
 		productsList = <p>ERROR</p>;
 	} else {
-		const dataArray = Object.values(dataWithIds.data);
-		productsList = <p>prodListContent</p>;
+		productsList = (
+			<GenericList
+				displayWith={ProdListItem}
+				dataArray={prodArray}
+				additional={{
+					removedItems: [],
+					modifiedItems: [],
+				}}
+			/>
+		);
 	}
 
 	return (
 		<div className={classes.container}>
 			<div className={classes.head}>
 				<h1>Order id: {orderData.id}</h1>
-				<GenericButton
-					label='confirm'
-					// clicked={() => props.addProdToCart(props.prodData)}
-					// isDisabled={!props.isPurchasable}
-				/>
-				<GenericButton
-					label='remove'
-					// clicked={() => props.addProdToCart(props.prodData)}
-					// isDisabled={!props.isPurchasable}
-				/>
+				<div className={classes.buttonContainer}>
+					<GenericButton
+						label='confirm'
+						// clicked={() => props.addProdToCart(props.prodData)}
+						// isDisabled={!props.isPurchasable}
+					/>
+					<GenericButton
+						label='remove'
+						// clicked={() => props.addProdToCart(props.prodData)}
+						// isDisabled={!props.isPurchasable}
+					/>
+				</div>
 			</div>
-
-			<div className={classes.description}>
+			<div className={classes.orderSummary}>
 				<h3>Order summary</h3>
 				<ListItem>
 					<OrderDescription itemData={orderData} />
 				</ListItem>
+			</div>
+			<div className={classes.prodList}>
 				<h3>Ordered Products:</h3>
-				{/* <GenericList
-							displayWith={ProdListItem}
-							dataArray={dataArray}
-							additional={{
-								viewHandler: props.onView,
-								modifyHandler: props.onModify,
-								removedItems: props.removedItems,
-								modifiedItems: props.modifiedItems,
-								collection: props.collection,
-							}}
-						/> */}
+				{productsList}
 			</div>
 		</div>
 	);
