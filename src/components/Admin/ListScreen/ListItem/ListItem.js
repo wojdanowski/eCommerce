@@ -6,9 +6,9 @@ import IconButton from '../../../UI/Buttons/IconButton/IconButton';
 const ListItem = (props) => {
 	let colorStyle;
 	if (props.removed) {
-		colorStyle = classes.onRemove;
+		colorStyle = 'utilOnRemove';
 	} else if (props.edited) {
-		colorStyle = classes.onEdit;
+		colorStyle = 'utilOnEdit';
 	} else {
 		colorStyle = null;
 	}

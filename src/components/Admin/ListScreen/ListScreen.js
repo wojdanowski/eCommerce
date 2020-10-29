@@ -80,31 +80,6 @@ const ListScreen = (props) => {
 		}
 	};
 
-	let modalContent;
-
-	switch (getCollectionName()) {
-		case 'orders': {
-			modalContent =
-				selectedItem && props.modalVisible ? (
-					<OrderDetailsPage orderData={selectedItem} />
-				) : null;
-			break;
-		}
-		case 'products': {
-			modalContent =
-				selectedItem && props.modalVisible ? (
-					<ProductPage
-						prodData={selectedItem}
-						isPurchasable={false}
-					/>
-				) : null;
-			break;
-		}
-		default: {
-			modalContent = <p>NO SUCH ITEM</p>;
-		}
-	}
-
 	const viewHandler = useCallback(
 		(item) => {
 			setSelectedItem(item);
@@ -138,6 +113,38 @@ const ListScreen = (props) => {
 		}
 	};
 
+	let modalContent;
+	const deletedItems = modifiedItems.filter((el) => el.remove === true);
+	const editedItems = modifiedItems.filter((el) => el.modify === true);
+
+	switch (getCollectionName()) {
+		case 'orders': {
+			modalContent =
+				selectedItem && props.modalVisible ? (
+					<OrderDetailsPage
+						orderData={selectedItem}
+						onModify={modifyHandler}
+						removedItems={deletedItems}
+						modifiedItems={editedItems}
+					/>
+				) : null;
+			break;
+		}
+		case 'products': {
+			modalContent =
+				selectedItem && props.modalVisible ? (
+					<ProductPage
+						prodData={selectedItem}
+						isPurchasable={false}
+					/>
+				) : null;
+			break;
+		}
+		default: {
+			modalContent = <p>NO SUCH ITEM</p>;
+		}
+	}
+
 	return (
 		<Fragment>
 			<div className={classes.prodScreenContainer}>
@@ -148,12 +155,8 @@ const ListScreen = (props) => {
 					onModify={modifyHandler}
 					onSave={saveHandler}
 					onReset={resetHandler}
-					modifiedItems={modifiedItems.filter(
-						(el) => el.modify === true
-					)}
-					removedItems={modifiedItems.filter(
-						(el) => el.remove === true
-					)}
+					removedItems={deletedItems}
+					modifiedItems={editedItems}
 				/>
 			</div>
 			<Modal show={props.modalVisible} modalClosed={props.toggleModal}>

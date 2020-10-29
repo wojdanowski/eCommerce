@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useFetchApi } from './../../../hooks/useFetchApi';
 import addIdsToData from './../../../utilities/addIdsToData';
+import isPresent from './../../../utilities/isPresent';
 
 import classes from './OrderDetailsPage.module.scss';
 import OrderDescription from './../ListScreen/ListItem/OrderDescription';
@@ -67,20 +68,34 @@ const OrderDetailsPage = (props) => {
 		);
 	}
 
+	const isModified = isPresent(orderData.id, props.modifiedItems);
+	const isRemoved = isPresent(orderData.id, props.removedItems);
+	const confirmButtonType = isModified ? 'success' : null;
+
+	let colorStyle;
+	if (isRemoved) {
+		colorStyle = 'utilOnRemove';
+	} else if (isModified) {
+		colorStyle = 'utilOnEdit';
+	} else {
+		colorStyle = null;
+	}
+	const appendClasses = [classes.head, colorStyle];
+
 	return (
 		<div className={classes.container}>
-			<div className={classes.head}>
+			<div className={appendClasses.join(' ')}>
 				<h1>Order id: {orderData.id}</h1>
 				<div className={classes.buttonContainer}>
 					<GenericButton
-						label='confirm'
-						// clicked={() => props.addProdToCart(props.prodData)}
-						// isDisabled={!props.isPurchasable}
+						label={isModified ? 'confirmed' : 'confirm'}
+						clicked={() => props.onModify(orderData, 'modify')}
+						isDisabled={isRemoved}
+						type={confirmButtonType}
 					/>
 					<GenericButton
 						label='remove'
-						// clicked={() => props.addProdToCart(props.prodData)}
-						// isDisabled={!props.isPurchasable}
+						clicked={() => props.onModify(orderData, 'remove')}
 					/>
 				</div>
 			</div>

@@ -39,6 +39,14 @@
 	flex-direction: row;
 }
 
+.utilOnRemove {
+	background: $dangerColorTrans;
+	color: red;
+}
+.utilOnEdit {
+	background: $successColorTrans;
+}
+
 @media (max-width: $mobile) {
 	.hideOnMobile {
 		display: none;

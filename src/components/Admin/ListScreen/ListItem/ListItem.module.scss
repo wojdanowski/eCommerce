@@ -5,18 +5,4 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 0.3rem;
-
-	&.onRemove {
-		background: $dangerColorTrans;
-
-		// background: #d47650;
-		// background: #706f6f25;
-
-		// background: red;
-		color: red;
-	}
-	&.onEdit {
-		background: $successColorTrans;
-		// color: green;
-	}
 }
