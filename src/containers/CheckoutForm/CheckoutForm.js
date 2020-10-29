@@ -56,6 +56,7 @@ const CheckoutForm = (props) => {
 			contact: {
 				...formData,
 			},
+			processed: false,
 		};
 
 		fetchApi.callFetchApi(order);
