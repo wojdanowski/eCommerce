@@ -7,7 +7,7 @@ const ListItem = (props) => {
 	let colorStyle;
 	if (props.removed) {
 		colorStyle = classes.onRemove;
-	} else if (props.isModified) {
+	} else if (props.edited) {
 		colorStyle = classes.onEdit;
 	} else {
 		colorStyle = null;
@@ -33,6 +33,7 @@ const ListItem = (props) => {
 							clicked={buttonHandler}
 							isDisabled={disabledStatus}
 							isRemoved={props.removed}
+							isModified={props.edited}
 						/>
 					);
 				})}

@@ -3,12 +3,13 @@ import classes from './IconButton.module.scss';
 import { IconContext } from 'react-icons';
 
 const IconButton = (props) => {
-	let color = props.isRemoved
-		? {
-				color: 'red',
-		  }
-		: null;
+	let color;
 
+	if (props.isRemoved) {
+		color = { color: 'red' };
+	} else if (props.isModified && !props.isRemoved) {
+		color = { color: 'green' };
+	}
 	color = props.isDisabled ? { color: '#e7e7e7' } : color;
 
 	const disabled = props.isDisabled ? classes.isDisabled : null;

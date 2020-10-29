@@ -20,34 +20,6 @@ const ListScreen = ({ match }) => {
 		url.concat(getCollectionName(), '.json'),
 	]);
 
-	// const removeHandler = (data) => {
-	// 	const foundItem = isPresent(data.id, modifiedItems);
-	// 	if (!foundItem) {
-	// 		setModifiedItems((prevState) =>
-	// 			prevState.concat({
-	// 				...data,
-	// 				removed: true,
-	// 				collection: getCollectionName(),
-	// 			})
-	// 		);
-	// 	} else if (foundItem) {
-	// 		if (!foundItem.modify) {
-	// 			const updatedArray = modifiedItems.filter(
-	// 				(el) => el.id !== data.id
-	// 			);
-	// 			setModifiedItems(updatedArray);
-	// 		} else {
-	// 			setModifiedItems((prevState) =>
-	// 				prevState.concat({
-	// 					...data,
-	// 					removed: false,
-	// 					collection: getCollectionName(),
-	// 				})
-	// 			);
-	// 		}
-	// 	}
-	// };
-
 	const modifyItems = (data, action) => {
 		const foundItem = isPresent(data.id, modifiedItems);
 		if (!foundItem) {
@@ -59,7 +31,10 @@ const ListScreen = ({ match }) => {
 				})
 			);
 		} else if (foundItem) {
-			if (action === 'remove' && !foundItem.modify) {
+			if (
+				(action === 'remove' && !foundItem.modify) ||
+				(action === 'modify' && !foundItem.remove)
+			) {
 				const updatedArray = modifiedItems.filter(
 					(el) => el.id !== data.id
 				);

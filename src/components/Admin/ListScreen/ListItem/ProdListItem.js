@@ -34,12 +34,7 @@ const ProdListItem = (props) => {
 		props.additional.modifiedItems
 	);
 	return (
-		<ListItem
-			removed={isRemoved}
-			edited={isModified}
-			edited
-			buttons={tools}
-		>
+		<ListItem removed={isRemoved} edited={isModified} buttons={tools}>
 			<ProdDescription itemData={props.itemData} />
 		</ListItem>
 	);
