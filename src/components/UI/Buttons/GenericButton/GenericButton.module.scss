@@ -11,6 +11,15 @@
 	background: $blackColor;
 	color: $lightColor;
 
+	&.success {
+		background: $successColor;
+		color: $blackColor;
+	}
+
+	&.danger {
+		background: $dangerColor;
+	}
+
 	&.red {
 		background: red;
 	}

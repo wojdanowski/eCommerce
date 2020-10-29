@@ -10,7 +10,8 @@ const IconButton = (props) => {
 	} else if (props.isModified && !props.isRemoved) {
 		color = { color: 'green' };
 	}
-	color = props.isDisabled ? { color: '#e7e7e7' } : color;
+	// color = props.isRemoved ? { color: 'red' } : color;
+	color = props.isDisabled ? { color: '#706f6f25' } : color;
 
 	const disabled = props.isDisabled ? classes.isDisabled : null;
 	const appendClasses = [classes.buttonContainer, disabled];
