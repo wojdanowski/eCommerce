@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import classes from './ListScreen.module.scss';
 import { useFetchApi } from './../../../hooks/useFetchApi';
+import * as uiActionTypes from '../../../store/actions/uiActions';
 
 import isPresent from './../../../utilities/isPresent';
 import FetchList from './FetchList/FetchList';
@@ -124,4 +126,16 @@ const ListScreen = ({ match }) => {
 	);
 };
 
-export default ListScreen;
+const mapStateToProps = (state) => {
+	return {
+		modalVisible: state.uiState.modalVisible,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		toggleModal: () => dispatch({ type: uiActionTypes.TOGGLE_MODAL }),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListScreen);
