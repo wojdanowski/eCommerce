@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import classes from './ListScreen.module.scss';
 import { useFetchApi } from './../../../hooks/useFetchApi';
 import * as uiActionTypes from '../../../store/actions/uiActions';
-
 import isPresent from './../../../utilities/isPresent';
+
 import FetchList from './FetchList/FetchList';
+import Modal from './../../UI/Modal/Modal';
+import ProductPage from './../../ProductPage/ProductPage';
+import OrderDetailsPage from './../OrderDetailsPage/OrderDetailsPage';
 
-const ListScreen = ({ match }) => {
+const ListScreen = (props) => {
 	const location = useLocation();
-
+	const [selectedItem, setSelectedItem] = useState(null);
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
 	};
-
 	const [modifiedItems, setModifiedItems] = useState([]);
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
 	const removeApi = useFetchApi('delete', [
 		url.concat(getCollectionName(), '.json'),
 	]);
+	const { toggleModal } = props;
 
 	const modifyItems = (data, action) => {
 		const foundItem = isPresent(data.id, modifiedItems);
@@ -77,13 +80,38 @@ const ListScreen = ({ match }) => {
 		}
 	};
 
-	const viewHandler = () => {
-		console.log(`[ListScreen] view`);
-	};
+	let modalContent;
 
-	const confirmOrderHandler = () => {
-		console.log(`[ListScreen] confirmOrder`);
-	};
+	switch (getCollectionName()) {
+		case 'orders': {
+			modalContent =
+				selectedItem && props.modalVisible ? (
+					<OrderDetailsPage />
+				) : null;
+			break;
+		}
+		case 'products': {
+			modalContent =
+				selectedItem && props.modalVisible ? (
+					<ProductPage
+						prodData={selectedItem}
+						isPurchasable={false}
+					/>
+				) : null;
+			break;
+		}
+		default: {
+			modalContent = <p>NO SUCH ITEM</p>;
+		}
+	}
+
+	const viewHandler = useCallback(
+		(item) => {
+			setSelectedItem(item);
+			toggleModal();
+		},
+		[toggleModal]
+	);
 
 	const resetHandler = () => {
 		if (modifiedItems.length) {
@@ -111,18 +139,27 @@ const ListScreen = ({ match }) => {
 	};
 
 	return (
-		<div className={classes.prodScreenContainer}>
-			<FetchList
-				isModified={modifiedItems.length}
-				collection={getCollectionName()}
-				onView={viewHandler}
-				onModify={modifyHandler}
-				onSave={saveHandler}
-				onReset={resetHandler}
-				modifiedItems={modifiedItems.filter((el) => el.modify === true)}
-				removedItems={modifiedItems.filter((el) => el.remove === true)}
-			/>
-		</div>
+		<Fragment>
+			<div className={classes.prodScreenContainer}>
+				<FetchList
+					isModified={modifiedItems.length}
+					collection={getCollectionName()}
+					onView={viewHandler}
+					onModify={modifyHandler}
+					onSave={saveHandler}
+					onReset={resetHandler}
+					modifiedItems={modifiedItems.filter(
+						(el) => el.modify === true
+					)}
+					removedItems={modifiedItems.filter(
+						(el) => el.remove === true
+					)}
+				/>
+			</div>
+			<Modal show={props.modalVisible} modalClosed={props.toggleModal}>
+				{modalContent}
+			</Modal>
+		</Fragment>
 	);
 };
 

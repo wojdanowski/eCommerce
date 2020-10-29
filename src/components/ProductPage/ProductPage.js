@@ -25,6 +25,7 @@ const ProductPage = (props) => {
 						<GenericButton
 							label='Add To Cart'
 							clicked={() => props.addProdToCart(props.prodData)}
+							isDisabled={!props.isPurchasable}
 						/>
 					</div>
 					<div className={classes.fullDescription}>
