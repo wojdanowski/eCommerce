@@ -5,22 +5,26 @@ const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 	// console.log(url);
 	// console.log(method);
 	try {
-		const result = await axios({
+		const response = await axios({
 			method: method.toLocaleLowerCase(),
 			url,
 			data: {
 				...data,
 			},
 		});
-		if (result.data) {
-			onSuccess(result.data);
-		} else if (!result.data) {
+		if (response.data) {
+			// console.log(response.data);
+			onSuccess(response.data);
+			return response;
+		} else if (!response.data) {
 			onSuccess({});
+			return response;
 		}
 		// console.log(result.data);
 	} catch (error) {
 		onError(true);
 		console.log(error);
+		return error;
 	}
 };
 

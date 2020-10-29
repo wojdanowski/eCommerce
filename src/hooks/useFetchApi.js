@@ -11,19 +11,26 @@ export const useFetchApi = (
 	const [isError, setIsError] = useState(false);
 	// console.log(url);
 	const callFetchApi = useCallback(
-		async (providedData, userMethod, userUrl) => {
+		async (providedData, userMethod, userUrl, addToData) => {
 			setIsError(false);
 			setIsLoading(true);
 			const urlToSend = userUrl ? userUrl : url;
 			const dataToSend = providedData ? providedData : payload;
 			const selectedMethod = userMethod ? userMethod : method;
-			await axiosCall(
+			const response = await axiosCall(
 				urlToSend,
 				dataToSend,
 				[setData, setIsError],
 				selectedMethod
 			);
 			setIsLoading(false);
+			return {
+				...response,
+				data: {
+					...response.data,
+					...addToData,
+				},
+			};
 		},
 		[url, payload, method]
 	);

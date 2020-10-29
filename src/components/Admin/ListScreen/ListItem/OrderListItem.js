@@ -3,6 +3,7 @@ import React from 'react';
 import { FiTrash2, FiBox, FiEye } from 'react-icons/fi';
 import isPresent from './../../../../utilities/isPresent';
 import ListItem from './ListItem';
+import OrderDescription from './OrderDescription';
 
 const OrderListItem = (props) => {
 	const tools = [
@@ -39,10 +40,7 @@ const OrderListItem = (props) => {
 
 	return (
 		<ListItem removed={isRemoved} edited={isModified} buttons={tools}>
-			<p>Id: {props.itemData.id}</p>
-			<p>Quantity: {props.itemData.products.length}</p>
-			<p>Total Price: {totalPrice}</p>
-			<p>Processed: {props.itemData.isProcessed}</p>
+			<OrderDescription itemData={props.itemData} />
 		</ListItem>
 	);
 };

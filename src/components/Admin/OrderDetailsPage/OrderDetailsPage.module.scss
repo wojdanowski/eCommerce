@@ -1,1 +1,24 @@
 @import '../../../styles/config.module.scss';
+
+.container {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	overflow-y: scroll;
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	.head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.description {
+		background: red;
+	}
+}

@@ -86,7 +86,7 @@ const ListScreen = (props) => {
 		case 'orders': {
 			modalContent =
 				selectedItem && props.modalVisible ? (
-					<OrderDetailsPage />
+					<OrderDetailsPage orderData={selectedItem} />
 				) : null;
 			break;
 		}
