@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect, useCallback } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 

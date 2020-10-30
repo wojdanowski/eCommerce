@@ -5,7 +5,6 @@ import classes from './FetchList.module.scss';
 import usePagination from './../../../../hooks/usePagination';
 import { useFetchApi } from './../../../../hooks/useFetchApi';
 import Loader from './../../../UI/Loader/Loader';
-import addIdsToData from './../../../../utilities/addIdsToData';
 import GenericButton from './../../../UI/Buttons/GenericButton/GenericButton';
 import PaginationButtons from './../../../UI/PaginationButtons/PaginationButtons';
 import GenericList from './../../../UI/GenericList/GenericList';
@@ -14,7 +13,7 @@ import ProdListItem from './../ListItem/ProdListItem';
 
 const FetchList = (props) => {
 	const match = useRouteMatch();
-	const maxPerPage = 5;
+	const maxPerPage = 10;
 	const [fetchedCollection, setFetchedCollection] = useState(
 		props.collection
 	);
@@ -29,12 +28,6 @@ const FetchList = (props) => {
 
 	const [update, setUpdate] = useState(true);
 
-	const dataWithIds = {
-		...fetchData,
-		data: {
-			...addIdsToData(fetchData.data),
-		},
-	};
 	const { onReset } = props;
 
 	useEffect(() => {
@@ -60,15 +53,14 @@ const FetchList = (props) => {
 	let listContent = null;
 
 	if (
-		dataWithIds.isLoading ||
+		fetchData.isLoading ||
 		update ||
 		props.collection !== fetchedCollection
 	) {
 		listContent = <Loader />;
-	} else if (dataWithIds.isError) {
+	} else if (fetchData.isError) {
 		listContent = <p>ERROR</p>;
 	} else {
-		const dataArray = Object.values(dataWithIds.data);
 		listContent = (
 			<Fragment>
 				<div className={classes.listHeader}>
@@ -91,7 +83,7 @@ const FetchList = (props) => {
 					<Route path={links.products}>
 						<GenericList
 							displayWith={ProdListItem}
-							dataArray={dataArray}
+							dataArray={fetchData.data}
 							additional={{
 								viewHandler: props.onView,
 								modifyHandler: props.onModify,
@@ -105,7 +97,7 @@ const FetchList = (props) => {
 					<Route path={links.orders}>
 						<GenericList
 							displayWith={OrderListItem}
-							dataArray={dataArray}
+							dataArray={fetchData.data}
 							additional={{
 								viewHandler: props.onView,
 								modifyHandler: props.onModify,
@@ -119,7 +111,7 @@ const FetchList = (props) => {
 
 				<PaginationButtons
 					resetChanges={props.onReset}
-					fetchApi={dataWithIds}
+					fetchApi={fetchData}
 				/>
 			</Fragment>
 		);

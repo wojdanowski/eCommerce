@@ -26,7 +26,7 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 		} else if (!fetchApi.data) {
 			setFilteredData();
 		}
-	}, [fetchApi.data, maxPerPage]);
+	}, [fetchApi.data, maxPages]);
 
 	// Disable nex and prev page buttons on end pages.
 	useEffect(() => {
@@ -60,7 +60,6 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 			}
 		}
 	}, [filteredData, isInitial, fetchApi.data, firstItemName, maxPages]);
-	console.log(fetchApi.data);
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
