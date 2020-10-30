@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getLastItemName, getFirstItemName } from '../utilities/getObjName';
 
-const usePagination = (url, maxPages, fetchHook, method) => {
+const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 	const [maxPerPage, setMaxPerPage] = useState(maxPages + 1);
-	const pagination = `&limitToFirst=${maxPerPage}`;
+	const pagination = `&limitToLast=${maxPerPage}`;
 	const [isInitial, setIsInitial] = useState(true);
 	const [firstItemName, setFirstItemName] = useState();
 	const [prevPageDisable, setPrevPageDisable] = useState(false);
@@ -15,23 +15,15 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 	// Remove last item from fetched data.
 	useEffect(() => {
 		if (fetchApi.data) {
-			const lastItem = getLastItemName(fetchApi.data);
-			const dataKeys = Object.keys(fetchApi.data);
-			let filteredData = dataKeys.reduce((object, key) => {
-				if (key !== lastItem || dataKeys.length < maxPerPage) {
-					object[key] = fetchApi.data[key];
-					return object;
-				} else {
-					return object;
-				}
-			}, {});
-			// console.log(`filteredData = fetchApi.data`);
-			// console.log(filteredData);
-			setFilteredData({
-				...filteredData,
-			});
+			let dataArray = [];
+			for (const property in fetchApi.data) {
+				dataArray.push([property, fetchApi.data[property]]);
+			}
+			dataArray.reverse();
+			const shortDataArray = dataArray.map((el) => el);
+			if (dataArray.length > maxPages) shortDataArray.splice(-1, 1);
+			setFilteredData(shortDataArray);
 		} else if (!fetchApi.data) {
-			// console.log(`no fetchApi.data`);
 			setFilteredData();
 		}
 	}, [fetchApi.data, maxPerPage]);
@@ -40,38 +32,27 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 	useEffect(() => {
 		if (filteredData && fetchApi.data) {
 			const fetchedDataLength = Object.keys(fetchApi.data).length;
-			const filteredDataLength = Object.keys(filteredData).length;
 			if (isInitial) {
-				const firstItem = getFirstItemName(filteredData);
+				const firstItem = filteredData[0][0];
 				setFirstItemName(firstItem);
 				setPrevPageDisable(true);
-				if (filteredDataLength < maxPages) {
-					// console.log(`max pages = ${maxPages}`);
-					// console.log(
-					// 	`[usePagination] useEffect nexPageDisable true`
-					// );
-					// console.log(filteredData);
-					// console.log(filteredDataLength);
+				if (filteredData.length < maxPages) {
 					setNextPageDisable(true);
 				}
 			} else if (!isInitial) {
-				const found = Object.keys(filteredData).find(
-					(key) => key === firstItemName
+				const found = filteredData.find(
+					(el) => el[0] === firstItemName
 				);
-				// console.log(`first item name: ${firstItemName}`);
-				// console.log(`found: ${found}`);
 				if (found) {
 					setPrevPageDisable(true);
-					// console.log(`found if`);
-					// setIsInitial(true);
 				} else {
 					setPrevPageDisable(false);
 				}
 			}
 
 			if (
-				filteredDataLength === 0 ||
-				fetchedDataLength === filteredDataLength
+				filteredData.length === 0 ||
+				fetchedDataLength === filteredData.length
 			) {
 				setNextPageDisable(true);
 			} else {
@@ -79,11 +60,12 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 			}
 		}
 	}, [filteredData, isInitial, fetchApi.data, firstItemName, maxPages]);
-
+	console.log(fetchApi.data);
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			const pagination = `&limitToLast=${maxPerPage}&startAt="${getLastItemName(
+			console.log(getFirstItemName(fetchApi.data));
+			const pagination = `&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
 				fetchApi.data
 			)}"`;
 			fetchApi.callFetchApi(null, null, url.concat(pagination));
@@ -93,9 +75,10 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 	const prevPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			const pagination = `&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
+			const pagination = `&limitToFirst=${maxPerPage}&startAt="${getLastItemName(
 				fetchApi.data
 			)}"`;
+			console.log(pagination);
 			fetchApi.callFetchApi(null, null, url.concat(pagination));
 		}
 	}, [fetchApi, maxPerPage, url]);
@@ -105,9 +88,6 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 		userMethod = method,
 		userUrl = null
 	) => {
-		// console.log(`[usePagination] userUrl ${userUrl}`);
-		// console.log(`[usePagination] url ${url}`);
-
 		let finalUrl;
 		if (userUrl) {
 			finalUrl = userUrl.concat(pagination);
@@ -126,10 +106,8 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 		nextPageDisable,
 		...fetchApi,
 		callPaginated,
-		data: {
-			...filteredData,
-		},
+		data: filteredData,
 	};
 };
 
-export default usePagination;
+export default usePaginationReworked;
