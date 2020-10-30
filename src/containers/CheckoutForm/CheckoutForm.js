@@ -57,7 +57,7 @@ const CheckoutForm = (props) => {
 				...formData,
 			},
 			processed: false,
-			'.priority': (Date.now() / -1000).toFixed(2) * 1,
+			// '.priority': (Date.now() / -1000).toFixed(2) * 1,
 		};
 
 		fetchApi.callFetchApi(order);

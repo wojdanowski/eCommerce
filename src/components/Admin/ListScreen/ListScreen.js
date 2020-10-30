@@ -93,38 +93,30 @@ const ListScreen = (props) => {
 			setModifiedItems([]);
 		}
 	};
-	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// const arrayToSend = modifiedItems.map((el) => {
-	// 	let updatedItem = Object.keys(el).reduce((object, key) => {
-	// 		if (key !== 'modify' && key !== 'remove' && key !== 'collection') {
-	// 			object[key] = el[key];
-	// 		}
-	// 		return object;
-	// 	}, {});
-
-	// 	if (el.collection === 'orders') {
-	// 		updatedItem = {
-	// 			...updatedItem,
-	// 			processed: !el.processed,
-	// 		};
-	// 	}
-	// 	return updatedItem;
-	// });
-	// console.log(arrayToSend);
-	// // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	const saveHandler = async () => {
 		if (modifiedItems.length) {
 			try {
-				await Promise.all(
+				const response = await Promise.all(
 					modifiedItems.map((el) => {
+						let updatedItem;
+						let action = 'patch';
+						if (el.remove) action = 'delete';
+
+						if (el.collection === 'orders' && el.modify) {
+							updatedItem = {
+								processed: !el.processed,
+							};
+						}
+
 						return removeApi.callFetchApi(
-							null,
-							el.action,
+							{ ...updatedItem },
+							action,
 							url.concat(getCollectionName(), `/${el.id}.json`)
 						);
 					})
 				);
+				console.log(response);
 			} catch (err) {
 				console.log(err);
 			}

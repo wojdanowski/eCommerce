@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 	// console.log(`[axiosCall]`);
-	// console.log(url);
+	console.log(`[axiosCall]${url}`);
 	// console.log(method);
 	try {
 		const response = await axios({
