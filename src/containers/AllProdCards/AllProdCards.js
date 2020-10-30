@@ -38,12 +38,11 @@ const AllProdCards = (props) => {
 
 	let filteredProdList;
 	if (!fetchData.isLoading && fetchData.data) {
-		console.log(fetchData.data);
 		filteredProdList = fetchData.data.map((product) => {
 			return (
 				<ProdCard
 					key={product[0]}
-					productInfo={product[1]}
+					productInfo={{ ...product[1], id: product[0] }}
 					clicked={productClickedHandler}
 				/>
 			);
@@ -51,10 +50,16 @@ const AllProdCards = (props) => {
 	}
 
 	let modalProdContent = null;
-
-	if (selectedProd && props.modalVisible) {
+	if (fetchData.isLoading) modalProdContent = <Loader />;
+	if (selectedProd && props.modalVisible && fetchData.data) {
+		let selectedProdData = fetchData.data.filter(
+			(el) => el[0] === selectedProd
+		)[0];
+		console.log(selectedProdData);
 		modalProdContent = (
-			<ProductPage prodData={fetchData.data[selectedProd]} />
+			<ProductPage
+				prodData={{ ...selectedProdData[1], id: selectedProd[0] }}
+			/>
 		);
 	} else modalProdContent = <p>No product...</p>;
 
