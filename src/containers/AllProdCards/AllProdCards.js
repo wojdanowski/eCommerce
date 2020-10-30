@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import usePagination from './../../hooks/usePagination';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
-import addIdsToData from './../../utilities/addIdsToData';
 
 import ProdCard from '../../components/ProductCard/ProdCard';
 import GenericButton from '../../components/UI/Buttons/GenericButton/GenericButton';
@@ -22,10 +21,6 @@ const AllProdCards = (props) => {
 
 	let fetchData = usePagination(url, maxPerPage, useFetchApi, 'get');
 
-	const prodData = {
-		...fetchData,
-	};
-
 	useEffect(() => {
 		if (!isUpdated) {
 			fetchData.callFetchApi();
@@ -42,9 +37,9 @@ const AllProdCards = (props) => {
 	);
 
 	let filteredProdList;
-	if (!prodData.isLoading && prodData.data) {
-		console.log(prodData.data);
-		filteredProdList = prodData.data.map((product) => {
+	if (!fetchData.isLoading && fetchData.data) {
+		console.log(fetchData.data);
+		filteredProdList = fetchData.data.map((product) => {
 			return (
 				<ProdCard
 					key={product[0]}
@@ -59,15 +54,15 @@ const AllProdCards = (props) => {
 
 	if (selectedProd && props.modalVisible) {
 		modalProdContent = (
-			<ProductPage prodData={prodData.data[selectedProd]} />
+			<ProductPage prodData={fetchData.data[selectedProd]} />
 		);
 	} else modalProdContent = <p>No product...</p>;
 
 	return (
 		<Fragment>
 			<div className='utilBigContainer'>
-				{prodData.isError && <div>Something went wrong ...</div>}
-				{prodData.isLoading ? (
+				{fetchData.isError && <div>Something went wrong ...</div>}
+				{fetchData.isLoading ? (
 					<Loader />
 				) : (
 					<Fragment>
@@ -77,13 +72,13 @@ const AllProdCards = (props) => {
 						<div className={classes.paginationNav}>
 							<GenericButton
 								label={'< Previous Page'}
-								clicked={prodData.prevPage}
-								isDisabled={prodData.prevPageDisable}
+								clicked={fetchData.prevPage}
+								isDisabled={fetchData.prevPageDisable}
 							/>
 							<GenericButton
 								label={'Next Page >'}
-								isDisabled={prodData.nextPageDisable}
-								clicked={prodData.nextPage}
+								isDisabled={fetchData.nextPageDisable}
+								clicked={fetchData.nextPage}
 							/>
 						</div>
 					</Fragment>
