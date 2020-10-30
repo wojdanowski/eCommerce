@@ -46,6 +46,9 @@
 .utilOnEdit {
 	background: $successColorTrans;
 }
+.utilOnSuccess {
+	background: $successColorTrans;
+}
 
 @media (max-width: $mobile) {
 	.hideOnMobile {

@@ -7,8 +7,6 @@ const IconButton = (props) => {
 
 	if (props.isRemoved) {
 		color = { color: 'red' };
-	} else if (props.isModified && !props.isRemoved) {
-		color = { color: 'green' };
 	}
 	// color = props.isRemoved ? { color: 'red' } : color;
 	color = props.isDisabled ? { color: '#706f6f25' } : color;

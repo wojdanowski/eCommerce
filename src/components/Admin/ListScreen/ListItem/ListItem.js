@@ -2,13 +2,12 @@ import React from 'react';
 
 import classes from './ListItem.module.scss';
 import IconButton from '../../../UI/Buttons/IconButton/IconButton';
+import EditStatus from './../../UI/EditStatus/EditStatus';
 
 const ListItem = (props) => {
 	let colorStyle;
 	if (props.removed) {
 		colorStyle = 'utilOnRemove';
-	} else if (props.edited) {
-		colorStyle = 'utilOnEdit';
 	} else {
 		colorStyle = null;
 	}
@@ -19,6 +18,7 @@ const ListItem = (props) => {
 		<div className={appendClasses.join(' ')}>
 			{props.children}
 			<div className={'utilToolbox'}>
+				<EditStatus isEdited={props.edited} />
 				{buttons.map((button, index) => {
 					let disabledStatus = props.removed;
 					let buttonHandler = button.handler;

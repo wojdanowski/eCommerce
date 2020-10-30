@@ -11,6 +11,7 @@ import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import GenericList from './../../UI/GenericList/GenericList';
 import ProdListItem from './../ListScreen/ListItem/ProdListItem';
 import Loader from './../../UI/Loader/Loader';
+import EditStatus from './../UI/EditStatus/EditStatus';
 
 const OrderDetailsPage = (props) => {
 	const { orderData } = props;
@@ -70,13 +71,20 @@ const OrderDetailsPage = (props) => {
 
 	const isModified = isPresent(orderData.id, props.modifiedItems);
 	const isRemoved = isPresent(orderData.id, props.removedItems);
-	const confirmButtonType = isModified ? 'success' : null;
+	const isConfirmed = orderData.processed;
+	let confirmButtonLabel;
+
+	if ((isConfirmed && !isModified) || (!isConfirmed && isModified)) {
+		confirmButtonLabel = 'unconfirm';
+	} else if ((!isConfirmed && !isModified) || (isConfirmed && isModified)) {
+		confirmButtonLabel = 'confirm';
+	}
 
 	let colorStyle;
 	if (isRemoved) {
 		colorStyle = 'utilOnRemove';
-	} else if (isModified) {
-		colorStyle = 'utilOnEdit';
+	} else if (orderData.processed) {
+		colorStyle = 'utilOnSuccess';
 	} else {
 		colorStyle = null;
 	}
@@ -87,11 +95,11 @@ const OrderDetailsPage = (props) => {
 			<div className={appendClasses.join(' ')}>
 				<h1>Order id: {orderData.id}</h1>
 				<div className={classes.buttonContainer}>
+					<EditStatus isEdited={isModified} />
 					<GenericButton
-						label={isModified ? 'confirmed' : 'confirm'}
+						label={confirmButtonLabel}
 						clicked={() => props.onModify(orderData, 'modify')}
 						isDisabled={isRemoved}
-						type={confirmButtonType}
 					/>
 					<GenericButton
 						label='remove'
@@ -102,7 +110,10 @@ const OrderDetailsPage = (props) => {
 			<div className={classes.orderSummary}>
 				<h3>Order summary</h3>
 				<ListItem>
-					<OrderDescription itemData={orderData} />
+					<OrderDescription
+						itemData={orderData}
+						edited={isModified}
+					/>
 				</ListItem>
 			</div>
 			<div className={classes.prodList}>

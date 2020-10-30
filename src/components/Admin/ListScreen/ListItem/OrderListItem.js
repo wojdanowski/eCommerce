@@ -24,10 +24,6 @@ const OrderListItem = (props) => {
 		},
 	];
 
-	const totalPrice = props.itemData.products
-		.map((el) => el.price)
-		.reduce((acc, cur) => acc + cur);
-
 	const isRemoved = isPresent(
 		props.itemData.id,
 		props.additional.removedItems
@@ -40,7 +36,7 @@ const OrderListItem = (props) => {
 
 	return (
 		<ListItem removed={isRemoved} edited={isModified} buttons={tools}>
-			<OrderDescription itemData={props.itemData} />
+			<OrderDescription itemData={props.itemData} edited={isModified} />
 		</ListItem>
 	);
 };
