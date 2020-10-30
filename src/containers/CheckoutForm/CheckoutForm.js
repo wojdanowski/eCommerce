@@ -48,7 +48,7 @@ const CheckoutForm = (props) => {
 				price: el.price,
 			})
 		);
-
+		// const timestamp = (Date.now() / 1000).toFixed(2) * 1;
 		const order = {
 			products: {
 				...shortProdList,
@@ -57,7 +57,8 @@ const CheckoutForm = (props) => {
 				...formData,
 			},
 			processed: false,
-			// '.priority': (Date.now() / -1000).toFixed(2) * 1,
+			// '.priority': timestamp,
+			// timestamp: timestamp,
 		};
 
 		fetchApi.callFetchApi(order);

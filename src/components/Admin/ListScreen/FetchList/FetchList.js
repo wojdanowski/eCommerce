@@ -14,7 +14,7 @@ import ProdListItem from './../ListItem/ProdListItem';
 
 const FetchList = (props) => {
 	const match = useRouteMatch();
-	const maxPerPage = 15;
+	const maxPerPage = 5;
 	const [fetchedCollection, setFetchedCollection] = useState(
 		props.collection
 	);

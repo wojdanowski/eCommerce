@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import usePagination from './../../hooks/usePagination';
+import usePagination from './../../hooks/usePaginationReworked';
 import * as uiActionTypes from '../../store/actions/uiActions';
 import classes from './AllProdCards.module.scss';
 import addIdsToData from './../../utilities/addIdsToData';
@@ -17,16 +17,16 @@ const AllProdCards = (props) => {
 	const url = `https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="$key"`;
 	const [selectedProd, setSelectedProd] = useState(null);
 	const { toggleModal } = props;
-	const maxPerPage = 16;
+	const maxPerPage = 5;
 	const [isUpdated, setIsUpdated] = useState(false);
 
 	let fetchData = usePagination(url, maxPerPage, useFetchApi, 'get');
 
 	const prodData = {
 		...fetchData,
-		data: {
-			...addIdsToData(fetchData.data),
-		},
+		// data: {
+		// 	...addIdsToData(fetchData.data),
+		// },
 	};
 
 	useEffect(() => {
@@ -46,12 +46,12 @@ const AllProdCards = (props) => {
 
 	let filteredProdList;
 	if (!prodData.isLoading && prodData.data) {
-		const prodList = Object.values(prodData.data);
-		filteredProdList = prodList.map((product) => {
+		console.log(prodData.data);
+		filteredProdList = prodData.data.map((product) => {
 			return (
 				<ProdCard
-					key={product.id}
-					productInfo={product}
+					key={product[0]}
+					productInfo={product[1]}
 					clicked={productClickedHandler}
 				/>
 			);

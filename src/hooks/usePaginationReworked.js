@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getLastItemName, getFirstItemName } from '../utilities/getObjName';
 
-const usePagination = (url, maxPages, fetchHook, method) => {
+const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 	const [maxPerPage, setMaxPerPage] = useState(maxPages + 1);
-	const pagination = `&limitToFirst=${maxPerPage}`;
+	const pagination = `&limitToLast=${maxPerPage}`;
 	const [isInitial, setIsInitial] = useState(true);
 	const [firstItemName, setFirstItemName] = useState();
 	const [prevPageDisable, setPrevPageDisable] = useState(false);
@@ -15,23 +15,22 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 	// Remove last item from fetched data.
 	useEffect(() => {
 		if (fetchApi.data) {
-			const lastItem = getLastItemName(fetchApi.data);
-			const dataKeys = Object.keys(fetchApi.data);
-			let filteredData = dataKeys.reduce((object, key) => {
-				if (key !== lastItem || dataKeys.length < maxPerPage) {
-					object[key] = fetchApi.data[key];
-					return object;
-				} else {
-					return object;
-				}
-			}, {});
-			// console.log(`filteredData = fetchApi.data`);
-			// console.log(filteredData);
-			setFilteredData({
-				...filteredData,
-			});
+			let dataArray = [];
+			for (const property in fetchApi.data) {
+				dataArray.push([property, fetchApi.data[property]]);
+			}
+			dataArray.reverse();
+			console.log(dataArray);
+
+			const lastItem = dataArray[dataArray.length - 1][0];
+			console.log(lastItem);
+
+			const shortDataArray = dataArray.map((el) => el);
+			shortDataArray.splice(-1, 1);
+			console.log(shortDataArray);
+
+			setFilteredData(shortDataArray);
 		} else if (!fetchApi.data) {
-			// console.log(`no fetchApi.data`);
 			setFilteredData();
 		}
 	}, [fetchApi.data, maxPerPage]);
@@ -48,7 +47,7 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 				if (filteredDataLength < maxPages) {
 					// console.log(`max pages = ${maxPages}`);
 					// console.log(
-					// 	`[usePagination] useEffect nexPageDisable true`
+					// 	`[usePaginationReworked] useEffect nexPageDisable true`
 					// );
 					// console.log(filteredData);
 					// console.log(filteredDataLength);
@@ -83,7 +82,7 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			const pagination = `&limitToLast=${maxPerPage}&startAt="${getLastItemName(
+			const pagination = `&limitToFirst=${maxPerPage}&endAt="${getLastItemName(
 				fetchApi.data
 			)}"`;
 			fetchApi.callFetchApi(null, null, url.concat(pagination));
@@ -93,7 +92,7 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 	const prevPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			const pagination = `&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
+			const pagination = `&limitToFirst=${maxPerPage}&endAt="${getFirstItemName(
 				fetchApi.data
 			)}"`;
 			fetchApi.callFetchApi(null, null, url.concat(pagination));
@@ -105,8 +104,8 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 		userMethod = method,
 		userUrl = null
 	) => {
-		// console.log(`[usePagination] userUrl ${userUrl}`);
-		// console.log(`[usePagination] url ${url}`);
+		// console.log(`[usePaginationReworked] userUrl ${userUrl}`);
+		// console.log(`[usePaginationReworked] url ${url}`);
 
 		let finalUrl;
 		if (userUrl) {
@@ -126,10 +125,8 @@ const usePagination = (url, maxPages, fetchHook, method) => {
 		nextPageDisable,
 		...fetchApi,
 		callPaginated,
-		data: {
-			...filteredData,
-		},
+		data: filteredData,
 	};
 };
 
-export default usePagination;
+export default usePaginationReworked;
