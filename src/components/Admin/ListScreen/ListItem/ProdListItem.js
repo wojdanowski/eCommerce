@@ -6,6 +6,8 @@ import ListItem from './ListItem';
 import ProdDescription from './../../../ListItems/ProdDescription/ProdDescription';
 
 const ProdListItem = (props) => {
+	const itemDataId = props.itemData[0];
+	const itemData = props.itemData[1];
 	let tools = null;
 	let isRemoved;
 	let isModified;
@@ -14,32 +16,35 @@ const ProdListItem = (props) => {
 		tools = [
 			{
 				icon: <FiEye />,
-				handler: () => props.additional.viewHandler(props.itemData),
+				handler: () => props.additional.viewHandler(itemData),
 			},
 			{
 				icon: <FiEdit />,
 				handler: () =>
-					props.additional.modifyHandler(props.itemData, 'modify'),
+					props.additional.modifyHandler({
+						...itemData,
+						id: itemDataId,
+					}),
 			},
 			{
 				type: 'delete',
 				icon: <FiTrash2 />,
 				handler: () =>
-					props.additional.modifyHandler(props.itemData, 'remove'),
+					props.additional.modifyHandler(
+						{ ...itemData, id: itemDataId },
+						'remove'
+					),
 			},
 		];
 
-		isRemoved = isPresent(props.itemData.id, props.additional.removedItems);
+		isRemoved = isPresent(itemDataId, props.additional.removedItems);
 
-		isModified = isPresent(
-			props.itemData.id,
-			props.additional.modifiedItems
-		);
+		isModified = isPresent(itemDataId, props.additional.modifiedItems);
 	}
 
 	return (
 		<ListItem removed={isRemoved} edited={isModified} buttons={tools}>
-			<ProdDescription itemData={props.itemData} />
+			<ProdDescription itemData={{ ...itemData, id: itemDataId }} />
 		</ListItem>
 	);
 };
