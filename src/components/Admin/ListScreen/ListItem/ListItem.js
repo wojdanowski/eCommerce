@@ -12,14 +12,12 @@ const ListItem = (props) => {
 		colorStyle = null;
 	}
 	const appendClasses = [classes.itemContainer, colorStyle];
-	const buttons = props.buttons ? props.buttons : [];
-
-	return (
-		<div className={appendClasses.join(' ')}>
-			{props.children}
+	let toolbox = null;
+	if (props.buttons) {
+		toolbox = (
 			<div className={'utilToolbox'}>
 				<EditStatus isEdited={props.edited} />
-				{buttons.map((button, index) => {
+				{props.buttons.map((button, index) => {
 					let disabledStatus = props.removed;
 					let buttonHandler = button.handler;
 					if (button.type === 'delete') {
@@ -38,6 +36,13 @@ const ListItem = (props) => {
 					);
 				})}
 			</div>
+		);
+	}
+
+	return (
+		<div className={appendClasses.join(' ')}>
+			{props.children}
+			{toolbox}
 		</div>
 	);
 };

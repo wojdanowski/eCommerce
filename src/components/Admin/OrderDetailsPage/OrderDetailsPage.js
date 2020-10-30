@@ -12,6 +12,7 @@ import GenericList from './../../UI/GenericList/GenericList';
 import ProdListItem from './../ListScreen/ListItem/ProdListItem';
 import Loader from './../../UI/Loader/Loader';
 import EditStatus from './../UI/EditStatus/EditStatus';
+import ShippingInfoItem from './../ListScreen/ListItem/ShippingInfoItem';
 
 const OrderDetailsPage = (props) => {
 	const { orderData } = props;
@@ -26,7 +27,6 @@ const OrderDetailsPage = (props) => {
 	};
 
 	useEffect(() => {
-		console.log(`[useEffect]`);
 		if (!fetchedProducts.data && !dataWithIds.isLoading) {
 			let response;
 			const fetchAllProds = async () => {
@@ -61,10 +61,10 @@ const OrderDetailsPage = (props) => {
 			<GenericList
 				displayWith={ProdListItem}
 				dataArray={prodArray}
-				additional={{
-					removedItems: [],
-					modifiedItems: [],
-				}}
+				// additional={{
+				// 	removedItems: [],
+				// 	modifiedItems: [],
+				// }}
 			/>
 		);
 	}
@@ -90,6 +90,12 @@ const OrderDetailsPage = (props) => {
 	}
 	const appendClasses = [classes.head, colorStyle];
 
+	const shippingInfoArray = Object.keys(orderData.contact).map((key) => {
+		return {
+			[key]: orderData.contact[key],
+		};
+	});
+
 	return (
 		<div className={classes.container}>
 			<div className={appendClasses.join(' ')}>
@@ -107,7 +113,7 @@ const OrderDetailsPage = (props) => {
 					/>
 				</div>
 			</div>
-			<div className={classes.orderSummary}>
+			<div>
 				<h3>Order summary</h3>
 				<ListItem>
 					<OrderDescription
@@ -116,9 +122,16 @@ const OrderDetailsPage = (props) => {
 					/>
 				</ListItem>
 			</div>
-			<div className={classes.prodList}>
+			<div>
 				<h3>Ordered Products:</h3>
 				{productsList}
+			</div>
+			<div>
+				<h3>Shipping info:</h3>
+				<GenericList
+					displayWith={ShippingInfoItem}
+					dataArray={shippingInfoArray}
+				/>
 			</div>
 		</div>
 	);

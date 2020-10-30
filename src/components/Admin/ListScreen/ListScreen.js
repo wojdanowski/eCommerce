@@ -94,24 +94,24 @@ const ListScreen = (props) => {
 		}
 	};
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	const arrayToSend = modifiedItems.map((el) => {
-		let updatedItem = Object.keys(el).reduce((object, key) => {
-			if (key !== 'modify' && key !== 'remove' && key !== 'collection') {
-				object[key] = el[key];
-			}
-			return object;
-		}, {});
+	// const arrayToSend = modifiedItems.map((el) => {
+	// 	let updatedItem = Object.keys(el).reduce((object, key) => {
+	// 		if (key !== 'modify' && key !== 'remove' && key !== 'collection') {
+	// 			object[key] = el[key];
+	// 		}
+	// 		return object;
+	// 	}, {});
 
-		if (el.collection === 'orders') {
-			updatedItem = {
-				...updatedItem,
-				processed: !el.processed,
-			};
-		}
-		return updatedItem;
-	});
-	console.log(arrayToSend);
-	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 	if (el.collection === 'orders') {
+	// 		updatedItem = {
+	// 			...updatedItem,
+	// 			processed: !el.processed,
+	// 		};
+	// 	}
+	// 	return updatedItem;
+	// });
+	// console.log(arrayToSend);
+	// // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	const saveHandler = async () => {
 		if (modifiedItems.length) {
