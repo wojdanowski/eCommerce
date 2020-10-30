@@ -20,15 +20,9 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 				dataArray.push([property, fetchApi.data[property]]);
 			}
 			dataArray.reverse();
-			console.log(dataArray);
-
-			const lastItem = dataArray[dataArray.length - 1][0];
-			console.log(lastItem);
 
 			const shortDataArray = dataArray.map((el) => el);
-			shortDataArray.splice(-1, 1);
-			console.log(shortDataArray);
-
+			if (dataArray.length > maxPages) shortDataArray.splice(-1, 1);
 			setFilteredData(shortDataArray);
 		} else if (!fetchApi.data) {
 			setFilteredData();
@@ -39,24 +33,20 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 	useEffect(() => {
 		if (filteredData && fetchApi.data) {
 			const fetchedDataLength = Object.keys(fetchApi.data).length;
-			const filteredDataLength = Object.keys(filteredData).length;
 			if (isInitial) {
-				const firstItem = getFirstItemName(filteredData);
+				const firstItem = filteredData[0][0];
 				setFirstItemName(firstItem);
 				setPrevPageDisable(true);
-				if (filteredDataLength < maxPages) {
-					// console.log(`max pages = ${maxPages}`);
-					// console.log(
-					// 	`[usePaginationReworked] useEffect nexPageDisable true`
-					// );
-					// console.log(filteredData);
-					// console.log(filteredDataLength);
+				if (filteredData.length < maxPages) {
 					setNextPageDisable(true);
 				}
 			} else if (!isInitial) {
-				const found = Object.keys(filteredData).find(
-					(key) => key === firstItemName
+				const found = filteredData.find(
+					(el) => el[0] === firstItemName
 				);
+				// const found = Object.keys(filteredData).find(
+				// 	(key) => key === firstItemName
+				// );
 				// console.log(`first item name: ${firstItemName}`);
 				// console.log(`found: ${found}`);
 				if (found) {
@@ -69,8 +59,8 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 			}
 
 			if (
-				filteredDataLength === 0 ||
-				fetchedDataLength === filteredDataLength
+				filteredData.length === 0 ||
+				fetchedDataLength === filteredData.length
 			) {
 				setNextPageDisable(true);
 			} else {
@@ -78,11 +68,12 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 			}
 		}
 	}, [filteredData, isInitial, fetchApi.data, firstItemName, maxPages]);
-
+	console.log(fetchApi.data);
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			const pagination = `&limitToFirst=${maxPerPage}&endAt="${getLastItemName(
+			console.log(getFirstItemName(fetchApi.data));
+			const pagination = `&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
 				fetchApi.data
 			)}"`;
 			fetchApi.callFetchApi(null, null, url.concat(pagination));
@@ -92,9 +83,10 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 	const prevPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			const pagination = `&limitToFirst=${maxPerPage}&endAt="${getFirstItemName(
+			const pagination = `&limitToFirst=${maxPerPage}&startAt="${getLastItemName(
 				fetchApi.data
 			)}"`;
+			console.log(pagination);
 			fetchApi.callFetchApi(null, null, url.concat(pagination));
 		}
 	}, [fetchApi, maxPerPage, url]);
