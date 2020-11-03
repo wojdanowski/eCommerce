@@ -11,7 +11,7 @@ import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import GenericList from './../../UI/GenericList/GenericList';
 import ProdListItem from './../ListScreen/ListItem/ProdListItem';
 import Loader from './../../UI/Loader/Loader';
-import EditStatus from './../UI/EditStatus/EditStatus';
+import EditStatus from '../../UI/EditStatus/EditStatus';
 import ShippingInfoItem from './../ListScreen/ListItem/ShippingInfoItem';
 
 const OrderDetailsPage = (props) => {
@@ -58,14 +58,7 @@ const OrderDetailsPage = (props) => {
 		productsList = <p>ERROR</p>;
 	} else {
 		productsList = (
-			<GenericList
-				displayWith={ProdListItem}
-				dataArray={prodArray}
-				// additional={{
-				// 	removedItems: [],
-				// 	modifiedItems: [],
-				// }}
-			/>
+			<GenericList displayWith={ProdListItem} dataArray={prodArray} />
 		);
 	}
 
