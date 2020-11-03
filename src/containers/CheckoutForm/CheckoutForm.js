@@ -141,8 +141,8 @@ const CheckoutForm = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		formFields: state.checkoutFormState.orderForm,
-		formIsValid: state.checkoutFormState.formIsValid,
+		formFields: state.formState.orderForm.fields,
+		formIsValid: state.formState.orderForm.orderFormIsValid,
 		prodsInCart: state.cartState.products,
 	};
 };
