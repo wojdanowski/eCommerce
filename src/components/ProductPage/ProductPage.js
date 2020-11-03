@@ -6,7 +6,11 @@ import GenericButton from './../UI/Buttons/GenericButton/GenericButton';
 import ProdGallery from './../ProdGallery/ProdGallery';
 
 const ProductPage = (props) => {
-	// console.log(props.prodData);
+	let prodId = null;
+	if (props.isAdmin && props.prodData.id) {
+		prodId = <h3>ID: {props.prodData.id}</h3>;
+	}
+
 	return (
 		<div className={classes.prodPageContainer}>
 			<div className={classes.firstRow}>
@@ -17,6 +21,7 @@ const ProductPage = (props) => {
 					<div className={classes.shortDescription}>
 						<div className={classes.nameAndPrice}>
 							<h1>{props.prodData.name}</h1>
+							{prodId}
 							<h3>PRICE: {props.prodData.price}</h3>
 							<h4 className='textLineThrough'>
 								OLD PRICE: {props.prodData.oldPrice}

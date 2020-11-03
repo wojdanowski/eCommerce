@@ -144,6 +144,7 @@ const ListScreen = (props) => {
 			modalContent =
 				selectedItem && props.modalVisible ? (
 					<ProductPage
+						isAdmin={true}
 						prodData={selectedItem}
 						isPurchasable={false}
 					/>
