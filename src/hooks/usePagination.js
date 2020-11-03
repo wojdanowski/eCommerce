@@ -17,7 +17,7 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 		if (fetchApi.data) {
 			let dataArray = [];
 			for (const property in fetchApi.data) {
-				dataArray.push([property, fetchApi.data[property]]);
+				dataArray.push(fetchApi.data[property]);
 			}
 			dataArray.reverse();
 			const shortDataArray = dataArray.map((el) => el);
@@ -33,7 +33,7 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 		if (filteredData && fetchApi.data) {
 			const fetchedDataLength = Object.keys(fetchApi.data).length;
 			if (isInitial) {
-				const firstItem = filteredData[0][0];
+				const firstItem = filteredData[0].id;
 				setFirstItemName(firstItem);
 				setPrevPageDisable(true);
 				if (filteredData.length < maxPages) {
@@ -41,7 +41,7 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 				}
 			} else if (!isInitial) {
 				const found = filteredData.find(
-					(el) => el[0] === firstItemName
+					(el) => el.id === firstItemName
 				);
 				if (found) {
 					setPrevPageDisable(true);
@@ -63,7 +63,6 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 	const nextPage = useCallback(() => {
 		if (fetchApi.data) {
 			setIsInitial(false);
-			console.log(getFirstItemName(fetchApi.data));
 			const pagination = `&limitToLast=${maxPerPage}&endAt="${getFirstItemName(
 				fetchApi.data
 			)}"`;
@@ -77,7 +76,6 @@ const usePaginationReworked = (url, maxPages, fetchHook, method) => {
 			const pagination = `&limitToFirst=${maxPerPage}&startAt="${getLastItemName(
 				fetchApi.data
 			)}"`;
-			console.log(pagination);
 			fetchApi.callFetchApi(null, null, url.concat(pagination));
 		}
 	}, [fetchApi, maxPerPage, url]);

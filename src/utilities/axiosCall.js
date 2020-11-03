@@ -1,4 +1,5 @@
 import axios from 'axios';
+import addIdsToData from './addIdsToData';
 
 const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 	// console.log(`[axiosCall]`);
@@ -13,8 +14,8 @@ const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 			},
 		});
 		if (response.data) {
-			// console.log(response.data);
-			onSuccess(response.data);
+			const dataWithIds = addIdsToData(response.data);
+			onSuccess(dataWithIds);
 			return response;
 		} else if (!response.data) {
 			onSuccess({});

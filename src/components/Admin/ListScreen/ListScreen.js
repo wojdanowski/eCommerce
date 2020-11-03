@@ -116,7 +116,6 @@ const ListScreen = (props) => {
 						);
 					})
 				);
-				console.log(response);
 			} catch (err) {
 				console.log(err);
 			}
