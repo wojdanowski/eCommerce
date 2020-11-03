@@ -109,20 +109,33 @@ const checkValidity = (value, rules) => {
 const checkoutFormReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.UPDATE_FIELD:
+			let selectedForm;
+			let keyName;
+			switch (action.form) {
+				case 'order': {
+					selectedForm = { orderForm: { ...state.orderForm } };
+					keyName = 'orderForm';
+					console.log(selectedForm);
+					break;
+				}
+				default:
+					break;
+			}
 			const updatedInput = {
-				...state.orderForm[action.inputId],
+				...selectedForm.orderForm[action.inputId],
 				value: action.newValue,
 				touched: true,
 				valid: checkValidity(
 					action.newValue,
-					state.orderForm[action.inputId].validation
+					selectedForm.orderForm[action.inputId].validation
 				),
 			};
 
 			let updatedState = {
 				...state,
-				orderForm: {
-					...state.orderForm,
+
+				[keyName]: {
+					...selectedForm[keyName],
 					[action.inputId]: {
 						...updatedInput,
 					},
@@ -130,9 +143,9 @@ const checkoutFormReducer = (state = initialState, action) => {
 			};
 
 			let formIsValidAfterUpdate = true;
-			for (let inputIdentifier in updatedState.orderForm) {
+			for (let inputIdentifier in selectedForm[keyName]) {
 				formIsValidAfterUpdate =
-					updatedState.orderForm[inputIdentifier].valid &&
+					selectedForm[keyName][inputIdentifier].valid &&
 					formIsValidAfterUpdate;
 			}
 

@@ -11,10 +11,12 @@ import FetchList from './FetchList/FetchList';
 import Modal from './../../UI/Modal/Modal';
 import ProductPage from './../../ProductPage/ProductPage';
 import OrderDetailsPage from './../OrderDetailsPage/OrderDetailsPage';
+import ProdPageEdit from './../ProdPageEdit/ProdPageEdit';
 
 const ListScreen = (props) => {
 	const location = useLocation();
 	const [selectedItem, setSelectedItem] = useState(null);
+	const [isEditing, setIsEditing] = useState(null);
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
 	};
@@ -24,6 +26,11 @@ const ListScreen = (props) => {
 		url.concat(getCollectionName(), '.json'),
 	]);
 	const { toggleModal } = props;
+
+	const clearIsEditingOnModalClose = () => {
+		setIsEditing(false);
+		toggleModal();
+	};
 
 	const modifyItems = (data, action) => {
 		const foundItem = isPresent(data.id, modifiedItems);
@@ -69,8 +76,9 @@ const ListScreen = (props) => {
 				if (action === 'remove') {
 					modifyItems(data, action);
 				} else if (action === 'modify') {
-					// TODO	load modal for editing product
-					modifyItems(data, action);
+					setSelectedItem(data);
+					setIsEditing(true);
+					toggleModal();
 				}
 				break;
 			}
@@ -123,9 +131,9 @@ const ListScreen = (props) => {
 		}
 	};
 
-	let modalContent;
 	const deletedItems = modifiedItems.filter((el) => el.remove === true);
 	const editedItems = modifiedItems.filter((el) => el.modify === true);
+	let modalContent;
 
 	switch (getCollectionName()) {
 		case 'orders': {
@@ -141,14 +149,21 @@ const ListScreen = (props) => {
 			break;
 		}
 		case 'products': {
-			modalContent =
-				selectedItem && props.modalVisible ? (
-					<ProductPage
-						isAdmin={true}
-						prodData={selectedItem}
-						isPurchasable={false}
-					/>
-				) : null;
+			if (isEditing) {
+				modalContent =
+					selectedItem && props.modalVisible ? (
+						<ProdPageEdit prodData={selectedItem} />
+					) : null;
+			} else {
+				modalContent =
+					selectedItem && props.modalVisible ? (
+						<ProductPage
+							isAdmin={true}
+							prodData={selectedItem}
+							isPurchasable={false}
+						/>
+					) : null;
+			}
 			break;
 		}
 		default: {
@@ -170,7 +185,10 @@ const ListScreen = (props) => {
 					modifiedItems={editedItems}
 				/>
 			</div>
-			<Modal show={props.modalVisible} modalClosed={props.toggleModal}>
+			<Modal
+				show={props.modalVisible}
+				modalClosed={clearIsEditingOnModalClose}
+			>
 				{modalContent}
 			</Modal>
 		</Fragment>

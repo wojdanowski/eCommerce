@@ -31,7 +31,7 @@ const CheckoutForm = (props) => {
 	}
 
 	const inputChangedHandler = (event, inputId) => {
-		props.updateFormField(event.target.value, inputId);
+		props.updateFormField(event.target.value, inputId, 'order');
 	};
 
 	const orderSubmitHandler = (event) => {
@@ -149,11 +149,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		updateFormField: (enteredValue, selectedInputId) =>
+		updateFormField: (enteredValue, selectedInputId, form) =>
 			dispatch({
 				type: checkoutFormActions.UPDATE_FIELD,
 				newValue: enteredValue,
 				inputId: selectedInputId,
+				form: form,
 			}),
 		clearCart: () => dispatch({ type: cartActions.CLEAR_CART }),
 	};

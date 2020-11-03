@@ -18,7 +18,8 @@ const ProdListItem = (props) => {
 			},
 			{
 				icon: <FiEdit />,
-				handler: () => props.additional.modifyHandler(props.itemData),
+				handler: () =>
+					props.additional.modifyHandler(props.itemData, 'modify'),
 			},
 			{
 				type: 'delete',
