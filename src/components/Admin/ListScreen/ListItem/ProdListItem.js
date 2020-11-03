@@ -38,7 +38,7 @@ const ProdListItem = (props) => {
 
 	return (
 		<ListItem removed={isRemoved} edited={isModified} buttons={tools}>
-			<ProdDescription itemData={props.itemData} />
+			<ProdDescription isAdmin={true} itemData={props.itemData} />
 		</ListItem>
 	);
 };

@@ -3,6 +3,11 @@ import React, { Fragment } from 'react';
 import classes from './ProdDescription.module.scss';
 
 const ProdDescription = (props) => {
+	let prodId = null;
+	if (props.isAdmin && props.itemData.id) {
+		prodId = <p>ID: {props.itemData.id}</p>;
+	}
+
 	return (
 		<Fragment>
 			<div className={classes.imgContainer}>
@@ -19,6 +24,7 @@ const ProdDescription = (props) => {
 						<p>{props.itemData.shortDescription}</p>
 					</span>
 				</div>
+				{prodId}
 				<div className={classes.priceBox}>
 					<p>
 						Price: {parseInt(props.itemData.price, 10).toFixed(2)}{' '}
