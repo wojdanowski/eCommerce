@@ -1,15 +1,32 @@
 @import '../../../../styles/config.module.scss';
 
 .genericButton {
-	height: 100%;
+	height: fit-content;
+	display: block;
 	border: none;
 	outline: none;
-	margin: 0 auto;
 	text-transform: uppercase;
 	text-align: center;
 	padding: 0.5rem 2rem;
 	background: $blackColor;
 	color: $lightColor;
+
+	&.success {
+		background: $successColor;
+		color: $blackColor;
+	}
+
+	&.danger {
+		background: $dangerColor;
+	}
+
+	&.red {
+		background: red;
+	}
+
+	&.green {
+		background: green;
+	}
 
 	&:hover {
 		background: $mainColor;

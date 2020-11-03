@@ -1,5 +1,6 @@
 @import './variables';
 @import './breakpoints';
+@import './colors';
 
 .shadowBox {
 	box-shadow: 0 5px 10px 0 $lightColor;
@@ -31,6 +32,22 @@
 
 .utilMarBot_1 {
 	margin-bottom: 1.5rem;
+}
+
+.utilToolbox {
+	display: flex;
+	flex-direction: row;
+}
+
+.utilOnRemove {
+	background: $dangerColorTrans;
+	color: red;
+}
+.utilOnEdit {
+	background: $successColorTrans;
+}
+.utilOnSuccess {
+	background: $successColorTrans;
 }
 
 @media (max-width: $mobile) {

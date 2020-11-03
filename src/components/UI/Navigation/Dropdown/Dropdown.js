@@ -6,7 +6,7 @@ const Dropdown = () => {
 		<div className={`${classes.subCategoryName} ${classes.hasDropdown}`}>
 			<p>Kategoria 1</p>
 			<ul className={classes.dropdown}>
-				<li className={classes.dropdownItem}>
+				{/* <li className={classes.dropdownItem}>
 					<a href='#'>dropdown1</a>
 				</li>
 				<li className={classes.dropdownItem}>
@@ -14,7 +14,7 @@ const Dropdown = () => {
 				</li>
 				<li className={classes.dropdownItem}>
 					<a href='#'>dropdown3</a>
-				</li>
+				</li> */}
 			</ul>
 		</div>
 	);

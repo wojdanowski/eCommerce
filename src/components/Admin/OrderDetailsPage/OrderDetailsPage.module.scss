@@ -1,0 +1,34 @@
+@import '../../../styles/config.module.scss';
+
+.container {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	overflow-y: scroll;
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	& > div {
+		margin-bottom: 2rem;
+		@include dotted_border_bottom;
+	}
+	.head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.buttonContainer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			& * {
+				margin: 0 0.5rem;
+			}
+		}
+	}
+}

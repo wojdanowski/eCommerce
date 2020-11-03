@@ -1,7 +1,11 @@
 @import '../../styles/config.module.scss';
 
 .cartContainer {
+	display: flex;
+	flex-direction: column;
 	text-align: center;
 	width: 100%;
 	font-size: 0.8em;
+	justify-content: center;
+	align-items: center;
 }

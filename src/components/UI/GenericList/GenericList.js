@@ -3,8 +3,11 @@ import classes from './GenericList.module.scss';
 
 const GenericList = (props) => {
 	const ListItem = props.displayWith;
-	const content = props.dataArray.map((arrayItem) => (
-		<li key={arrayItem.id} className={classes.genericListItem}>
+	const content = props.dataArray.map((arrayItem, index) => (
+		<li
+			key={arrayItem.id ? arrayItem.id : index}
+			className={classes.genericListItem}
+		>
 			<ListItem itemData={arrayItem} additional={props.additional} />
 		</li>
 	));

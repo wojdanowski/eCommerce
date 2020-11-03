@@ -6,6 +6,7 @@ import GenericButton from './../UI/Buttons/GenericButton/GenericButton';
 import ProdGallery from './../ProdGallery/ProdGallery';
 
 const ProductPage = (props) => {
+	// console.log(props.prodData);
 	return (
 		<div className={classes.prodPageContainer}>
 			<div className={classes.firstRow}>
@@ -25,6 +26,7 @@ const ProductPage = (props) => {
 						<GenericButton
 							label='Add To Cart'
 							clicked={() => props.addProdToCart(props.prodData)}
+							isDisabled={!props.isPurchasable}
 						/>
 					</div>
 					<div className={classes.fullDescription}>

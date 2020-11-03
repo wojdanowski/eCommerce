@@ -8,14 +8,14 @@ import classes from './Cart.module.scss';
 import GenericButton from '../UI/Buttons/GenericButton/GenericButton';
 import CartStatusInfo from './CartStatusInfo/CartStatusInfo';
 import GenericList from '../UI/GenericList/GenericList';
-import CartItem from './CartItem/CartItem';
+import CartItem from '../ListItems/CartItem/CartItem';
 
 const Cart = (props) => {
 	let history = useHistory();
-
+	const loadCartFromStorage = props.loadCartFromStorage;
 	useEffect(() => {
-		props.loadCartFromStorage();
-	}, []);
+		loadCartFromStorage();
+	}, [loadCartFromStorage]);
 
 	const checkoutClickedHandler = () => {
 		props.toggleRightSidebar();

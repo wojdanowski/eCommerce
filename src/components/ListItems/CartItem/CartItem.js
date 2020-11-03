@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './CartItem.module.scss';
-import GenericButton from '../../UI/Buttons/GenericButton/GenericButton';
 import IconButton from '../../UI/Buttons/IconButton/IconButton';
 import { FiTrash2 } from 'react-icons/fi';
 
