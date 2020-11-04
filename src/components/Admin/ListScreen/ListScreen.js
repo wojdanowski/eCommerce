@@ -152,7 +152,14 @@ const ListScreen = (props) => {
 			if (isEditing) {
 				modalContent =
 					selectedItem && props.modalVisible ? (
-						<ProdEditPage prodData={selectedItem} />
+						<ProdEditPage
+							prodData={selectedItem}
+							removedItems={deletedItems}
+							modifiedItems={editedItems}
+							onModify={modifyItems}
+							isNewProdCreation={false}
+							onDiscard={clearIsEditingOnModalClose}
+						/>
 					) : null;
 			} else {
 				modalContent =

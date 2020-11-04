@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import classes from './ProdEditPage.module.scss';
 import * as formActions from '../../../store/actions/formActions';
-// import isPresent from '../../../utilities/isPresent';
+import isPresent from '../../../utilities/isPresent';
 
 import Input from '../../UI/Input/Input';
 import EditStatus from './../../UI/EditStatus/EditStatus';
@@ -11,9 +11,25 @@ import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 
 const ProdEditPage = (props) => {
 	const { prodData, updateFormField } = props;
+
 	const saveSubmitHandler = (event) => {
-		event.preventDefault();
+		let newProduct = prodData ? { ...prodData } : null;
+
+		Object.keys(props.formFields).map((el) => {
+			newProduct = { ...newProduct, [el]: props.formFields[el].value };
+			return null;
+		});
+
+		// const newProduct = {
+		// 	fullDescription: props.formFields.fullDe
+		// };
+		// props.onModify(newProduct, 'modify');
 		console.log(`[saveHandler]`);
+		console.log(newProduct);
+	};
+
+	const inputChangedHandler = (event, inputId) => {
+		updateFormField(event.target.value, inputId, 'prodEditForm');
 	};
 
 	const formElementsArray = [];
@@ -26,7 +42,6 @@ const ProdEditPage = (props) => {
 
 	useEffect(() => {
 		if (prodData) {
-			console.log(`[ProdEditPage]useEffect if statement`);
 			const existingDataAboutProd = [
 				{ name: prodData.name },
 				{ price: prodData.price },
@@ -50,20 +65,13 @@ const ProdEditPage = (props) => {
 		}
 	}, [prodData, updateFormField]);
 
-	const inputChangedHandler = (event, inputId) => {
-		updateFormField(event.target.value, inputId, 'prodEditForm');
-	};
-
-	// const isModified = isPresent(prodData.id, props.modifiedItems);
-	// const isRemoved = isPresent(prodData.id, props.removedItems);
-	const isModified = false;
-	const isRemoved = false;
+	const isRemoved = props.isNewProdCreation
+		? null
+		: isPresent(prodData.id, props.removedItems);
 
 	let colorStyle;
 	if (isRemoved) {
 		colorStyle = 'utilOnRemove';
-	} else if (prodData.processed) {
-		colorStyle = 'utilOnSuccess';
 	} else {
 		colorStyle = null;
 	}
@@ -73,17 +81,28 @@ const ProdEditPage = (props) => {
 		<div className={classes.prodPageContainer}>
 			<div className={appendClasses.join(' ')}>
 				<h1>Product id: {prodData.id}</h1>
-				{props.formIsEdited ? <p>EDITED!!!!</p> : null}
 				<div className={classes.buttonContainer}>
-					<EditStatus isEdited={isModified} />
+					<EditStatus isEdited={props.formIsEdited} />
 					<GenericButton
 						label='discard'
-						// clicked={() => props.onModify(prodData, 'remove')}
+						clicked={props.onDiscard}
+						isDisabled={!props.formIsEdited || isRemoved}
 					/>
 					<GenericButton
 						label='save'
-						// clicked={() => props.onModify(prodData, 'remove')}
+						clicked={saveSubmitHandler}
+						isDisabled={
+							!props.formIsEdited ||
+							isRemoved ||
+							!props.formIsValid
+						}
 					/>
+					{props.isNewProdCreation ? null : (
+						<GenericButton
+							label='remove'
+							clicked={() => props.onModify(prodData, 'remove')}
+						/>
+					)}
 				</div>
 			</div>
 			<div className={classes.editContainer}>
