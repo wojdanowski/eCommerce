@@ -26,6 +26,7 @@ const ProdEditPage = (props) => {
 
 	useEffect(() => {
 		if (prodData) {
+			console.log(`[ProdEditPage]useEffect if statement`);
 			const existingDataAboutProd = [
 				{ name: prodData.name },
 				{ price: prodData.price },
@@ -40,7 +41,8 @@ const ProdEditPage = (props) => {
 					updateFormField(
 						prodData[keyName].toString(),
 						keyName,
-						'prodEditForm'
+						'prodEditForm',
+						true
 					);
 				}
 				return null;
@@ -71,6 +73,7 @@ const ProdEditPage = (props) => {
 		<div className={classes.prodPageContainer}>
 			<div className={appendClasses.join(' ')}>
 				<h1>Product id: {prodData.id}</h1>
+				{props.formIsEdited ? <p>EDITED!!!!</p> : null}
 				<div className={classes.buttonContainer}>
 					<EditStatus isEdited={isModified} />
 					<GenericButton
@@ -115,17 +118,20 @@ const mapStateToProps = (state) => {
 	return {
 		formFields: state.formState.prodEditForm.fields,
 		formIsValid: state.formState.prodEditForm.formIsValid,
+		formIsEdited: state.formState.prodEditForm.formIsEdited,
+		formIsTouched: state.formState.prodEditForm.formIsTouched,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		updateFormField: (enteredValue, selectedInputId, selectedForm) =>
+		updateFormField: (newValue, inputId, form, isInitial = false) =>
 			dispatch({
 				type: formActions.UPDATE_FIELD,
-				newValue: enteredValue,
-				inputId: selectedInputId,
-				form: selectedForm,
+				newValue,
+				inputId,
+				form,
+				isInitial,
 			}),
 	};
 };
