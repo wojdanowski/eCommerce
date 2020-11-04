@@ -10,7 +10,7 @@ import PaginationButtons from './../../../UI/PaginationButtons/PaginationButtons
 import GenericList from './../../../UI/GenericList/GenericList';
 import OrderListItem from './../ListItem/OrderListItem';
 import ProdListItem from './../ListItem/ProdListItem';
-import ProdPageEdit from './../../ProdPageEdit/ProdPageEdit';
+import ProdEditPage from './../../ProdEditPage/ProdEditPage';
 
 const FetchList = (props) => {
 	const match = useRouteMatch();
@@ -64,7 +64,7 @@ const FetchList = (props) => {
 	} else {
 		listContent = (
 			<Fragment>
-				<ProdPageEdit prodData={fetchData.data[0]} />
+				<ProdEditPage prodData={fetchData.data[0]} />
 				<div className={classes.listHeader}>
 					<h1>ACTIVE {props.collection}</h1>
 					<div className={classes.actionButtonsContainer}>

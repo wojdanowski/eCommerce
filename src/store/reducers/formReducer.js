@@ -1,9 +1,14 @@
-import * as actionTypes from '../actions/checkoutFormActions';
+import * as actionTypes from '../actions/formActions';
 import orderFormFields from './formFields/orderFormFields';
+import prodEditFormFields from './formFields/prodEditFormFields';
 
 const initialState = {
 	orderForm: {
 		fields: { ...orderFormFields },
+		formIsValid: false,
+	},
+	prodEditForm: {
+		fields: { ...prodEditFormFields },
 		formIsValid: false,
 	},
 };
@@ -48,7 +53,12 @@ const formReducer = (state = initialState, action) => {
 				case 'order': {
 					keyName = 'orderForm';
 					selectedForm = { orderForm: { ...state.orderForm } };
-					console.log(selectedForm);
+
+					break;
+				}
+				case 'prodEditForm': {
+					keyName = 'prodEditForm';
+					selectedForm = { prodEditForm: { ...state.prodEditForm } };
 					break;
 				}
 				default:

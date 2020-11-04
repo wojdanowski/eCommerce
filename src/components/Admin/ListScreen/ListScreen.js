@@ -11,7 +11,7 @@ import FetchList from './FetchList/FetchList';
 import Modal from './../../UI/Modal/Modal';
 import ProductPage from './../../ProductPage/ProductPage';
 import OrderDetailsPage from './../OrderDetailsPage/OrderDetailsPage';
-import ProdPageEdit from './../ProdPageEdit/ProdPageEdit';
+import ProdEditPage from './../ProdEditPage/ProdEditPage';
 
 const ListScreen = (props) => {
 	const location = useLocation();
@@ -105,7 +105,7 @@ const ListScreen = (props) => {
 	const saveHandler = async () => {
 		if (modifiedItems.length) {
 			try {
-				const response = await Promise.all(
+				await Promise.all(
 					modifiedItems.map((el) => {
 						let updatedItem;
 						let action = 'patch';
@@ -152,7 +152,7 @@ const ListScreen = (props) => {
 			if (isEditing) {
 				modalContent =
 					selectedItem && props.modalVisible ? (
-						<ProdPageEdit prodData={selectedItem} />
+						<ProdEditPage prodData={selectedItem} />
 					) : null;
 			} else {
 				modalContent =
