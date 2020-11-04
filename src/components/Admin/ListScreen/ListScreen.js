@@ -115,6 +115,20 @@ const ListScreen = (props) => {
 							updatedItem = {
 								processed: !el.processed,
 							};
+						} else if (el.collection === 'products' && el.modify) {
+							updatedItem = Object.keys(el).reduce(
+								(object, key) => {
+									if (
+										key !== 'collection' &&
+										key !== 'remove' &&
+										key !== 'modify'
+									) {
+										object[key] = el[key];
+									}
+									return object;
+								},
+								{}
+							);
 						}
 
 						return removeApi.callFetchApi(

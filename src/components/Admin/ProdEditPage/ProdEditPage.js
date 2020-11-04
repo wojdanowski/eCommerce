@@ -20,12 +20,8 @@ const ProdEditPage = (props) => {
 			return null;
 		});
 
-		// const newProduct = {
-		// 	fullDescription: props.formFields.fullDe
-		// };
-		// props.onModify(newProduct, 'modify');
-		console.log(`[saveHandler]`);
-		console.log(newProduct);
+		props.onModify(newProduct, 'modify');
+		props.onDiscard();
 	};
 
 	const inputChangedHandler = (event, inputId) => {
