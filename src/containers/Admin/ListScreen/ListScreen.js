@@ -17,18 +17,21 @@ const ListScreen = (props) => {
 	const location = useLocation();
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [isEditing, setIsEditing] = useState(null);
+	const [isNewProduct, setIsNewProduct] = useState(null);
+
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
 	};
 	const [modifiedItems, setModifiedItems] = useState([]);
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
-	const removeApi = useFetchApi('delete', [
+	const fetchApi = useFetchApi('delete', [
 		url.concat(getCollectionName(), '.json'),
 	]);
 	const { toggleModal } = props;
 
 	const clearIsEditingOnModalClose = () => {
 		setIsEditing(false);
+		setIsNewProduct(false);
 		toggleModal();
 	};
 
@@ -153,6 +156,11 @@ const ListScreen = (props) => {
 		}
 	};
 
+	const newProductClickedHandler = () => {
+		toggleModal();
+		setIsNewProduct(true);
+	};
+
 	const saveHandler = async () => {
 		if (modifiedItems.length) {
 			try {
@@ -189,7 +197,7 @@ const ListScreen = (props) => {
 								);
 							}
 
-							return removeApi.callFetchApi(
+							return fetchApi.callFetchApi(
 								{ ...updatedItem },
 								action,
 								url.concat(
@@ -236,6 +244,8 @@ const ListScreen = (props) => {
 							onDiscard={discardHandler}
 						/>
 					) : null;
+			} else if (isNewProduct) {
+				modalContent = <p>new prod creation</p>;
 			} else {
 				modalContent =
 					selectedItem && props.modalDisappeared ? (
@@ -267,6 +277,7 @@ const ListScreen = (props) => {
 					onReset={resetHandler}
 					removedItems={deletedItems}
 					modifiedItems={editedItems}
+					onNewProduct={newProductClickedHandler}
 				/>
 			</div>
 			<Modal

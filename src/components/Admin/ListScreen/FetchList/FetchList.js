@@ -53,6 +53,8 @@ const FetchList = (props) => {
 	};
 	let listContent = null;
 
+	let newProductsList = null;
+
 	if (
 		fetchData.isLoading ||
 		update ||
@@ -64,6 +66,7 @@ const FetchList = (props) => {
 	} else {
 		listContent = (
 			<Fragment>
+				{newProductsList}
 				<div className={classes.listHeader}>
 					<h1>ACTIVE {props.collection}</h1>
 					<div className={classes.actionButtonsContainer}>
@@ -74,6 +77,7 @@ const FetchList = (props) => {
 									? null
 									: 'hidden'
 							}
+							clicked={props.onNewProduct}
 						/>
 						<GenericButton
 							label={'reset'}
