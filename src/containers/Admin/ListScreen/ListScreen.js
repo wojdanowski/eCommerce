@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useCallback, useEffect } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -17,8 +17,8 @@ import Loader from './../../../components/UI/Loader/Loader';
 const ListScreen = (props) => {
 	const location = useLocation();
 	const [selectedItem, setSelectedItem] = useState(null);
-	const [isEditing, setIsEditing] = useState(null);
-	const [isNewProduct, setIsNewProduct] = useState(null);
+	const [selectedAction, setSelectedAction] = useState(null);
+	const [newProductId, setNewProductId] = useState(null);
 
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
@@ -31,9 +31,11 @@ const ListScreen = (props) => {
 	const { toggleModal } = props;
 
 	const clearIsEditingOnModalClose = () => {
-		setIsEditing(false);
-		setIsNewProduct(false);
 		toggleModal();
+		setTimeout(() => {
+			setSelectedAction(null);
+			setNewProductId(null);
+		}, 300);
 	};
 
 	const discardHandler = () => {
@@ -132,7 +134,7 @@ const ListScreen = (props) => {
 					modifyItems(data, action);
 				} else if (action === 'modify') {
 					setSelectedItem(data);
-					setIsEditing(true);
+					setSelectedAction('editing');
 					toggleModal();
 				}
 				break;
@@ -146,6 +148,7 @@ const ListScreen = (props) => {
 	const viewHandler = useCallback(
 		(item) => {
 			setSelectedItem(item);
+			setSelectedAction('view');
 			toggleModal();
 		},
 		[toggleModal]
@@ -157,26 +160,16 @@ const ListScreen = (props) => {
 		}
 	};
 
-	const createNewProduct = async () => {};
 	const newProductClickedHandler = async () => {
-		// Fetch api and create new empty product
+		setSelectedAction('createProduct');
 		toggleModal();
-		setIsNewProduct(true);
 		const newProductId = await fetchApi.callFetchApi(
 			{ name: '' },
 			'post',
 			`${url}products.json`
 		);
-		// console.log(fetchApi.data);
-		// Get the id of product
-
-		// load empty product to ProdEditPage
+		setNewProductId(newProductId.data.name);
 	};
-
-	useEffect(() => {
-		console.log(`[useEffect]`);
-		console.log(fetchApi.data);
-	}, [fetchApi.data]);
 
 	const saveHandler = async () => {
 		if (modifiedItems.length) {
@@ -190,7 +183,6 @@ const ListScreen = (props) => {
 							let updatedItem;
 							let action = 'patch';
 							if (el.remove) action = 'delete';
-
 							if (el.collection === 'orders' && el.modify) {
 								updatedItem = {
 									processed: !el.processed,
@@ -233,8 +225,9 @@ const ListScreen = (props) => {
 
 	const deletedItems = modifiedItems.filter((el) => el.remove === true);
 	const editedItems = modifiedItems.filter((el) => el.modify === true);
-	let modalContent;
 
+	// Modal content
+	let modalContent;
 	switch (getCollectionName()) {
 		case 'orders': {
 			modalContent =
@@ -249,47 +242,64 @@ const ListScreen = (props) => {
 			break;
 		}
 		case 'products': {
-			if (isEditing) {
-				modalContent =
-					selectedItem && !props.modalDisappeared ? (
-						<ProdEditPage
-							prodData={selectedItem}
-							removedItems={deletedItems}
-							modifiedItems={editedItems}
-							onModify={modifyItems}
-							isNewProdCreation={false}
-							onDiscard={discardHandler}
-						/>
-					) : null;
-			} else if (isNewProduct) {
-				if (fetchApi.isLoading || !fetchApi.data) {
-					modalContent = <Loader />;
-				} else {
-					modalContent = !props.modalDisappeared ? (
-						<ProdEditPage
-							prodData={fetchApi.data}
-							removedItems={deletedItems}
-							modifiedItems={editedItems}
-							onModify={modifyItems}
-							isNewProdCreation={true}
-							onDiscard={discardHandler}
-						/>
-					) : null;
+			switch (selectedAction) {
+				case 'editing': {
+					modalContent =
+						selectedItem && !props.modalDisappeared ? (
+							<ProdEditPage
+								prodData={selectedItem}
+								removedItems={deletedItems}
+								modifiedItems={editedItems}
+								onModify={modifyItems}
+								isNewProdCreation={false}
+								onDiscard={discardHandler}
+							/>
+						) : null;
+					break;
 				}
-			} else {
-				modalContent =
-					selectedItem && !props.modalDisappeared ? (
-						<ProductPage
-							isAdmin={true}
-							prodData={selectedItem}
-							isPurchasable={false}
-						/>
-					) : null;
+				case 'createProduct': {
+					if (fetchApi.isLoading || !fetchApi.data) {
+						modalContent = <Loader />;
+					} else if (
+						fetchApi.data &&
+						newProductId &&
+						!props.modalDisappeared
+					) {
+						const prodData = { id: newProductId };
+						modalContent = (
+							<ProdEditPage
+								prodData={prodData}
+								removedItems={deletedItems}
+								modifiedItems={editedItems}
+								onModify={modifyItems}
+								isNewProdCreation={true}
+								onDiscard={discardHandler}
+							/>
+						);
+					} else if (fetchApi.isError) {
+						modalContent = <p>error</p>;
+					}
+					break;
+				}
+				case 'view': {
+					modalContent =
+						selectedItem && !props.modalDisappeared ? (
+							<ProductPage
+								isAdmin={true}
+								prodData={selectedItem}
+								isPurchasable={false}
+							/>
+						) : null;
+					break;
+				}
+				default: {
+					modalContent = <p>404</p>;
+				}
 			}
 			break;
 		}
 		default: {
-			modalContent = <p>NO SUCH ITEM</p>;
+			modalContent = <p>404</p>;
 		}
 	}
 	const isFetchListModified = modifiedItems.find(
