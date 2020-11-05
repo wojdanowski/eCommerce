@@ -64,16 +64,6 @@ const FetchList = (props) => {
 	} else {
 		listContent = (
 			<Fragment>
-				{fetchData.data[0] && (
-					<ProdEditPage
-						prodData={fetchData.data[0]}
-						removedItems={props.removedItems}
-						modifiedItems={props.modifiedItems}
-						// onModify={modifyItems}
-						isNewProdCreation={false}
-						// onDiscard={discardHandler}
-					/>
-				)}
 				<div className={classes.listHeader}>
 					<h1>ACTIVE {props.collection}</h1>
 					<div className={classes.actionButtonsContainer}>

@@ -16,7 +16,11 @@ const IconButton = (props) => {
 
 	return (
 		<IconContext.Provider
-			value={{ size: '1.6rem', className: 'defaultIcon', ...color }}
+			value={{
+				size: props.size ? props.size : '1.6rem',
+				className: 'defaultIcon',
+				...color,
+			}}
 		>
 			<div className={appendClasses.join(' ')} onClick={props.clicked}>
 				{props.icon}
