@@ -3,15 +3,15 @@ import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import classes from './ListScreen.module.scss';
-import { useFetchApi } from './../../../hooks/useFetchApi';
+import { useFetchApi } from '../../../hooks/useFetchApi';
 import * as uiActionTypes from '../../../store/actions/uiActions';
-import isPresent from './../../../utilities/isPresent';
+import isPresent from '../../../utilities/isPresent';
 
-import FetchList from './FetchList/FetchList';
-import Modal from './../../UI/Modal/Modal';
-import ProductPage from './../../ProductPage/ProductPage';
-import OrderDetailsPage from './../OrderDetailsPage/OrderDetailsPage';
-import ProdEditPage from './../ProdEditPage/ProdEditPage';
+import FetchList from '../../../components/Admin/ListScreen/FetchList/FetchList';
+import Modal from '../../../components/UI/Modal/Modal';
+import ProductPage from '../../../components/ProductPage/ProductPage';
+import OrderDetailsPage from '../../../components/Admin/OrderDetailsPage/OrderDetailsPage';
+import ProdEditPage from '../../../components/Admin/ProdEditPage/ProdEditPage';
 
 const ListScreen = (props) => {
 	const location = useLocation();

@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import DashboardLayout from './../hoc/DashboardLayout/DashboardLayout';
-import ListScreen from '../components/Admin/ListScreen/ListScreen';
 import MainDashboard from './../components/Admin/MainDashboard/MainDashboard';
+import ListScreen from './Admin/ListScreen/ListScreen';
 
 const DashboardRouter = ({ match }) => {
 	return (
