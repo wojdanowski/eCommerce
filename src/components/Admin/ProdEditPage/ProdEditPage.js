@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import classes from './ProdEditPage.module.scss';
@@ -13,13 +13,17 @@ const ProdEditPage = (props) => {
 	const { prodData, updateFormField } = props;
 
 	const saveSubmitHandler = (event) => {
-		let newProduct = prodData ? { ...prodData } : null;
+		let newProduct = { id: prodData.id };
 
 		Object.keys(props.formFields).map((el) => {
-			newProduct = { ...newProduct, [el]: props.formFields[el].value };
+			if (props.formFields[el].isEdited) {
+				newProduct = {
+					...newProduct,
+					[el]: props.formFields[el].value,
+				};
+			}
 			return null;
 		});
-
 		props.onModify(newProduct, 'modify');
 		props.onDiscard();
 	};
@@ -36,21 +40,33 @@ const ProdEditPage = (props) => {
 		});
 	}
 
+	const isRemoved = props.isNewProdCreation
+		? null
+		: isPresent(prodData.id, props.removedItems);
+
+	const isModified = props.isNewProdCreation
+		? null
+		: isPresent(prodData.id, props.modifiedItems);
+
 	useEffect(() => {
 		if (prodData) {
+			const dataToLoad = isModified
+				? props.modifiedItems.find((el) => el.id === prodData.id)
+				: prodData;
+
 			const existingDataAboutProd = [
-				{ name: prodData.name },
-				{ price: prodData.price },
-				{ oldPrice: prodData.oldPrice },
-				{ shortDescription: prodData.shortDescription },
-				{ fullDescription: prodData.fullDescription },
+				{ name: dataToLoad.name },
+				{ price: dataToLoad.price },
+				{ oldPrice: dataToLoad.oldPrice },
+				{ shortDescription: dataToLoad.shortDescription },
+				{ fullDescription: dataToLoad.fullDescription },
 			];
 
 			existingDataAboutProd.map((el) => {
 				const keyName = Object.keys(el)[0];
-				if (prodData[keyName]) {
+				if (dataToLoad[keyName]) {
 					updateFormField(
-						prodData[keyName].toString(),
+						dataToLoad[keyName].toString(),
 						keyName,
 						'prodEditForm',
 						true
@@ -59,11 +75,7 @@ const ProdEditPage = (props) => {
 				return null;
 			});
 		}
-	}, [prodData, updateFormField]);
-
-	const isRemoved = props.isNewProdCreation
-		? null
-		: isPresent(prodData.id, props.removedItems);
+	}, [prodData, updateFormField, isModified, props.modifiedItems]);
 
 	let colorStyle;
 	if (isRemoved) {
@@ -78,11 +90,13 @@ const ProdEditPage = (props) => {
 			<div className={appendClasses.join(' ')}>
 				<h1>Product id: {prodData.id}</h1>
 				<div className={classes.buttonContainer}>
-					<EditStatus isEdited={props.formIsEdited} />
+					<EditStatus isEdited={props.formIsEdited || isModified} />
 					<GenericButton
-						label='discard'
+						label='reset'
 						clicked={props.onDiscard}
-						isDisabled={!props.formIsEdited || isRemoved}
+						isDisabled={
+							(!props.formIsEdited || isRemoved) && !isModified
+						}
 					/>
 					<GenericButton
 						label='save'

@@ -32,6 +32,18 @@ const ListScreen = (props) => {
 		toggleModal();
 	};
 
+	const isProductEdited = (newProduct, prodInDb) => {
+		let isProdEdited = false;
+		for (const key in newProduct) {
+			if (key !== 'images') {
+				isProdEdited =
+					newProduct[key] !== prodInDb[key] ? true : isProdEdited;
+			}
+		}
+		isProdEdited = newProduct.images ? true : isProdEdited;
+		return isProdEdited;
+	};
+
 	const modifyItems = (data, action) => {
 		const foundItem = isPresent(data.id, modifiedItems);
 		if (!foundItem) {
@@ -43,25 +55,100 @@ const ListScreen = (props) => {
 				})
 			);
 		} else if (foundItem) {
-			if (
-				(action === 'remove' && !foundItem.modify) ||
-				(action === 'modify' && !foundItem.remove)
-			) {
-				const updatedArray = modifiedItems.filter(
-					(el) => el.id !== data.id
-				);
-				setModifiedItems(updatedArray);
-			} else if (action === 'remove') {
-				const newArray = modifiedItems.map((el) => {
-					if (foundItem.id === el.id) {
-						return {
-							...el,
-							[action]: !el[action],
-							collection: getCollectionName(),
-						};
-					} else return el;
-				});
-				setModifiedItems(newArray);
+			switch (getCollectionName()) {
+				case 'orders': {
+					let updatedArray;
+					if (
+						(action === 'remove' && !foundItem.modify) ||
+						(action === 'modify' && !foundItem.remove)
+					) {
+						updatedArray = modifiedItems.filter(
+							(el) => el.id !== data.id
+						);
+					} else if (action === 'remove') {
+						updatedArray = modifiedItems.map((el) => {
+							if (foundItem.id === el.id) {
+								return {
+									...el,
+									[action]: !el[action],
+									collection: getCollectionName(),
+								};
+							} else return el;
+						});
+					}
+					setModifiedItems(updatedArray);
+					break;
+				}
+				case 'products': {
+					let updatedArray;
+					if (action === 'remove' && !foundItem.modify) {
+						console.log(`removing is NOT modified`);
+						updatedArray = modifiedItems.filter(
+							(el) => el.id !== data.id
+						);
+					} else if (action === 'remove' && foundItem.modify) {
+						console.log(`removing is modified`);
+						updatedArray = modifiedItems.map((el) => {
+							if (foundItem.id === el.id) {
+								return {
+									...el,
+									[action]: !el[action],
+									collection: getCollectionName(),
+								};
+							} else return el;
+						});
+					} else if (action === 'modify') {
+						const isProdEdited = isProductEdited(
+							data,
+							selectedItem
+						);
+						if (isProdEdited) {
+							updatedArray = modifiedItems.map((el) => {
+								if (foundItem.id === el.id) {
+									return {
+										...el,
+										...data,
+										[action]: true,
+										collection: getCollectionName(),
+									};
+								} else return el;
+							});
+						} else if (!isProdEdited) {
+							if (!foundItem.remove) {
+								updatedArray = modifiedItems.filter(
+									(el) => el.id !== data.id
+								);
+							} else {
+								updatedArray = modifiedItems.map((el) => {
+									if (foundItem.id === el.id) {
+										return {
+											...el,
+											...data,
+											[action]: false,
+											collection: getCollectionName(),
+										};
+									} else return el;
+								});
+							}
+						}
+
+						// console.log(`data:`);
+						// console.log(data);
+						// console.log(`selected item:`);
+						// console.log(selectedItem);
+
+						// console.log(
+						// 	`isProduct edited: ${isProductEdited(
+						// 		data,
+						// 		selectedItem
+						// 	)}`
+						// );
+					}
+					setModifiedItems(updatedArray);
+					break;
+				}
+				default:
+					return;
 			}
 		}
 	};
