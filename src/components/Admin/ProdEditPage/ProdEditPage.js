@@ -25,7 +25,6 @@ const ProdEditPage = (props) => {
 			return null;
 		});
 		props.onModify(newProduct, 'modify');
-		props.onDiscard();
 	};
 
 	const inputChangedHandler = (event, inputId) => {

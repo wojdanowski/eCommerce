@@ -32,6 +32,14 @@ const ListScreen = (props) => {
 		toggleModal();
 	};
 
+	const discardHandler = () => {
+		const updatedArray = modifiedItems.filter(
+			(el) => el.id !== selectedItem.id
+		);
+		setModifiedItems(updatedArray);
+		clearIsEditingOnModalClose();
+	};
+
 	const isProductEdited = (newProduct, prodInDb) => {
 		let isProdEdited = false;
 		for (const key in newProduct) {
@@ -131,18 +139,6 @@ const ListScreen = (props) => {
 								});
 							}
 						}
-
-						// console.log(`data:`);
-						// console.log(data);
-						// console.log(`selected item:`);
-						// console.log(selectedItem);
-
-						// console.log(
-						// 	`isProduct edited: ${isProductEdited(
-						// 		data,
-						// 		selectedItem
-						// 	)}`
-						// );
 					}
 					setModifiedItems(updatedArray);
 					break;
@@ -259,7 +255,7 @@ const ListScreen = (props) => {
 							modifiedItems={editedItems}
 							onModify={modifyItems}
 							isNewProdCreation={false}
-							onDiscard={clearIsEditingOnModalClose}
+							onDiscard={discardHandler}
 						/>
 					) : null;
 			} else {
