@@ -252,12 +252,14 @@ const ListScreen = (props) => {
 			modalContent = <p>NO SUCH ITEM</p>;
 		}
 	}
-
+	const isFetchListModified = modifiedItems.find(
+		(el) => el.remove || el.modify
+	);
 	return (
 		<Fragment>
 			<div className={classes.prodScreenContainer}>
 				<FetchList
-					isModified={modifiedItems.length}
+					isModified={isFetchListModified}
 					collection={getCollectionName()}
 					onView={viewHandler}
 					onModify={modifyHandler}
