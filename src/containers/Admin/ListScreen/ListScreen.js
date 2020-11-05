@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useCallback } from 'react';
+import React, { useState, Fragment, useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -156,10 +156,27 @@ const ListScreen = (props) => {
 		}
 	};
 
-	const newProductClickedHandler = () => {
+	const newProductClickedHandler = async () => {
+		// Fetch api and create new empty product
+
+		const newProductId = await fetchApi.callFetchApi(
+			{ name: '' },
+			'post',
+			`${url}products.json`
+		);
+		console.log(newProductId);
+		// console.log(fetchApi.data);
+		// Get the id of product
+
+		// load empty product to ProdEditPage
 		toggleModal();
 		setIsNewProduct(true);
 	};
+
+	useEffect(() => {
+		console.log(`[useEffect]`);
+		console.log(fetchApi.data);
+	}, [fetchApi.data]);
 
 	const saveHandler = async () => {
 		if (modifiedItems.length) {
