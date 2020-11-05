@@ -68,6 +68,14 @@ const FetchList = (props) => {
 					<h1>ACTIVE {props.collection}</h1>
 					<div className={classes.actionButtonsContainer}>
 						<GenericButton
+							label={'add product'}
+							type={
+								props.collection === 'products'
+									? null
+									: 'hidden'
+							}
+						/>
+						<GenericButton
 							label={'reset'}
 							clicked={props.onReset}
 							isDisabled={!props.isModified}
