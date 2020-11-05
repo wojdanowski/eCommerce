@@ -12,6 +12,7 @@ import Modal from '../../../components/UI/Modal/Modal';
 import ProductPage from '../../../components/ProductPage/ProductPage';
 import OrderDetailsPage from '../../../components/Admin/OrderDetailsPage/OrderDetailsPage';
 import ProdEditPage from '../../../components/Admin/ProdEditPage/ProdEditPage';
+import Loader from './../../../components/UI/Loader/Loader';
 
 const ListScreen = (props) => {
 	const location = useLocation();
@@ -156,21 +157,20 @@ const ListScreen = (props) => {
 		}
 	};
 
+	const createNewProduct = async () => {};
 	const newProductClickedHandler = async () => {
 		// Fetch api and create new empty product
-
+		toggleModal();
+		setIsNewProduct(true);
 		const newProductId = await fetchApi.callFetchApi(
 			{ name: '' },
 			'post',
 			`${url}products.json`
 		);
-		console.log(newProductId);
 		// console.log(fetchApi.data);
 		// Get the id of product
 
 		// load empty product to ProdEditPage
-		toggleModal();
-		setIsNewProduct(true);
 	};
 
 	useEffect(() => {
@@ -238,7 +238,7 @@ const ListScreen = (props) => {
 	switch (getCollectionName()) {
 		case 'orders': {
 			modalContent =
-				selectedItem && props.modalDisappeared ? (
+				selectedItem && !props.modalDisappeared ? (
 					<OrderDetailsPage
 						orderData={selectedItem}
 						onModify={modifyHandler}
@@ -251,7 +251,7 @@ const ListScreen = (props) => {
 		case 'products': {
 			if (isEditing) {
 				modalContent =
-					selectedItem && props.modalDisappeared ? (
+					selectedItem && !props.modalDisappeared ? (
 						<ProdEditPage
 							prodData={selectedItem}
 							removedItems={deletedItems}
@@ -262,10 +262,23 @@ const ListScreen = (props) => {
 						/>
 					) : null;
 			} else if (isNewProduct) {
-				modalContent = <p>new prod creation</p>;
+				if (fetchApi.isLoading || !fetchApi.data) {
+					modalContent = <Loader />;
+				} else {
+					modalContent = !props.modalDisappeared ? (
+						<ProdEditPage
+							prodData={fetchApi.data}
+							removedItems={deletedItems}
+							modifiedItems={editedItems}
+							onModify={modifyItems}
+							isNewProdCreation={true}
+							onDiscard={discardHandler}
+						/>
+					) : null;
+				}
 			} else {
 				modalContent =
-					selectedItem && props.modalDisappeared ? (
+					selectedItem && !props.modalDisappeared ? (
 						<ProductPage
 							isAdmin={true}
 							prodData={selectedItem}
