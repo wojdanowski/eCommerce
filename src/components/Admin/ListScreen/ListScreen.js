@@ -62,40 +62,26 @@ const ListScreen = (props) => {
 					collection: getCollectionName(),
 				})
 			);
+			if (props.modalVisible) clearIsEditingOnModalClose();
 		} else if (foundItem) {
 			switch (getCollectionName()) {
 				case 'orders': {
 					let updatedArray;
-					if (
-						(action === 'remove' && !foundItem.modify) ||
-						(action === 'modify' && !foundItem.remove)
-					) {
-						updatedArray = modifiedItems.filter(
-							(el) => el.id !== data.id
-						);
-					} else if (action === 'remove') {
-						updatedArray = modifiedItems.map((el) => {
-							if (foundItem.id === el.id) {
-								return {
-									...el,
-									[action]: !el[action],
-									collection: getCollectionName(),
-								};
-							} else return el;
-						});
-					}
+					updatedArray = modifiedItems.map((el) => {
+						if (foundItem.id === el.id) {
+							return {
+								...el,
+								[action]: !el[action],
+								collection: getCollectionName(),
+							};
+						} else return el;
+					});
 					setModifiedItems(updatedArray);
 					break;
 				}
 				case 'products': {
 					let updatedArray;
-					if (action === 'remove' && !foundItem.modify) {
-						console.log(`removing is NOT modified`);
-						updatedArray = modifiedItems.filter(
-							(el) => el.id !== data.id
-						);
-					} else if (action === 'remove' && foundItem.modify) {
-						console.log(`removing is modified`);
+					if (action === 'remove') {
 						updatedArray = modifiedItems.map((el) => {
 							if (foundItem.id === el.id) {
 								return {
@@ -110,37 +96,19 @@ const ListScreen = (props) => {
 							data,
 							selectedItem
 						);
-						if (isProdEdited) {
-							updatedArray = modifiedItems.map((el) => {
-								if (foundItem.id === el.id) {
-									return {
-										...el,
-										...data,
-										[action]: true,
-										collection: getCollectionName(),
-									};
-								} else return el;
-							});
-						} else if (!isProdEdited) {
-							if (!foundItem.remove) {
-								updatedArray = modifiedItems.filter(
-									(el) => el.id !== data.id
-								);
-							} else {
-								updatedArray = modifiedItems.map((el) => {
-									if (foundItem.id === el.id) {
-										return {
-											...el,
-											...data,
-											[action]: false,
-											collection: getCollectionName(),
-										};
-									} else return el;
-								});
-							}
-						}
+						updatedArray = modifiedItems.map((el) => {
+							if (foundItem.id === el.id) {
+								return {
+									...el,
+									...data,
+									[action]: isProdEdited,
+									collection: getCollectionName(),
+								};
+							} else return el;
+						});
 					}
 					setModifiedItems(updatedArray);
+					if (props.modalVisible) clearIsEditingOnModalClose();
 					break;
 				}
 				default:
@@ -189,37 +157,47 @@ const ListScreen = (props) => {
 		if (modifiedItems.length) {
 			try {
 				await Promise.all(
-					modifiedItems.map((el) => {
-						let updatedItem;
-						let action = 'patch';
-						if (el.remove) action = 'delete';
+					modifiedItems
+						.filter(
+							(el) => el.remove === true || el.modify === true
+						)
+						.map((el) => {
+							let updatedItem;
+							let action = 'patch';
+							if (el.remove) action = 'delete';
 
-						if (el.collection === 'orders' && el.modify) {
-							updatedItem = {
-								processed: !el.processed,
-							};
-						} else if (el.collection === 'products' && el.modify) {
-							updatedItem = Object.keys(el).reduce(
-								(object, key) => {
-									if (
-										key !== 'collection' &&
-										key !== 'remove' &&
-										key !== 'modify'
-									) {
-										object[key] = el[key];
-									}
-									return object;
-								},
-								{}
+							if (el.collection === 'orders' && el.modify) {
+								updatedItem = {
+									processed: !el.processed,
+								};
+							} else if (
+								el.collection === 'products' &&
+								el.modify
+							) {
+								updatedItem = Object.keys(el).reduce(
+									(object, key) => {
+										if (
+											key !== 'collection' &&
+											key !== 'remove' &&
+											key !== 'modify'
+										) {
+											object[key] = el[key];
+										}
+										return object;
+									},
+									{}
+								);
+							}
+
+							return removeApi.callFetchApi(
+								{ ...updatedItem },
+								action,
+								url.concat(
+									getCollectionName(),
+									`/${el.id}.json`
+								)
 							);
-						}
-
-						return removeApi.callFetchApi(
-							{ ...updatedItem },
-							action,
-							url.concat(getCollectionName(), `/${el.id}.json`)
-						);
-					})
+						})
 				);
 			} catch (err) {
 				console.log(err);
