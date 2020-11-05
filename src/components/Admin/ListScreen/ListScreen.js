@@ -213,7 +213,7 @@ const ListScreen = (props) => {
 	switch (getCollectionName()) {
 		case 'orders': {
 			modalContent =
-				selectedItem && props.modalVisible ? (
+				selectedItem && props.modalDisappeared ? (
 					<OrderDetailsPage
 						orderData={selectedItem}
 						onModify={modifyHandler}
@@ -226,7 +226,7 @@ const ListScreen = (props) => {
 		case 'products': {
 			if (isEditing) {
 				modalContent =
-					selectedItem && props.modalVisible ? (
+					selectedItem && props.modalDisappeared ? (
 						<ProdEditPage
 							prodData={selectedItem}
 							removedItems={deletedItems}
@@ -238,7 +238,7 @@ const ListScreen = (props) => {
 					) : null;
 			} else {
 				modalContent =
-					selectedItem && props.modalVisible ? (
+					selectedItem && props.modalDisappeared ? (
 						<ProductPage
 							isAdmin={true}
 							prodData={selectedItem}
@@ -282,12 +282,18 @@ const ListScreen = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		modalVisible: state.uiState.modalVisible,
+		modalDisappeared: state.uiState.modalDisappeared,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		toggleModal: () => dispatch({ type: uiActionTypes.TOGGLE_MODAL }),
+		toggleModal: () => {
+			dispatch({ type: uiActionTypes.TOGGLE_MODAL });
+			setTimeout(() => {
+				dispatch({ type: uiActionTypes.SET_MODAL_DISAPPEARED });
+			}, 300);
+		},
 	};
 };
 

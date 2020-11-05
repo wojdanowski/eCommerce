@@ -51,7 +51,7 @@ const AllProdCards = (props) => {
 
 	let modalProdContent = null;
 	if (fetchData.isLoading) modalProdContent = <Loader />;
-	if (selectedProd && props.modalVisible && fetchData.data) {
+	if (selectedProd && props.modalDisappeared && fetchData.data) {
 		let selectedProdData = fetchData.data.filter(
 			(el) => el.id === selectedProd
 		)[0];
@@ -97,12 +97,18 @@ const AllProdCards = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		modalVisible: state.uiState.modalVisible,
+		modalDisappeared: state.uiState.modalDisappeared,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		toggleModal: () => dispatch({ type: uiActionTypes.TOGGLE_MODAL }),
+		toggleModal: () => {
+			dispatch({ type: uiActionTypes.TOGGLE_MODAL });
+			setTimeout(() => {
+				dispatch({ type: uiActionTypes.SET_MODAL_DISAPPEARED });
+			}, 300);
+		},
 	};
 };
 
