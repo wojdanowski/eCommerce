@@ -8,4 +8,8 @@
 	&.isDisabled {
 		pointer-events: none;
 	}
+
+	&.isHidden {
+		display: none;
+	}
 }

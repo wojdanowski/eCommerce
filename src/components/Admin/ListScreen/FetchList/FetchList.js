@@ -10,7 +10,6 @@ import PaginationButtons from './../../../UI/PaginationButtons/PaginationButtons
 import GenericList from './../../../UI/GenericList/GenericList';
 import OrderListItem from './../ListItem/OrderListItem';
 import ProdListItem from './../ListItem/ProdListItem';
-import ProdEditPage from './../../ProdEditPage/ProdEditPage';
 
 const FetchList = (props) => {
 	const match = useRouteMatch();
@@ -21,6 +20,7 @@ const FetchList = (props) => {
 	const links = {
 		products: `${match.url}/products`,
 		orders: `${match.url}/orders`,
+		newProduct: `${match.url}/newProduct`,
 	};
 	const orderBy = `.json?orderBy="$key"`;
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
@@ -107,6 +107,10 @@ const FetchList = (props) => {
 								collection: props.collection,
 							}}
 						/>
+					</Route>
+
+					<Route path={links.newProduct}>
+						<p>newProd</p>
 					</Route>
 				</Switch>
 

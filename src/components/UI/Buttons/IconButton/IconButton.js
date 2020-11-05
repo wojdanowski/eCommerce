@@ -12,7 +12,8 @@ const IconButton = (props) => {
 	color = props.isDisabled ? { color: '#706f6f25' } : color;
 
 	const disabled = props.isDisabled ? classes.isDisabled : null;
-	const appendClasses = [classes.buttonContainer, disabled];
+	const hidden = props.isHidden ? classes.isHidden : null;
+	const appendClasses = [hidden, disabled, classes.buttonContainer];
 
 	return (
 		<IconContext.Provider

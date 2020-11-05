@@ -9,7 +9,7 @@ const DashboardRouter = ({ match }) => {
 	return (
 		<DashboardLayout>
 			<Switch>
-				<Route path={match.url} exact component={MainDashboard} />
+				{/* <Route path={match.url} exact component={MainDashboard} /> */}
 				<Route path={`${match.url}/`} component={ListScreen} />
 				{/* <Route
 					path={`${match.url}/orders`}

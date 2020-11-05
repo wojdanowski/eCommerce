@@ -16,12 +16,12 @@ const MainNav = (props) => {
 			<ul>
 				<MainNavItem
 					link='/'
-					label='Home'
-					// active={true}
+					label={props.isAdmin ? 'SHOP' : 'Home'}
 					direction={props.direction}
 					exact
 				/>
 				<IconButton
+					isHidden={props.isAdmin}
 					clicked={props.toggleRightSidebar}
 					icon={<RiShoppingBasket2Line />}
 				/>
