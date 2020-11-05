@@ -8,6 +8,7 @@ import isPresent from '../../../utilities/isPresent';
 import Input from '../../UI/Input/Input';
 import EditStatus from './../../UI/EditStatus/EditStatus';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
+import DropZone from './../DropZone/DropZone';
 
 const ProdEditPage = (props) => {
 	const { prodData, updateFormField } = props;
@@ -115,7 +116,9 @@ const ProdEditPage = (props) => {
 				</div>
 			</div>
 			<div className={classes.editContainer}>
-				<div className={classes.dropContainer}>dropZOne</div>
+				<div className={classes.dropContainer}>
+					<DropZone />
+				</div>
 				<div className={classes.descriptionContainer}>
 					<h2>Product Id: {prodData.id}</h2>
 					<form className='utilMarBot_1' onSubmit={saveSubmitHandler}>
