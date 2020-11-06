@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import classes from './ProdEditPage.module.scss';
@@ -13,9 +13,10 @@ import ImgThumb from './../../UI/ImgThumb/ImgThumb';
 
 const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
+	const [images, setImages] = useState([]);
 
-	const thumbClickedHandler = () => {
-		console.log(`thumb clicked`);
+	const thumbClickedHandler = (src) => {
+		setImages((prevState) => prevState.filter((el) => el !== src));
 	};
 
 	const saveSubmitHandler = (event) => {
@@ -62,6 +63,7 @@ const ProdEditPage = (props) => {
 		let existingDataAboutProd;
 
 		if (prodData && !props.isNewProdCreation) {
+			setImages(prodData.images.filter((el) => true));
 			dataToLoad = isModified
 				? props.modifiedItems.find((el) => el.id === prodData.id)
 				: prodData;
@@ -105,15 +107,15 @@ const ProdEditPage = (props) => {
 
 	let thumbs = null;
 
-	if (prodData.images && prodData.images.length) {
+	if (images && images.length) {
 		thumbs = (
 			<div>
-				{prodData.images.map((el, index) => {
+				{images.map((el, index) => {
 					return (
 						<ImgThumb
 							key={index}
 							imgSrc={el}
-							clicked={thumbClickedHandler}
+							clicked={() => thumbClickedHandler(el)}
 						/>
 					);
 				})}
