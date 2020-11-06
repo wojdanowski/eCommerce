@@ -22,8 +22,11 @@ const ProdEditPage = (props) => {
 				return { ...el, removed: !el.removed };
 			} else return el;
 		});
-
 		setLoadedImages([...updatedArray]);
+
+		if (updatedArray.find((el) => el.removed)) {
+			setImagesChanged(true);
+		} else setImagesChanged(false);
 	};
 
 	const saveSubmitHandler = (event) => {
@@ -162,16 +165,19 @@ const ProdEditPage = (props) => {
 						label='reset'
 						clicked={props.onDiscard}
 						isDisabled={
-							(!props.formIsEdited || isRemoved) && !isModified
+							(!props.formIsEdited || isRemoved) &&
+							!isModified &&
+							!imagesChanged
 						}
 					/>
 					<GenericButton
 						label='save'
 						clicked={saveSubmitHandler}
 						isDisabled={
-							!props.formIsEdited ||
-							isRemoved ||
-							!props.formIsValid
+							(!props.formIsValid ||
+								isRemoved ||
+								!props.formIsEdited) &&
+							!imagesChanged
 						}
 					/>
 					{props.isNewProdCreation ? null : (
