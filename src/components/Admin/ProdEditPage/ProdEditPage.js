@@ -13,10 +13,17 @@ import ImgThumb from './../../UI/ImgThumb/ImgThumb';
 
 const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
-	const [images, setImages] = useState([]);
+	const [loadedImages, setLoadedImages] = useState([]);
+	const [imagesChanged, setImagesChanged] = useState(false);
 
 	const thumbClickedHandler = (src) => {
-		setImages((prevState) => prevState.filter((el) => el !== src));
+		const updatedArray = loadedImages.map((el) => {
+			if (el.src === src) {
+				return { ...el, removed: !el.removed };
+			} else return el;
+		});
+
+		setLoadedImages([...updatedArray]);
 	};
 
 	const saveSubmitHandler = (event) => {
@@ -59,11 +66,26 @@ const ProdEditPage = (props) => {
 		: isPresent(prodData.id, props.modifiedItems);
 
 	useEffect(() => {
+		let allImgs = [];
+		if (prodData.images) {
+			// if (prodData.images)
+			// 	prodData.images.map((el, index) => {
+			// 		allImgs = { ...allImgs, [index]: { removed: false, src: el } };
+			// 		return null;
+			// 	});
+			prodData.images.map((el) => {
+				allImgs.push({ removed: false, src: el });
+				return null;
+			});
+			setLoadedImages([...allImgs]);
+		}
+	}, [prodData.images]);
+
+	useEffect(() => {
 		let dataToLoad;
 		let existingDataAboutProd;
 
 		if (prodData && !props.isNewProdCreation) {
-			setImages(prodData.images.filter((el) => true));
 			dataToLoad = isModified
 				? props.modifiedItems.find((el) => el.id === prodData.id)
 				: prodData;
@@ -107,15 +129,16 @@ const ProdEditPage = (props) => {
 
 	let thumbs = null;
 
-	if (images && images.length) {
+	if (prodData.images && loadedImages.length) {
 		thumbs = (
 			<div>
-				{images.map((el, index) => {
+				{prodData.images.map((el, index) => {
 					return (
 						<ImgThumb
 							key={index}
 							imgSrc={el}
 							clicked={() => thumbClickedHandler(el)}
+							isRemoved={loadedImages[index].removed}
 						/>
 					);
 				})}
@@ -130,7 +153,11 @@ const ProdEditPage = (props) => {
 			<div className={appendClasses.join(' ')}>
 				<h1>Product id: {prodData.id}</h1>
 				<div className={classes.buttonContainer}>
-					<EditStatus isEdited={props.formIsEdited || isModified} />
+					<EditStatus
+						isEdited={
+							props.formIsEdited || isModified || imagesChanged
+						}
+					/>
 					<GenericButton
 						label='reset'
 						clicked={props.onDiscard}

@@ -84,17 +84,17 @@ function DropZone(props) {
 		/>
 	));
 
-	const addButton = (
-		<div className={classes.thumb} key={'button'}>
-			<div className={classes.iconButton}>
-				<IconButton
-					icon={<FiPlusCircle />}
-					size={'2rem'}
-					clicked={addImgClickHandler}
-				/>
-			</div>
-		</div>
-	);
+	// const addButton = (
+	// 	<div className={classes.thumb} key={'button'}>
+	// 		<div className={classes.iconButton}>
+	// 			<IconButton
+	// 				icon={<FiPlusCircle />}
+	// 				size={'2rem'}
+	// 				clicked={addImgClickHandler}
+	// 			/>
+	// 		</div>
+	// 	</div>
+	// );
 
 	useEffect(
 		() => () => {
@@ -111,7 +111,7 @@ function DropZone(props) {
 			</div>
 			<aside className={classes.thumbsContainer}>
 				{thumbs}
-				{addButton}
+				{/* {addButton} */}
 			</aside>
 		</section>
 	);
