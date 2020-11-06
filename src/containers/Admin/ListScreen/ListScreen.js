@@ -237,7 +237,8 @@ const ListScreen = (props) => {
 										if (
 											key !== 'collection' &&
 											key !== 'remove' &&
-											key !== 'modify'
+											key !== 'modify' &&
+											key !== 'createProduct'
 										) {
 											object[key] = el[key];
 										}
@@ -347,7 +348,7 @@ const ListScreen = (props) => {
 		}
 	}
 	const isFetchListModified = modifiedItems.find(
-		(el) => el.remove || el.modify
+		(el) => el.remove || el.modify || el.createProduct
 	);
 	return (
 		<Fragment>
