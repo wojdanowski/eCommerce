@@ -15,11 +15,10 @@ const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
-	const [imagesToUpload, setImagesToUpload] = useState();
 
 	const thumbClickedHandler = (src) => {
 		const updatedArray = loadedImages.map((el) => {
-			if (el.src === src) {
+			if (el.preview === src) {
 				return { ...el, removed: !el.removed };
 			} else return el;
 		});
@@ -53,9 +52,11 @@ const ProdEditPage = (props) => {
 	};
 
 	const getFilesFromDropZone = (files) => {
-		console.log(`[ProdEditpage] getFilesFromDropZone`);
-		console.log(files);
-		setImagesToUpload(files);
+		setLoadedImages((prevState) =>
+			[...prevState].concat(
+				files.map((file) => Object.assign(file, { upload: true }))
+			)
+		);
 	};
 
 	let formElementsArray = [];
@@ -77,7 +78,12 @@ const ProdEditPage = (props) => {
 		let allImgs = [];
 		if (prodData.images) {
 			prodData.images.map((el) => {
-				allImgs.push({ removed: false, src: el });
+				allImgs.push({
+					removed: false,
+					name: el,
+					preview: el,
+					upload: false,
+				});
 				return null;
 			});
 			setLoadedImages([...allImgs]);
@@ -131,15 +137,15 @@ const ProdEditPage = (props) => {
 	const appendClasses = [classes.head, colorStyle];
 
 	let thumbs = null;
-	if (prodData.images && loadedImages.length) {
+	if (loadedImages && loadedImages.length) {
 		thumbs = (
 			<Fragment>
-				{prodData.images.map((el, index) => {
+				{loadedImages.map((img, index) => {
 					return (
 						<ImgThumb
-							key={index}
-							imgSrc={el}
-							clicked={() => thumbClickedHandler(el)}
+							key={img.name}
+							imgSrc={img.preview}
+							clicked={() => thumbClickedHandler(img.preview)}
 							isRemoved={loadedImages[index].removed}
 						/>
 					);
@@ -149,21 +155,6 @@ const ProdEditPage = (props) => {
 	} else {
 		thumbs = <p>No Images!</p>;
 	}
-
-	let thumbsToUpload = imagesToUpload ? (
-		<Fragment>
-			{imagesToUpload.map((image, index) => {
-				return (
-					<ImgThumb
-						key={image.name}
-						imgSrc={image.preview}
-						clicked={() => thumbClickedHandler(image)}
-						// isRemoved={loadedImages[index].removed}
-					/>
-				);
-			})}
-		</Fragment>
-	) : null;
 
 	return (
 		<div className={classes.prodPageContainer}>
@@ -211,7 +202,6 @@ const ProdEditPage = (props) => {
 					<div className={classes.thumbContainer}>
 						<h4>Images:</h4>
 						{thumbs}
-						{thumbsToUpload}
 					</div>
 				</div>
 				<div className={classes.descriptionContainer}>
