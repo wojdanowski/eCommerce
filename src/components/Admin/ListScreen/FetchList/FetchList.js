@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
 
 import classes from './FetchList.module.scss';
 import usePagination from './../../../../hooks/usePagination';
@@ -12,16 +11,10 @@ import OrderListItem from './../ListItem/OrderListItem';
 import ProdListItem from './../ListItem/ProdListItem';
 
 const FetchList = (props) => {
-	const match = useRouteMatch();
 	const maxPerPage = 10;
 	const [fetchedCollection, setFetchedCollection] = useState(
 		props.collection
 	);
-	const links = {
-		products: `${match.url}/products`,
-		orders: `${match.url}/orders`,
-		newProduct: `${match.url}/newProduct`,
-	};
 	const orderBy = `.json?orderBy="$key"`;
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
 	const fullUrl = `${url}${props.collection}${orderBy}`;

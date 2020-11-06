@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FiPlusCircle } from 'react-icons/fi';
 
 import classes from './DropZone.module.scss';
-import IconButton from './../../UI/Buttons/IconButton/IconButton';
 import ImgThumb from './../../UI/ImgThumb/ImgThumb';
 
 const baseStyle = {
@@ -39,6 +37,11 @@ const rejectStyle = {
 
 function DropZone(props) {
 	const [files, setFiles] = useState([]);
+
+	const sendFilesToParent = useCallback(props.sendFilesToParent, [
+		props.sendFilesToParent,
+	]);
+
 	const {
 		getRootProps,
 		getInputProps,
@@ -48,22 +51,18 @@ function DropZone(props) {
 	} = useDropzone({
 		accept: 'image/*',
 		onDrop: (acceptedFiles) => {
-			setFiles(
-				acceptedFiles.map((file) =>
-					Object.assign(file, {
-						preview: URL.createObjectURL(file),
-					})
-				)
+			const finalFiles = acceptedFiles.map((file) =>
+				Object.assign(file, {
+					preview: URL.createObjectURL(file),
+				})
 			);
+			setFiles(finalFiles);
+			sendFilesToParent(finalFiles);
 		},
 	});
 
 	const imgClickHandler = (fileName) => {
 		setFiles(files.filter((file) => file.name !== fileName));
-	};
-
-	const addImgClickHandler = () => {
-		console.log(`PLUS ICON CLICKED`);
 	};
 
 	const style = useMemo(
@@ -75,26 +74,6 @@ function DropZone(props) {
 		}),
 		[isDragActive, isDragReject, isDragAccept]
 	);
-
-	const thumbs = files.map((file) => (
-		<ImgThumb
-			key={file.name}
-			clicked={() => imgClickHandler(file.name)}
-			imgSrc={file.preview}
-		/>
-	));
-
-	// const addButton = (
-	// 	<div className={classes.thumb} key={'button'}>
-	// 		<div className={classes.iconButton}>
-	// 			<IconButton
-	// 				icon={<FiPlusCircle />}
-	// 				size={'2rem'}
-	// 				clicked={addImgClickHandler}
-	// 			/>
-	// 		</div>
-	// 	</div>
-	// );
 
 	useEffect(
 		() => () => {
@@ -109,10 +88,6 @@ function DropZone(props) {
 				<input {...getInputProps()} />
 				<p>Drag 'n' drop some files here, or click to select files</p>
 			</div>
-			<aside className={classes.thumbsContainer}>
-				{thumbs}
-				{/* {addButton} */}
-			</aside>
 		</section>
 	);
 }

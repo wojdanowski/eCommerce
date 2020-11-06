@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import classes from './ProdEditPage.module.scss';
@@ -15,6 +15,7 @@ const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
+	const [imagesToUpload, setImagesToUpload] = useState();
 
 	const thumbClickedHandler = (src) => {
 		const updatedArray = loadedImages.map((el) => {
@@ -31,7 +32,6 @@ const ProdEditPage = (props) => {
 
 	const saveSubmitHandler = (event) => {
 		let newProduct = { id: prodData.id };
-
 		Object.keys(props.formFields).map((el) => {
 			if (props.formFields[el].isEdited) {
 				newProduct = {
@@ -52,7 +52,13 @@ const ProdEditPage = (props) => {
 		updateFormField(event.target.value, inputId, 'prodEditForm');
 	};
 
-	const formElementsArray = [];
+	const getFilesFromDropZone = (files) => {
+		console.log(`[ProdEditpage] getFilesFromDropZone`);
+		console.log(files);
+		setImagesToUpload(files);
+	};
+
+	let formElementsArray = [];
 	for (let key in props.formFields) {
 		formElementsArray.push({
 			id: key,
@@ -63,7 +69,6 @@ const ProdEditPage = (props) => {
 	const isRemoved = props.isNewProdCreation
 		? null
 		: isPresent(prodData.id, props.removedItems);
-
 	const isModified = props.isNewProdCreation
 		? null
 		: isPresent(prodData.id, props.modifiedItems);
@@ -71,11 +76,6 @@ const ProdEditPage = (props) => {
 	useEffect(() => {
 		let allImgs = [];
 		if (prodData.images) {
-			// if (prodData.images)
-			// 	prodData.images.map((el, index) => {
-			// 		allImgs = { ...allImgs, [index]: { removed: false, src: el } };
-			// 		return null;
-			// 	});
 			prodData.images.map((el) => {
 				allImgs.push({ removed: false, src: el });
 				return null;
@@ -131,10 +131,9 @@ const ProdEditPage = (props) => {
 	const appendClasses = [classes.head, colorStyle];
 
 	let thumbs = null;
-
 	if (prodData.images && loadedImages.length) {
 		thumbs = (
-			<div>
+			<Fragment>
 				{prodData.images.map((el, index) => {
 					return (
 						<ImgThumb
@@ -145,11 +144,26 @@ const ProdEditPage = (props) => {
 						/>
 					);
 				})}
-			</div>
+			</Fragment>
 		);
 	} else {
 		thumbs = <p>No Images!</p>;
 	}
+
+	let thumbsToUpload = imagesToUpload ? (
+		<Fragment>
+			{imagesToUpload.map((image, index) => {
+				return (
+					<ImgThumb
+						key={image.name}
+						imgSrc={image.preview}
+						clicked={() => thumbClickedHandler(image)}
+						// isRemoved={loadedImages[index].removed}
+					/>
+				);
+			})}
+		</Fragment>
+	) : null;
 
 	return (
 		<div className={classes.prodPageContainer}>
@@ -190,13 +204,14 @@ const ProdEditPage = (props) => {
 			</div>
 			<div className={classes.editContainer}>
 				<div className={classes.imgSection}>
+					<div className={classes.dropContainer}>
+						<h4>Upload images:</h4>
+						<DropZone sendFilesToParent={getFilesFromDropZone} />
+					</div>
 					<div className={classes.thumbContainer}>
 						<h4>Images:</h4>
 						{thumbs}
-					</div>
-					<div className={classes.dropContainer}>
-						<h4>Uploaded images:</h4>
-						<DropZone />
+						{thumbsToUpload}
 					</div>
 				</div>
 				<div className={classes.descriptionContainer}>

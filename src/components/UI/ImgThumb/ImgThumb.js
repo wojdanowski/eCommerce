@@ -12,12 +12,13 @@ const ImgThumb = (props) => {
 					className={classes.img}
 					alt={props.altText ? props.altText : 'thumbImg'}
 				/>
-				<IconButton
-					icon={<FiTrash2 />}
-					clicked={props.clicked}
-					isRemoved={props.isRemoved}
-				/>
 			</div>
+
+			<IconButton
+				icon={<FiTrash2 />}
+				clicked={props.clicked}
+				isRemoved={props.isRemoved}
+			/>
 		</div>
 	);
 };
