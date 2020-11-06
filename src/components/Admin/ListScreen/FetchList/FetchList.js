@@ -53,7 +53,6 @@ const FetchList = (props) => {
 	};
 
 	let listContent = null;
-	let newProductsList = null;
 
 	if (
 		fetchData.isLoading ||
@@ -65,35 +64,50 @@ const FetchList = (props) => {
 		listContent = <p>ERROR</p>;
 	} else {
 		let itemsList = null;
+		let newProductsList = null;
+		let displayListWith = null;
+
 		if (props.collection === 'products') {
-			itemsList = (
-				<GenericList
-					displayWith={ProdListItem}
-					dataArray={fetchData.data}
-					additional={{
-						viewHandler: props.onView,
-						modifyHandler: props.onModify,
-						removedItems: props.removedItems,
-						modifiedItems: props.modifiedItems,
-						collection: props.collection,
-					}}
-				/>
-			);
+			if (props.newItems.length) {
+				newProductsList = (
+					<Fragment>
+						<div className={classes.listHeader}>
+							<h1>NEW {props.collection}</h1>
+						</div>
+						<div className={classes.newProductsListContainer}>
+							<GenericList
+								displayWith={ProdListItem}
+								dataArray={props.newItems}
+								additional={{
+									viewHandler: props.onView,
+									modifyHandler: props.onModify,
+									removedItems: props.removedItems,
+									modifiedItems: props.modifiedItems,
+									collection: props.collection,
+								}}
+							/>
+						</div>
+					</Fragment>
+				);
+			}
+			displayListWith = ProdListItem;
 		} else if (props.collection === 'orders') {
-			itemsList = (
-				<GenericList
-					displayWith={OrderListItem}
-					dataArray={fetchData.data}
-					additional={{
-						viewHandler: props.onView,
-						modifyHandler: props.onModify,
-						removedItems: props.removedItems,
-						modifiedItems: props.modifiedItems,
-						collection: props.collection,
-					}}
-				/>
-			);
+			displayListWith = OrderListItem;
 		} else itemsList = <p>No list of that type</p>;
+
+		itemsList = (
+			<GenericList
+				displayWith={displayListWith}
+				dataArray={fetchData.data}
+				additional={{
+					viewHandler: props.onView,
+					modifyHandler: props.onModify,
+					removedItems: props.removedItems,
+					modifiedItems: props.modifiedItems,
+					collection: props.collection,
+				}}
+			/>
+		);
 
 		listContent = (
 			<Fragment>

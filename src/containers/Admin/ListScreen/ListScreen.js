@@ -266,6 +266,7 @@ const ListScreen = (props) => {
 
 	const deletedItems = modifiedItems.filter((el) => el.remove === true);
 	const editedItems = modifiedItems.filter((el) => el.modify === true);
+	const newItems = modifiedItems.filter((el) => el.createProduct === true);
 
 	// Modal content
 	let modalContent;
@@ -360,6 +361,7 @@ const ListScreen = (props) => {
 					onReset={resetHandler}
 					removedItems={deletedItems}
 					modifiedItems={editedItems}
+					newItems={newItems}
 					onNewProduct={newProductClickedHandler}
 				/>
 			</div>
