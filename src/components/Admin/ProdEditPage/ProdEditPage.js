@@ -9,9 +9,14 @@ import Input from '../../UI/Input/Input';
 import EditStatus from './../../UI/EditStatus/EditStatus';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import DropZone from './../DropZone/DropZone';
+import ImgThumb from './../../UI/ImgThumb/ImgThumb';
 
 const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
+
+	const thumbClickedHandler = () => {
+		console.log(`thumb clicked`);
+	};
 
 	const saveSubmitHandler = (event) => {
 		let newProduct = { id: prodData.id };
@@ -98,6 +103,26 @@ const ProdEditPage = (props) => {
 	}
 	const appendClasses = [classes.head, colorStyle];
 
+	let thumbs = null;
+
+	if (prodData.images && prodData.images.length) {
+		thumbs = (
+			<div>
+				{prodData.images.map((el, index) => {
+					return (
+						<ImgThumb
+							key={index}
+							imgSrc={el}
+							clicked={thumbClickedHandler}
+						/>
+					);
+				})}
+			</div>
+		);
+	} else {
+		thumbs = <p>No Images!</p>;
+	}
+
 	return (
 		<div className={classes.prodPageContainer}>
 			<div className={appendClasses.join(' ')}>
@@ -129,8 +154,15 @@ const ProdEditPage = (props) => {
 				</div>
 			</div>
 			<div className={classes.editContainer}>
-				<div className={classes.dropContainer}>
-					<DropZone />
+				<div className={classes.imgSection}>
+					<div className={classes.thumbContainer}>
+						<h4>Images:</h4>
+						{thumbs}
+					</div>
+					<div className={classes.dropContainer}>
+						<h4>Uploaded images:</h4>
+						<DropZone />
+					</div>
 				</div>
 				<div className={classes.descriptionContainer}>
 					<h2>Product Id: {prodData.id}</h2>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FiPlusCircle } from 'react-icons/fi';
-import { IconContext } from 'react-icons';
 
 import classes from './DropZone.module.scss';
 import IconButton from './../../UI/Buttons/IconButton/IconButton';
+import ImgThumb from './../../UI/ImgThumb/ImgThumb';
 
 const baseStyle = {
 	flex: 1,
@@ -19,7 +19,7 @@ const baseStyle = {
 	backgroundColor: '#fafafa',
 	color: '#bdbdbd',
 	justifyContent: 'center',
-	minHeight: '200px',
+	minHeight: '100px',
 	outline: 'none',
 
 	transition: 'border .24s ease-in-out',
@@ -60,7 +60,6 @@ function DropZone(props) {
 
 	const imgClickHandler = (fileName) => {
 		setFiles(files.filter((file) => file.name !== fileName));
-		// console.log(files.filter((file) => file.name !== fileName));
 	};
 
 	const addImgClickHandler = () => {
@@ -78,18 +77,11 @@ function DropZone(props) {
 	);
 
 	const thumbs = files.map((file) => (
-		<div className={classes.thumb} key={file.name}>
-			<div
-				className={classes.thumbInner}
-				onClick={() => imgClickHandler(file.name)}
-			>
-				<img
-					src={file.preview}
-					className={classes.img}
-					alt={'thumbImg'}
-				/>
-			</div>
-		</div>
+		<ImgThumb
+			key={file.name}
+			clicked={() => imgClickHandler(file.name)}
+			imgSrc={file.preview}
+		/>
 	));
 
 	const addButton = (
@@ -99,9 +91,6 @@ function DropZone(props) {
 					icon={<FiPlusCircle />}
 					size={'2rem'}
 					clicked={addImgClickHandler}
-					// isDisabled={disabledStatus}
-					// isRemoved={props.removed}
-					// isModified={props.edited}
 				/>
 			</div>
 		</div>

@@ -39,10 +39,17 @@
 		display: flex;
 		flex-direction: row;
 
-		.dropContainer {
-			padding: 1rem;
-			min-width: 40%;
-			flex-grow: 1;
+		.imgSection {
+			padding: 0 1rem;
+
+			.thumbContainer {
+				margin-bottom: 1rem;
+			}
+
+			.dropContainer {
+				min-width: 40%;
+				flex-grow: 1;
+			}
 		}
 		.descriptionContainer {
 			min-width: 60%;
