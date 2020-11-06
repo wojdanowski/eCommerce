@@ -19,6 +19,7 @@ const ListScreen = (props) => {
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [selectedAction, setSelectedAction] = useState(null);
 	const [newProductId, setNewProductId] = useState(null);
+	const [newProductFinished, setNewProductFinished] = useState(null);
 
 	const getCollectionName = () => {
 		return location.pathname.replace('/admin/', '');
@@ -28,6 +29,7 @@ const ListScreen = (props) => {
 	const fetchApi = useFetchApi('delete', [
 		url.concat(getCollectionName(), '.json'),
 	]);
+
 	const { toggleModal } = props;
 
 	const clearIsEditingOnModalClose = () => {
@@ -44,6 +46,11 @@ const ListScreen = (props) => {
 		);
 		setModifiedItems(updatedArray);
 		clearIsEditingOnModalClose();
+	};
+
+	const discardNewProdHandler = () => {
+		fetchApi();
+		discardHandler();
 	};
 
 	const isProductEdited = (newProduct, prodInDb) => {
@@ -97,6 +104,7 @@ const ListScreen = (props) => {
 								};
 							} else return el;
 						});
+						if (props.modalVisible) clearIsEditingOnModalClose();
 					} else if (action === 'modify') {
 						const isProdEdited = isProductEdited(
 							data,
@@ -112,9 +120,22 @@ const ListScreen = (props) => {
 								};
 							} else return el;
 						});
+						if (props.modalVisible) clearIsEditingOnModalClose();
+					} else if (action === 'createProduct') {
+						updatedArray = modifiedItems.map((el) => {
+							if (foundItem.id === el.id) {
+								return {
+									...el,
+									...data,
+									[action]: true,
+									collection: getCollectionName(),
+								};
+							} else return el;
+						});
 					}
+
 					setModifiedItems(updatedArray);
-					if (props.modalVisible) clearIsEditingOnModalClose();
+
 					break;
 				}
 				default:
@@ -273,7 +294,7 @@ const ListScreen = (props) => {
 								modifiedItems={editedItems}
 								onModify={modifyItems}
 								isNewProdCreation={true}
-								onDiscard={discardHandler}
+								onDiscard={discardNewProdHandler}
 							/>
 						);
 					} else if (fetchApi.isError) {
