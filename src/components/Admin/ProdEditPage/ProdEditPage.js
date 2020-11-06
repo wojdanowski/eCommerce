@@ -25,7 +25,11 @@ const ProdEditPage = (props) => {
 			}
 			return null;
 		});
-		props.onModify(newProduct, 'modify');
+		if (props.isNewProdCreation) {
+			props.onModify(newProduct, 'createProduct');
+		} else {
+			props.onModify(newProduct, 'modify');
+		}
 	};
 
 	const inputChangedHandler = (event, inputId) => {

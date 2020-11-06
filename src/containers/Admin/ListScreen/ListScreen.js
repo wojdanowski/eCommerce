@@ -49,7 +49,6 @@ const ListScreen = (props) => {
 			props.modalDisappeared &&
 			getCollectionName() === 'products'
 		) {
-			console.log(`[ListScreen] useEffect: newProd to delete`);
 			fetchApi.callFetchApi(
 				null,
 				'delete',
@@ -66,17 +65,10 @@ const ListScreen = (props) => {
 		getCollectionName,
 	]);
 
-	const discardHandler = () => {
-		const updatedArray = modifiedItems.filter(
-			(el) => el.id !== selectedItem.id
-		);
+	const discardHandler = (id) => {
+		const updatedArray = modifiedItems.filter((el) => el.id !== id);
 		setModifiedItems(updatedArray);
 		clearIsEditingOnModalClose();
-	};
-
-	const discardNewProdHandler = () => {
-		fetchApi();
-		discardHandler();
 	};
 
 	const isProductEdited = (newProduct, prodInDb) => {
@@ -101,6 +93,7 @@ const ListScreen = (props) => {
 					collection: getCollectionName(),
 				})
 			);
+			if (action === 'createProduct') setNewProductFinished(true);
 			if (props.modalVisible) clearIsEditingOnModalClose();
 		} else if (foundItem) {
 			switch (getCollectionName()) {
@@ -209,6 +202,7 @@ const ListScreen = (props) => {
 
 	const newProductClickedHandler = async () => {
 		setSelectedAction('createProduct');
+		setNewProductFinished(false);
 		toggleModal();
 		const newProductId = await fetchApi.callFetchApi(
 			{ name: '' },
@@ -299,7 +293,9 @@ const ListScreen = (props) => {
 								modifiedItems={editedItems}
 								onModify={modifyItems}
 								isNewProdCreation={false}
-								onDiscard={discardHandler}
+								onDiscard={() =>
+									discardHandler(selectedItem.id)
+								}
 							/>
 						) : null;
 					break;
@@ -320,7 +316,7 @@ const ListScreen = (props) => {
 								modifiedItems={editedItems}
 								onModify={modifyItems}
 								isNewProdCreation={true}
-								onDiscard={discardNewProdHandler}
+								onDiscard={() => discardHandler(newProductId)}
 							/>
 						);
 					} else if (fetchApi.isError) {
