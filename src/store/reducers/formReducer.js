@@ -82,6 +82,8 @@ const formReducer = (state = initialState, action) => {
 			if (!action.isInitial && existingInitialData) {
 				isEdited =
 					action.newValue === existingInitialData ? false : true;
+			} else if (!action.isInitial && !existingInitialData) {
+				isEdited = action.newValue !== '' ? true : false;
 			}
 
 			const updatedInput = {

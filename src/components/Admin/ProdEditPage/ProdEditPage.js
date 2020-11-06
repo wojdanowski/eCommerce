@@ -49,7 +49,7 @@ const ProdEditPage = (props) => {
 		: isPresent(prodData.id, props.modifiedItems);
 
 	useEffect(() => {
-		if (prodData) {
+		if (prodData && !props.isNewProdCreation) {
 			const dataToLoad = isModified
 				? props.modifiedItems.find((el) => el.id === prodData.id)
 				: prodData;
@@ -75,7 +75,13 @@ const ProdEditPage = (props) => {
 				return null;
 			});
 		}
-	}, [prodData, updateFormField, isModified, props.modifiedItems]);
+	}, [
+		prodData,
+		updateFormField,
+		isModified,
+		props.modifiedItems,
+		props.isNewProdCreation,
+	]);
 
 	let colorStyle;
 	if (isRemoved) {
