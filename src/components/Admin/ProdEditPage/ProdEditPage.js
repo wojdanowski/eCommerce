@@ -11,7 +11,7 @@ import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import DropZone from './../DropZone/DropZone';
 
 const ProdEditPage = (props) => {
-	const { prodData, updateFormField } = props;
+	const { prodData, updateFormField, clearForm } = props;
 
 	const saveSubmitHandler = (event) => {
 		let newProduct = { id: prodData.id };
@@ -49,19 +49,21 @@ const ProdEditPage = (props) => {
 		: isPresent(prodData.id, props.modifiedItems);
 
 	useEffect(() => {
+		let dataToLoad;
+		let existingDataAboutProd;
+
 		if (prodData && !props.isNewProdCreation) {
-			const dataToLoad = isModified
+			dataToLoad = isModified
 				? props.modifiedItems.find((el) => el.id === prodData.id)
 				: prodData;
 
-			const existingDataAboutProd = [
+			existingDataAboutProd = [
 				{ name: dataToLoad.name },
 				{ price: dataToLoad.price },
 				{ oldPrice: dataToLoad.oldPrice },
 				{ shortDescription: dataToLoad.shortDescription },
 				{ fullDescription: dataToLoad.fullDescription },
 			];
-
 			existingDataAboutProd.map((el) => {
 				const keyName = Object.keys(el)[0];
 				if (dataToLoad[keyName]) {
@@ -74,13 +76,14 @@ const ProdEditPage = (props) => {
 				}
 				return null;
 			});
-		}
+		} else if (props.isNewProdCreation) clearForm();
 	}, [
 		prodData,
 		updateFormField,
 		isModified,
 		props.modifiedItems,
 		props.isNewProdCreation,
+		clearForm,
 	]);
 
 	let colorStyle;
@@ -162,13 +165,23 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		updateFormField: (newValue, inputId, form, isInitial = false) =>
+		updateFormField: (
+			newValue,
+			inputId,
+			form = 'prodEditForm',
+			isInitial = false
+		) =>
 			dispatch({
 				type: formActions.UPDATE_FIELD,
 				newValue,
 				inputId,
 				form,
 				isInitial,
+			}),
+		clearForm: (form = 'prodEditForm') =>
+			dispatch({
+				type: formActions.CLEAR_FORM,
+				form,
 			}),
 	};
 };

@@ -1,3 +1,2 @@
 export const UPDATE_FIELD = 'UPDATE_FIELD';
-export const CHECK_IF_EDITED = 'CHECK_IF_EDITED';
-export const SET_INITIAL_DATA = 'SET_INITIAL_DATA';
+export const CLEAR_FORM = 'CLEAR_FORM';

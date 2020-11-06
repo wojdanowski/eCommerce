@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useCallback } from 'react';
+import React, { useState, Fragment, useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -21,9 +21,10 @@ const ListScreen = (props) => {
 	const [newProductId, setNewProductId] = useState(null);
 	const [newProductFinished, setNewProductFinished] = useState(null);
 
-	const getCollectionName = () => {
+	const getCollectionName = useCallback(() => {
 		return location.pathname.replace('/admin/', '');
-	};
+	}, [location.pathname]);
+
 	const [modifiedItems, setModifiedItems] = useState([]);
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
 	const fetchApi = useFetchApi('delete', [
@@ -32,13 +33,38 @@ const ListScreen = (props) => {
 
 	const { toggleModal } = props;
 
-	const clearIsEditingOnModalClose = () => {
+	const clearIsEditingOnModalClose = useCallback(() => {
 		toggleModal();
 		setTimeout(() => {
 			setSelectedAction(null);
 			setNewProductId(null);
 		}, 300);
-	};
+	}, [toggleModal]);
+
+	useEffect(() => {
+		if (
+			selectedAction === 'createProduct' &&
+			newProductId &&
+			!newProductFinished &&
+			props.modalDisappeared &&
+			getCollectionName() === 'products'
+		) {
+			console.log(`[ListScreen] useEffect: newProd to delete`);
+			fetchApi.callFetchApi(
+				null,
+				'delete',
+				`${url}products/${newProductId}.json`
+			);
+		}
+	}, [
+		selectedAction,
+		newProductId,
+		newProductFinished,
+		props.modalDisappeared,
+		url,
+		fetchApi,
+		getCollectionName,
+	]);
 
 	const discardHandler = () => {
 		const updatedArray = modifiedItems.filter(

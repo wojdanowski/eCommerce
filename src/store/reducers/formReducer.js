@@ -46,30 +46,31 @@ const checkValidity = (value, rules) => {
 };
 
 const formReducer = (state = initialState, action) => {
+	let selectedForm;
+	let selectedFormName;
+	switch (action.form) {
+		case 'order': {
+			selectedFormName = 'orderForm';
+			selectedForm = { orderForm: { ...state.orderForm } };
+
+			break;
+		}
+		case 'prodEditForm': {
+			selectedFormName = 'prodEditForm';
+			selectedForm = { prodEditForm: { ...state.prodEditForm } };
+			break;
+		}
+		default:
+			break;
+	}
+
 	switch (action.type) {
 		case actionTypes.UPDATE_FIELD: {
-			let selectedForm;
-			let keyName;
-			switch (action.form) {
-				case 'order': {
-					keyName = 'orderForm';
-					selectedForm = { orderForm: { ...state.orderForm } };
-
-					break;
-				}
-				case 'prodEditForm': {
-					keyName = 'prodEditForm';
-					selectedForm = { prodEditForm: { ...state.prodEditForm } };
-					break;
-				}
-				default:
-					break;
-			}
-
 			let isEdited = false;
 			let initialFormData = null;
 			const existingInitialData =
-				selectedForm[keyName].fields[action.inputId].initialData;
+				selectedForm[selectedFormName].fields[action.inputId]
+					.initialData;
 
 			if (action.isInitial) {
 				initialFormData = action.newValue;
@@ -87,25 +88,28 @@ const formReducer = (state = initialState, action) => {
 			}
 
 			const updatedInput = {
-				...selectedForm[keyName].fields[action.inputId],
+				...selectedForm[selectedFormName].fields[action.inputId],
 				value: action.newValue,
 				touched: action.isInitial ? false : true,
 				initialData: initialFormData,
 				isEdited,
 				valid: checkValidity(
 					action.newValue,
-					selectedForm[keyName].fields[action.inputId].validation
+					selectedForm[selectedFormName].fields[action.inputId]
+						.validation
 				),
 			};
 
 			let formIsValidAfterUpdate = true;
 			let formIsEditedAfterUpdate = false;
 
-			for (let inputIdentifier in selectedForm[keyName].fields) {
+			for (let inputIdentifier in selectedForm[selectedFormName].fields) {
 				let isFieldValid =
-					selectedForm[keyName].fields[inputIdentifier].valid;
+					selectedForm[selectedFormName].fields[inputIdentifier]
+						.valid;
 				let isFieldEdited =
-					selectedForm[keyName].fields[inputIdentifier].isEdited;
+					selectedForm[selectedFormName].fields[inputIdentifier]
+						.isEdited;
 				// check other fields
 				if (!action.isInitial) {
 					if (inputIdentifier === action.inputId) {
@@ -133,12 +137,12 @@ const formReducer = (state = initialState, action) => {
 			let updatedState = {
 				...state,
 
-				[keyName]: {
-					...selectedForm[keyName],
+				[selectedFormName]: {
+					...selectedForm[selectedFormName],
 					formIsValid: formIsValidAfterUpdate,
 					formIsEdited: formIsEditedAfterUpdate,
 					fields: {
-						...selectedForm[keyName].fields,
+						...selectedForm[selectedFormName].fields,
 						[action.inputId]: {
 							...updatedInput,
 						},
@@ -146,6 +150,17 @@ const formReducer = (state = initialState, action) => {
 				},
 			};
 
+			return {
+				...updatedState,
+			};
+		}
+		case actionTypes.CLEAR_FORM: {
+			const updatedState = {
+				...state,
+				[selectedFormName]: {
+					...initialState[selectedFormName],
+				},
+			};
 			return {
 				...updatedState,
 			};
