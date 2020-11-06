@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 import classes from './FetchList.module.scss';
 import usePagination from './../../../../hooks/usePagination';
@@ -51,8 +51,8 @@ const FetchList = (props) => {
 		await props.onSave();
 		fetchData.callPaginated(null, null, fullUrl);
 	};
-	let listContent = null;
 
+	let listContent = null;
 	let newProductsList = null;
 
 	if (
@@ -64,6 +64,37 @@ const FetchList = (props) => {
 	} else if (fetchData.isError) {
 		listContent = <p>ERROR</p>;
 	} else {
+		let itemsList = null;
+		if (props.collection === 'products') {
+			itemsList = (
+				<GenericList
+					displayWith={ProdListItem}
+					dataArray={fetchData.data}
+					additional={{
+						viewHandler: props.onView,
+						modifyHandler: props.onModify,
+						removedItems: props.removedItems,
+						modifiedItems: props.modifiedItems,
+						collection: props.collection,
+					}}
+				/>
+			);
+		} else if (props.collection === 'orders') {
+			itemsList = (
+				<GenericList
+					displayWith={OrderListItem}
+					dataArray={fetchData.data}
+					additional={{
+						viewHandler: props.onView,
+						modifyHandler: props.onModify,
+						removedItems: props.removedItems,
+						modifiedItems: props.modifiedItems,
+						collection: props.collection,
+					}}
+				/>
+			);
+		} else itemsList = <p>No list of that type</p>;
+
 		listContent = (
 			<Fragment>
 				{newProductsList}
@@ -92,40 +123,7 @@ const FetchList = (props) => {
 						/>
 					</div>
 				</div>
-				<Switch>
-					<Route path={links.products}>
-						<GenericList
-							displayWith={ProdListItem}
-							dataArray={fetchData.data}
-							additional={{
-								viewHandler: props.onView,
-								modifyHandler: props.onModify,
-								removedItems: props.removedItems,
-								modifiedItems: props.modifiedItems,
-								collection: props.collection,
-							}}
-						/>
-					</Route>
-
-					<Route path={links.orders}>
-						<GenericList
-							displayWith={OrderListItem}
-							dataArray={fetchData.data}
-							additional={{
-								viewHandler: props.onView,
-								modifyHandler: props.onModify,
-								removedItems: props.removedItems,
-								modifiedItems: props.modifiedItems,
-								collection: props.collection,
-							}}
-						/>
-					</Route>
-
-					<Route path={links.newProduct}>
-						<p>newProd</p>
-					</Route>
-				</Switch>
-
+				{itemsList}
 				<PaginationButtons
 					resetChanges={props.onReset}
 					fetchApi={fetchData}
