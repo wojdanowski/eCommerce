@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import * as checkoutFormActions from '../../store/actions/checkoutFormActions';
+import * as formActions from '../../store/actions/formActions';
 import * as cartActions from '../../store/actions/cartActions';
 
 import { useFetchApi } from '../../hooks/useFetchApi';
@@ -31,7 +31,7 @@ const CheckoutForm = (props) => {
 	}
 
 	const inputChangedHandler = (event, inputId) => {
-		props.updateFormField(event.target.value, inputId);
+		props.updateFormField(event.target.value, inputId, 'order');
 	};
 
 	const orderSubmitHandler = (event) => {
@@ -141,19 +141,20 @@ const CheckoutForm = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		formFields: state.checkoutFormState.orderForm,
-		formIsValid: state.checkoutFormState.formIsValid,
+		formFields: state.formState.orderForm.fields,
+		formIsValid: state.formState.orderForm.formIsValid,
 		prodsInCart: state.cartState.products,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		updateFormField: (enteredValue, selectedInputId) =>
+		updateFormField: (enteredValue, selectedInputId, form) =>
 			dispatch({
-				type: checkoutFormActions.UPDATE_FIELD,
+				type: formActions.UPDATE_FIELD,
 				newValue: enteredValue,
 				inputId: selectedInputId,
+				form: form,
 			}),
 		clearCart: () => dispatch({ type: cartActions.CLEAR_CART }),
 	};

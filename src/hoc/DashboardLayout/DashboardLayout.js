@@ -10,12 +10,9 @@ const DashboardLayout = (props) => {
 	return (
 		<div className={classes.dashboard}>
 			<div className={classes.dashboardHeadNav}>
-				<Toolbar />
+				<Toolbar isAdmin={true} />
 			</div>
 			<div className={classes.dashboardSideToolbar}>
-				<Link to='/admin/'>
-					<GenericButton label='Home' />
-				</Link>
 				<Link to='/admin/orders'>
 					<GenericButton label='Orders' />
 				</Link>

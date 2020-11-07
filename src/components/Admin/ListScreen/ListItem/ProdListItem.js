@@ -18,7 +18,8 @@ const ProdListItem = (props) => {
 			},
 			{
 				icon: <FiEdit />,
-				handler: () => props.additional.modifyHandler(props.itemData),
+				handler: () =>
+					props.additional.modifyHandler(props.itemData, 'modify'),
 			},
 			{
 				type: 'delete',
@@ -38,7 +39,7 @@ const ProdListItem = (props) => {
 
 	return (
 		<ListItem removed={isRemoved} edited={isModified} buttons={tools}>
-			<ProdDescription itemData={props.itemData} />
+			<ProdDescription isAdmin={true} itemData={props.itemData} />
 		</ListItem>
 	);
 };

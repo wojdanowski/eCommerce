@@ -11,6 +11,10 @@
 	background: $blackColor;
 	color: $lightColor;
 
+	&.hidden {
+		display: none;
+	}
+
 	&.success {
 		background: $successColor;
 		color: $blackColor;

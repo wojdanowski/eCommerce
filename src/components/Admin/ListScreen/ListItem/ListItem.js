@@ -2,7 +2,7 @@ import React from 'react';
 
 import classes from './ListItem.module.scss';
 import IconButton from '../../../UI/Buttons/IconButton/IconButton';
-import EditStatus from './../../UI/EditStatus/EditStatus';
+import EditStatus from '../../../UI/EditStatus/EditStatus';
 
 const ListItem = (props) => {
 	let colorStyle;

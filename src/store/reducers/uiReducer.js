@@ -6,6 +6,7 @@ const initialState = {
 		rightSidebarVisible: false,
 	},
 	modalVisible: false,
+	modalDisappeared: true,
 };
 
 const uiReducer = (state = initialState, action) => {
@@ -30,9 +31,14 @@ const uiReducer = (state = initialState, action) => {
 			return {
 				...state,
 				modalVisible: !state.modalVisible,
-				sidebars: {
-					...state.sidebars,
-				},
+				modalDisappeared: !state.modalVisible
+					? false
+					: state.modalDisappeared,
+			};
+		case actionTypes.SET_MODAL_DISAPPEARED:
+			return {
+				...state,
+				modalDisappeared: state.modalVisible ? false : true,
 			};
 
 		default:

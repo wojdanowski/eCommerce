@@ -1,0 +1,65 @@
+@import '../../../styles/config.module.scss';
+
+.prodPageContainer {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	overflow-y: scroll;
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+	// flex-wrap: wrap;
+	// align-items: center;
+	// justify-content: center;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	& > div {
+		margin-bottom: 2rem;
+		@include dotted_border_bottom;
+	}
+
+	.head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.buttonContainer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			& * {
+				margin: 0 0.5rem;
+			}
+		}
+	}
+	.editContainer {
+		display: flex;
+		flex-direction: row;
+
+		.imgSection {
+			padding: 0 1rem;
+
+			.thumbContainer {
+				margin-bottom: 1rem;
+			}
+
+			.dropContainer {
+				min-width: 40%;
+				flex-grow: 1;
+			}
+		}
+		.descriptionContainer {
+			min-width: 60%;
+			flex-grow: 1;
+		}
+	}
+}
+
+// @media (max-width: $mobile) {
+// 	.prodPageContainer {
+// 		flex-direction: column;
+// 	}
+// }

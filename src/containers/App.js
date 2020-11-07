@@ -8,7 +8,7 @@ import './app.scss';
 
 import uiReducer from '../store/reducers/uiReducer';
 import cartReducer from '../store/reducers/cartReducer';
-import checkoutFormReducer from './../store/reducers/checkoutFormReducer';
+import formReducer from './../store/reducers/formReducer';
 
 import HomeRouter from './HomeRouter';
 import DashboardRouter from './DashboardRouter';
@@ -16,7 +16,7 @@ import DashboardRouter from './DashboardRouter';
 const rootReducer = combineReducers({
 	uiState: uiReducer,
 	cartState: cartReducer,
-	checkoutFormState: checkoutFormReducer,
+	formState: formReducer,
 });
 const store = createStore(
 	rootReducer,

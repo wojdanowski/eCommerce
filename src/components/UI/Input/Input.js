@@ -10,6 +10,8 @@ const Input = (props) => {
 		inputClasses.push(classes.invalid);
 	}
 
+	if (props.size) inputClasses.push(classes[props.size]);
+
 	switch (props.elementType) {
 		case 'input':
 			inputElement = (

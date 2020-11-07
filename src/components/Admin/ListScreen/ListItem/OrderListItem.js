@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FiTrash2, FiBox, FiEye } from 'react-icons/fi';
+import { FiTrash2, FiCheckSquare, FiEye } from 'react-icons/fi';
 import isPresent from './../../../../utilities/isPresent';
 import ListItem from './ListItem';
 import OrderDescription from './OrderDescription';
@@ -14,7 +14,7 @@ const OrderListItem = (props) => {
 			handler: () => props.additional.viewHandler(props.itemData),
 		},
 		{
-			icon: <FiBox />,
+			icon: <FiCheckSquare />,
 			handler: () =>
 				props.additional.modifyHandler(props.itemData, 'modify'),
 		},
