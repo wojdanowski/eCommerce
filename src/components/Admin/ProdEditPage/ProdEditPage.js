@@ -16,6 +16,13 @@ const ProdEditPage = (props) => {
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
 
+	const isRemoved = props.isNewProdCreation
+		? null
+		: isPresent(prodData.id, props.removedItems);
+	const isModified = props.isNewProdCreation
+		? null
+		: isPresent(prodData.id, props.modifiedItems);
+
 	const thumbClickedHandler = (src) => {
 		const updatedArray = loadedImages.map((el) => {
 			if (el.preview === src) {
@@ -23,7 +30,10 @@ const ProdEditPage = (props) => {
 			} else return el;
 		});
 		setLoadedImages([...updatedArray]);
-		setImagesChanged(true);
+
+		if (updatedArray.find((el) => el.removed) || isModified) {
+			setImagesChanged(true);
+		} else setImagesChanged(false);
 	};
 
 	const saveSubmitHandler = (event) => {
@@ -70,13 +80,6 @@ const ProdEditPage = (props) => {
 			config: props.formFields[key],
 		});
 	}
-
-	const isRemoved = props.isNewProdCreation
-		? null
-		: isPresent(prodData.id, props.removedItems);
-	const isModified = props.isNewProdCreation
-		? null
-		: isPresent(prodData.id, props.modifiedItems);
 
 	useEffect(() => {
 		let allImgs = [];
