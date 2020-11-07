@@ -23,19 +23,16 @@ const ProdEditPage = (props) => {
 			} else return el;
 		});
 		setLoadedImages([...updatedArray]);
-
-		if (updatedArray.find((el) => el.removed)) {
-			setImagesChanged(true);
-		} else setImagesChanged(false);
+		setImagesChanged(true);
 	};
 
 	const saveSubmitHandler = (event) => {
 		let newProduct = {
 			id: prodData.id,
 			images: [
-				...loadedImages.filter(
-					(image) => !image.upload && !image.removed
-				),
+				...loadedImages
+					.filter((image) => !image.upload && !image.removed)
+					.map((image) => image.preview),
 			],
 		};
 		Object.keys(props.formFields).map((el) => {
@@ -85,8 +82,12 @@ const ProdEditPage = (props) => {
 		let allImgs = [];
 		if (prodData.images) {
 			prodData.images.map((el) => {
+				let isImgRemoved = false;
+				if (isModified) {
+					isImgRemoved = !isModified.images.find((img) => img === el);
+				}
 				allImgs.push({
-					removed: false,
+					removed: isImgRemoved,
 					name: el,
 					preview: el,
 					upload: false,
@@ -95,7 +96,7 @@ const ProdEditPage = (props) => {
 			});
 			setLoadedImages([...allImgs]);
 		}
-	}, [prodData.images]);
+	}, [prodData.images, isModified]);
 
 	useEffect(() => {
 		let dataToLoad;
@@ -135,14 +136,6 @@ const ProdEditPage = (props) => {
 		clearForm,
 	]);
 
-	let colorStyle;
-	if (isRemoved) {
-		colorStyle = 'utilOnRemove';
-	} else {
-		colorStyle = null;
-	}
-	const appendClasses = [classes.head, colorStyle];
-
 	let thumbs = null;
 	if (loadedImages && loadedImages.length) {
 		thumbs = (
@@ -162,6 +155,14 @@ const ProdEditPage = (props) => {
 	} else {
 		thumbs = <p>No Images!</p>;
 	}
+
+	let colorStyle;
+	if (isRemoved) {
+		colorStyle = 'utilOnRemove';
+	} else {
+		colorStyle = null;
+	}
+	const appendClasses = [classes.head, colorStyle];
 
 	return (
 		<div className={classes.prodPageContainer}>
