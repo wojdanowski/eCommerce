@@ -30,7 +30,14 @@ const ProdEditPage = (props) => {
 	};
 
 	const saveSubmitHandler = (event) => {
-		let newProduct = { id: prodData.id };
+		let newProduct = {
+			id: prodData.id,
+			images: [
+				...loadedImages.filter(
+					(image) => !image.upload && !image.removed
+				),
+			],
+		};
 		Object.keys(props.formFields).map((el) => {
 			if (props.formFields[el].isEdited) {
 				newProduct = {

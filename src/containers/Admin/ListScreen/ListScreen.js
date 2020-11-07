@@ -77,6 +77,14 @@ const ListScreen = (props) => {
 			if (key !== 'images') {
 				isProdEdited =
 					newProduct[key] !== prodInDb[key] ? true : isProdEdited;
+			} else {
+				for (const imgUrl in newProduct.images.values()) {
+					isProdEdited = !prodInDb.images.find(
+						(dbImg) => dbImg === imgUrl
+					)
+						? true
+						: isProdEdited;
+				}
 			}
 		}
 		isProdEdited = newProduct.images ? true : isProdEdited;
