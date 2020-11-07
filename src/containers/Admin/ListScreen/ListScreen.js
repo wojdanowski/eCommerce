@@ -245,7 +245,8 @@ const ListScreen = (props) => {
 											key !== 'collection' &&
 											key !== 'remove' &&
 											key !== 'modify' &&
-											key !== 'createProduct'
+											key !== 'createProduct' &&
+											key !== 'imagesForUpload'
 										) {
 											object[key] = el[key];
 										}

@@ -15,6 +15,7 @@ const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
+	const [filesToRevoke, setFilesToRevoke] = useState([]);
 
 	const isRemoved = props.isNewProdCreation
 		? null
@@ -26,12 +27,12 @@ const ProdEditPage = (props) => {
 	const thumbClickedHandler = (src) => {
 		const updatedArray = loadedImages.map((el) => {
 			if (el.preview === src) {
-				return { ...el, removed: !el.removed };
+				return Object.assign(el, { removed: !el.removed });
 			} else return el;
 		});
 		setLoadedImages([...updatedArray]);
 
-		if (updatedArray.find((el) => el.removed) || isModified) {
+		if (updatedArray.find((el) => el.removed || el.upload) || isModified) {
 			setImagesChanged(true);
 		} else setImagesChanged(false);
 	};
@@ -41,9 +42,12 @@ const ProdEditPage = (props) => {
 			id: prodData.id,
 			images: [
 				...loadedImages
-					.filter((image) => !image.upload && !image.removed)
+					.filter((image) => !image.removed && !image.upload)
 					.map((image) => image.preview),
 			],
+			imagesForUpload: loadedImages.filter(
+				(image) => !image.removed && image.upload
+			),
 		};
 		Object.keys(props.formFields).map((el) => {
 			if (props.formFields[el].isEdited) {
@@ -68,9 +72,19 @@ const ProdEditPage = (props) => {
 	const getFilesFromDropZone = (files) => {
 		setLoadedImages((prevState) =>
 			[...prevState].concat(
-				files.map((file) => Object.assign(file, { upload: true }))
+				files
+					.map((file) =>
+						Object.assign(file, { upload: true, removed: false })
+					)
+					.filter(
+						(file) =>
+							!loadedImages.find(
+								(loadedImage) => loadedImage.path === file.path
+							)
+					)
 			)
 		);
+		setImagesChanged(true);
 	};
 
 	let formElementsArray = [];
@@ -97,9 +111,36 @@ const ProdEditPage = (props) => {
 				});
 				return null;
 			});
+			if (isModified && isModified.imagesForUpload)
+				allImgs = allImgs.concat(isModified.imagesForUpload);
+
 			setLoadedImages([...allImgs]);
 		}
-	}, [prodData.images, isModified]);
+	}, [prodData.images, isModified, prodData.imagesForUpload]);
+
+	// // REVOKE unused URLs
+	// useEffect(() => {
+	// 	let unusedFiles;
+	// 	let imagesFromDropZone = loadedImages.filter((img) => img.upload);
+	// 	if (loadedImages && isModified.imagesForUpload) {
+	// 		unusedFiles = imagesFromDropZone.filter(
+	// 			(imageFromDz) =>
+	// 				!isModified.imagesForUpload.find(
+	// 					(imgForUpload) =>
+	// 						imgForUpload.preview === imageFromDz.preview
+	// 				)
+	// 		);
+	// 		// setFilesToRevoke([...unusedFiles]);
+	// 	} else if (loadedImages && !isModified) {
+	// 		unusedFiles = imagesFromDropZone;
+	// 		// setFilesToRevoke([...unusedFiles]);
+	// 	}
+	// 	// console.log(unusedFiles);
+	// 	return () => {
+	// 		console.log(`CleanUp`);
+	// 		console.log(unusedFiles);
+	// 	};
+	// }, [loadedImages, isModified]);
 
 	useEffect(() => {
 		let dataToLoad;
@@ -146,7 +187,7 @@ const ProdEditPage = (props) => {
 				{loadedImages.map((img, index) => {
 					return (
 						<ImgThumb
-							key={img.name}
+							key={img.preview}
 							imgSrc={img.preview}
 							clicked={() => thumbClickedHandler(img.preview)}
 							isRemoved={loadedImages[index].removed}

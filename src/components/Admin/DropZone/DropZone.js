@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import classes from './DropZone.module.scss';
-import ImgThumb from './../../UI/ImgThumb/ImgThumb';
 
 const baseStyle = {
 	flex: 1,
@@ -61,10 +60,6 @@ function DropZone(props) {
 		},
 	});
 
-	const imgClickHandler = (fileName) => {
-		setFiles(files.filter((file) => file.name !== fileName));
-	};
-
 	const style = useMemo(
 		() => ({
 			...baseStyle,
@@ -75,13 +70,14 @@ function DropZone(props) {
 		[isDragActive, isDragReject, isDragAccept]
 	);
 
-	useEffect(
-		() => () => {
-			// Make sure to revoke the data uris to avoid memory leaks
-			files.forEach((file) => URL.revokeObjectURL(file.preview));
-		},
-		[files]
-	);
+	// useEffect(
+	// 	() => () => {
+	// 		// Make sure to revoke the data uris to avoid memory leaks
+	// 		files.forEach((file) => URL.revokeObjectURL(file.preview));
+	// 	},
+	// 	[files]
+	// );
+
 	return (
 		<section className={classes.container}>
 			<div {...getRootProps({ style })}>
