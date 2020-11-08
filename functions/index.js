@@ -6,6 +6,7 @@ const cors = require('cors')({ origin: true });
 const Busboy = require('busboy');
 const fs = require('fs');
 const { Storage } = require('@google-cloud/storage');
+const { v4: uuidv4 } = require('uuid');
 
 const storageConfig = {
 	projectId: 'ecommerceprodmockup',
@@ -46,8 +47,10 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
 				.upload(uploadData.file, {
 					uploadType: 'media',
 					metadata: {
+						cacheControl: 'public, max-age=31536000',
 						metadata: {
 							contentType: uploadData.type,
+							firebaseStorageDownloadTokens: uuidv4(),
 						},
 					},
 				})
