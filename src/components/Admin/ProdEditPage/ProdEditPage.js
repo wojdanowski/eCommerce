@@ -4,18 +4,20 @@ import { connect } from 'react-redux';
 import classes from './ProdEditPage.module.scss';
 import * as formActions from '../../../store/actions/formActions';
 import isPresent from '../../../utilities/isPresent';
-
+import { uploadImages } from '../../../utilities/imagesHandlers';
 import Input from '../../UI/Input/Input';
 import EditStatus from './../../UI/EditStatus/EditStatus';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import DropZone from './../DropZone/DropZone';
 import ImgThumb from './../../UI/ImgThumb/ImgThumb';
+import Loader from './../../UI/Loader/Loader';
 
 const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
 	const [filesToRevoke, setFilesToRevoke] = useState([]);
+	const [imagesUploading, setImagesUploading] = useState();
 
 	const isRemoved = props.isNewProdCreation
 		? null
@@ -37,7 +39,19 @@ const ProdEditPage = (props) => {
 		} else setImagesChanged(false);
 	};
 
-	const saveSubmitHandler = (event) => {
+	const saveSubmitHandler = async (event) => {
+		// const imagesToUpload = loadedImages.filter(
+		// 	(el) => el.upload && !el.remove
+		// );
+		// if (imagesToUpload) {
+		// 	setImagesUploading(true);
+		// 	await uploadImages(imagesToUpload, prodData.id);
+		// 	imagesToUpload.forEach((image) =>
+		// 		URL.revokeObjectURL(image.preview)
+		// 	);
+		// 	setImagesUploading(false);
+		// }
+
 		let newProduct = {
 			id: prodData.id,
 			images: [
@@ -118,24 +132,26 @@ const ProdEditPage = (props) => {
 		}
 	}, [prodData.images, isModified, prodData.imagesForUpload]);
 
-	// // REVOKE unused URLs
+	// REVOKE unused URLs
 	// useEffect(() => {
 	// 	let unusedFiles;
 	// 	let imagesFromDropZone = loadedImages.filter((img) => img.upload);
-	// 	if (loadedImages && isModified.imagesForUpload) {
-	// 		unusedFiles = imagesFromDropZone.filter(
-	// 			(imageFromDz) =>
-	// 				!isModified.imagesForUpload.find(
-	// 					(imgForUpload) =>
-	// 						imgForUpload.preview === imageFromDz.preview
-	// 				)
-	// 		);
-	// 		// setFilesToRevoke([...unusedFiles]);
-	// 	} else if (loadedImages && !isModified) {
-	// 		unusedFiles = imagesFromDropZone;
-	// 		// setFilesToRevoke([...unusedFiles]);
+	// 	if (isModified) {
+	// 		if (loadedImages && isModified.imagesForUpload) {
+	// 			unusedFiles = imagesFromDropZone.filter(
+	// 				(imageFromDz) =>
+	// 					!isModified.imagesForUpload.find(
+	// 						(imgForUpload) =>
+	// 							imgForUpload.preview === imageFromDz.preview
+	// 					)
+	// 			);
+	// 			// setFilesToRevoke([...unusedFiles]);
+	// 		} else if (loadedImages && !isModified) {
+	// 			unusedFiles = imagesFromDropZone;
+	// 			// setFilesToRevoke([...unusedFiles]);
+	// 		}
+	// 		// console.log(unusedFiles);
 	// 	}
-	// 	// console.log(unusedFiles);
 	// 	return () => {
 	// 		console.log(`CleanUp`);
 	// 		console.log(unusedFiles);
@@ -208,7 +224,12 @@ const ProdEditPage = (props) => {
 	}
 	const appendClasses = [classes.head, colorStyle];
 
-	return (
+	return imagesUploading ? (
+		<Fragment>
+			<p>Uploading images...</p>
+			<Loader />
+		</Fragment>
+	) : (
 		<div className={classes.prodPageContainer}>
 			<div className={appendClasses.join(' ')}>
 				<h1>Product id: {prodData.id}</h1>
@@ -287,7 +308,6 @@ const mapStateToProps = (state) => {
 		formFields: state.formState.prodEditForm.fields,
 		formIsValid: state.formState.prodEditForm.formIsValid,
 		formIsEdited: state.formState.prodEditForm.formIsEdited,
-		formIsTouched: state.formState.prodEditForm.formIsTouched,
 	};
 };
 
