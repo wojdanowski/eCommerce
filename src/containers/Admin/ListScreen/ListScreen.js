@@ -298,6 +298,7 @@ const ListScreen = (props) => {
 					modalContent =
 						selectedItem && !props.modalDisappeared ? (
 							<ProdEditPage
+								newItems={newItems}
 								prodData={selectedItem}
 								removedItems={deletedItems}
 								modifiedItems={editedItems}
@@ -321,6 +322,7 @@ const ListScreen = (props) => {
 						const prodData = { id: newProductId };
 						modalContent = (
 							<ProdEditPage
+								newItems={newItems}
 								prodData={prodData}
 								removedItems={deletedItems}
 								modifiedItems={editedItems}

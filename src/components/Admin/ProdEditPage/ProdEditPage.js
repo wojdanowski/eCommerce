@@ -25,6 +25,9 @@ const ProdEditPage = (props) => {
 	const isModified = props.isNewProdCreation
 		? null
 		: isPresent(prodData.id, props.modifiedItems);
+	const isNewItem = props.isNewProdCreation
+		? null
+		: isPresent(prodData.id, props.newItems);
 
 	const thumbClickedHandler = (src) => {
 		const updatedArray = loadedImages.map((el) => {
@@ -109,6 +112,7 @@ const ProdEditPage = (props) => {
 		});
 	}
 
+	// Load initial images
 	useEffect(() => {
 		let allImgs = [];
 		if (prodData.images) {
@@ -125,32 +129,40 @@ const ProdEditPage = (props) => {
 				});
 				return null;
 			});
-			if (isModified && isModified.imagesForUpload)
-				allImgs = allImgs.concat(isModified.imagesForUpload);
-
-			setLoadedImages([...allImgs]);
 		}
-	}, [prodData.images, isModified, prodData.imagesForUpload]);
+		if (isModified && isModified.imagesForUpload)
+			allImgs = allImgs.concat(isModified.imagesForUpload);
+		if (isNewItem && isNewItem.imagesForUpload)
+			allImgs = allImgs.concat(isNewItem.imagesForUpload);
+
+		setLoadedImages([...allImgs]);
+	}, [
+		prodData.images,
+		isModified,
+		prodData,
+		prodData.imagesForUpload,
+		isNewItem,
+	]);
 
 	// REVOKE unused URLs
 	// useEffect(() => {
 	// 	let unusedFiles;
 	// 	let imagesFromDropZone = loadedImages.filter((img) => img.upload);
 	// 	if (isModified) {
-	// 		if (loadedImages && isModified.imagesForUpload) {
-	// 			unusedFiles = imagesFromDropZone.filter(
-	// 				(imageFromDz) =>
-	// 					!isModified.imagesForUpload.find(
-	// 						(imgForUpload) =>
-	// 							imgForUpload.preview === imageFromDz.preview
-	// 					)
-	// 			);
-	// 			// setFilesToRevoke([...unusedFiles]);
-	// 		} else if (loadedImages && !isModified) {
-	// 			unusedFiles = imagesFromDropZone;
-	// 			// setFilesToRevoke([...unusedFiles]);
-	// 		}
-	// 		// console.log(unusedFiles);
+	// 	if (loadedImages && isModified && isModified.imagesForUpload) {
+	// 		unusedFiles = imagesFromDropZone.filter(
+	// 			(imageFromDz) =>
+	// 				!isModified.imagesForUpload.find(
+	// 					(imgForUpload) =>
+	// 						imgForUpload.preview === imageFromDz.preview
+	// 				)
+	// 		);
+	// 		// setFilesToRevoke([...unusedFiles]);
+	// 	} else if (loadedImages && !isModified) {
+	// 		unusedFiles = imagesFromDropZone;
+	// 		// setFilesToRevoke([...unusedFiles]);
+	// 	}
+	// 	// console.log(unusedFiles);
 	// 	}
 	// 	return () => {
 	// 		console.log(`CleanUp`);
