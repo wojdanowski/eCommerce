@@ -16,7 +16,6 @@ const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
-	const [filesToRevoke, setFilesToRevoke] = useState([]);
 	const [imagesUploading, setImagesUploading] = useState();
 
 	const isRemoved = props.isNewProdCreation
@@ -130,10 +129,11 @@ const ProdEditPage = (props) => {
 				return null;
 			});
 		}
-		if (isModified && isModified.imagesForUpload)
+		if (isModified && isModified.imagesForUpload) {
 			allImgs = allImgs.concat(isModified.imagesForUpload);
-		if (isNewItem && isNewItem.imagesForUpload)
+		} else if (isNewItem && isNewItem.imagesForUpload) {
 			allImgs = allImgs.concat(isNewItem.imagesForUpload);
+		}
 
 		setLoadedImages([...allImgs]);
 	}, [
