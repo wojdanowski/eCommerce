@@ -61,9 +61,7 @@ const ProdEditPage = (props) => {
 					.filter((image) => !image.removed && !image.upload)
 					.map((image) => image.preview),
 			],
-			imagesForUpload: loadedImages.filter(
-				(image) => !image.removed && image.upload
-			),
+			imagesForUpload: loadedImages.filter((image) => image.upload),
 		};
 		Object.keys(props.formFields).map((el) => {
 			if (props.formFields[el].isEdited) {
@@ -130,9 +128,13 @@ const ProdEditPage = (props) => {
 			});
 		}
 		if (isModified && isModified.imagesForUpload) {
-			allImgs = allImgs.concat(isModified.imagesForUpload);
+			allImgs = allImgs.concat(
+				isModified.imagesForUpload.filter((img) => !img.removed)
+			);
 		} else if (isNewItem && isNewItem.imagesForUpload) {
-			allImgs = allImgs.concat(isNewItem.imagesForUpload);
+			allImgs = allImgs.concat(
+				isNewItem.imagesForUpload.filter((img) => !img.removed)
+			);
 		}
 
 		setLoadedImages([...allImgs]);
@@ -143,32 +145,6 @@ const ProdEditPage = (props) => {
 		prodData.imagesForUpload,
 		isNewItem,
 	]);
-
-	// REVOKE unused URLs
-	// useEffect(() => {
-	// 	let unusedFiles;
-	// 	let imagesFromDropZone = loadedImages.filter((img) => img.upload);
-	// 	if (isModified) {
-	// 	if (loadedImages && isModified && isModified.imagesForUpload) {
-	// 		unusedFiles = imagesFromDropZone.filter(
-	// 			(imageFromDz) =>
-	// 				!isModified.imagesForUpload.find(
-	// 					(imgForUpload) =>
-	// 						imgForUpload.preview === imageFromDz.preview
-	// 				)
-	// 		);
-	// 		// setFilesToRevoke([...unusedFiles]);
-	// 	} else if (loadedImages && !isModified) {
-	// 		unusedFiles = imagesFromDropZone;
-	// 		// setFilesToRevoke([...unusedFiles]);
-	// 	}
-	// 	// console.log(unusedFiles);
-	// 	}
-	// 	return () => {
-	// 		console.log(`CleanUp`);
-	// 		console.log(unusedFiles);
-	// 	};
-	// }, [loadedImages, isModified]);
 
 	useEffect(() => {
 		let dataToLoad;
