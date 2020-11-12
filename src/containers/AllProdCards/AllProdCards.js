@@ -51,7 +51,7 @@ const AllProdCards = (props) => {
 
 	let modalProdContent = null;
 	if (fetchData.isLoading) modalProdContent = <Loader />;
-	if (selectedProd && props.modalDisappeared && fetchData.data) {
+	if (selectedProd && !props.modalDisappeared && fetchData.data) {
 		let selectedProdData = fetchData.data.filter(
 			(el) => el.id === selectedProd
 		)[0];
