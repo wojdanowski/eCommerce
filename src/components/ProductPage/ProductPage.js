@@ -15,7 +15,7 @@ const ProductPage = (props) => {
 		<div className={classes.prodPageContainer}>
 			<div className={classes.firstRow}>
 				<div className={classes.imgGalleryContainer}>
-					<ProdGallery />
+					<ProdGallery images={props.prodData.images} />
 				</div>
 				<div className={classes.description}>
 					<div className={classes.shortDescription}>
