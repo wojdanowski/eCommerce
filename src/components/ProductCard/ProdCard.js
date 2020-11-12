@@ -20,7 +20,7 @@ const ProdCard = (props) => {
 			>
 				<img
 					className={classes.productImg}
-					src={props.productInfo.thumb}
+					src={props.productInfo.images[0]}
 					alt='prodImg'
 				/>
 			</div>

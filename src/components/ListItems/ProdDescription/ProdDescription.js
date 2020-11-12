@@ -13,7 +13,7 @@ const ProdDescription = (props) => {
 			<div className={classes.imgContainer}>
 				<img
 					className={classes.prodImg}
-					src={props.itemData.thumb}
+					src={props.itemData.images[0]}
 					alt='prodImg'
 				/>
 			</div>
