@@ -25,7 +25,6 @@ export const uploadImage = async (files, prodId) => {
 								} catch (err) {
 									console.log(err);
 								}
-								console.log(`finished`);
 								resolve(downloadUrl);
 							}
 						);

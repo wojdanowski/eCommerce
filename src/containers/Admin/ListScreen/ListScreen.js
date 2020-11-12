@@ -242,7 +242,10 @@ const ListScreen = (props) => {
 				await Promise.all(
 					modifiedItems
 						.filter(
-							(el) => el.remove === true || el.modify === true
+							(el) =>
+								el.remove === true ||
+								el.modify === true ||
+								el.createProduct === true
 						)
 						.map((el) => {
 							let updatedItem;
@@ -254,7 +257,7 @@ const ListScreen = (props) => {
 								};
 							} else if (
 								el.collection === 'products' &&
-								el.modify
+								(el.modify || el.createProduct)
 							) {
 								updatedItem = Object.keys(el).reduce(
 									(object, key) => {
@@ -262,8 +265,7 @@ const ListScreen = (props) => {
 											key !== 'collection' &&
 											key !== 'remove' &&
 											key !== 'modify' &&
-											key !== 'createProduct' &&
-											key !== 'imagesForUpload'
+											key !== 'createProduct'
 										) {
 											object[key] = el[key];
 										}
@@ -271,6 +273,12 @@ const ListScreen = (props) => {
 									},
 									{}
 								);
+								if (updatedItem.images) {
+									let updatedImages = updatedItem.images
+										.filter((image) => !image.removed)
+										.map((image) => image.src);
+									updatedItem.images = updatedImages;
+								}
 							}
 
 							return fetchApi.callFetchApi(
