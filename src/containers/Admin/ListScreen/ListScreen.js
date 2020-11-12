@@ -65,27 +65,6 @@ const ListScreen = (props) => {
 		getCollectionName,
 	]);
 
-	useEffect(() => {
-		let itemsWithUploadImgs;
-		let urlsToRevoke = [];
-		if (modifiedItems.length) {
-			itemsWithUploadImgs = modifiedItems.filter(
-				(item) => item.imagesForUpload
-			);
-			itemsWithUploadImgs.forEach((item) => {
-				item.imagesForUpload.forEach((image) => {
-					if (image.removed) urlsToRevoke.push(image.preview);
-				});
-			});
-		}
-
-		return () => {
-			// console.log(`[listScreen] clean up`);
-			// console.log(urlsToRevoke);
-			urlsToRevoke.forEach((url) => URL.revokeObjectURL(url));
-		};
-	}, [modifiedItems]);
-
 	const discardHandler = (id) => {
 		const updatedArray = modifiedItems.filter((el) => el.id !== id);
 		setModifiedItems(updatedArray);

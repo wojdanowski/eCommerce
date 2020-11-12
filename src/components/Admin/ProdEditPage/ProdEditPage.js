@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classes from './ProdEditPage.module.scss';
 import * as formActions from '../../../store/actions/formActions';
 import isPresent from '../../../utilities/isPresent';
-import { uploadImages } from '../../../utilities/imagesHandlers';
+import { uploadImage } from '../../../utilities/imagesHandlers';
 import Input from '../../UI/Input/Input';
 import EditStatus from './../../UI/EditStatus/EditStatus';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
@@ -17,6 +17,7 @@ const ProdEditPage = (props) => {
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
 	const [imagesUploading, setImagesUploading] = useState();
+	const [uploadedImages, setUploadedImages] = useState([]);
 
 	const isRemoved = props.isNewProdCreation
 		? null
@@ -83,21 +84,16 @@ const ProdEditPage = (props) => {
 		updateFormField(event.target.value, inputId, 'prodEditForm');
 	};
 
-	const getFilesFromDropZone = (files) => {
-		setLoadedImages((prevState) =>
-			[...prevState].concat(
-				files
-					.map((file) =>
-						Object.assign(file, { upload: true, removed: false })
-					)
-					.filter(
-						(file) =>
-							!loadedImages.find(
-								(loadedImage) => loadedImage.path === file.path
-							)
-					)
-			)
+	const getFilesFromDropZone = async (images) => {
+		setImagesUploading(true);
+		let linksToUploadedImages;
+		linksToUploadedImages = await uploadImage(images, prodData.id);
+		console.log(linksToUploadedImages);
+		images.forEach((image) => URL.revokeObjectURL(image.preview));
+		setLoadedImages((prevImages) =>
+			prevImages.concat(linksToUploadedImages)
 		);
+		setImagesUploading(false);
 		setImagesChanged(true);
 	};
 
