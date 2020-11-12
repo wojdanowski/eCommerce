@@ -31,38 +31,21 @@ const ProdEditPage = (props) => {
 
 	const thumbClickedHandler = (src) => {
 		const updatedArray = loadedImages.map((el) => {
-			if (el.preview === src) {
+			if (el.src === src) {
 				return Object.assign(el, { removed: !el.removed });
 			} else return el;
 		});
 		setLoadedImages([...updatedArray]);
 
-		if (updatedArray.find((el) => el.removed || el.upload) || isModified) {
+		if (updatedArray.find((el) => el.removed) || isModified) {
 			setImagesChanged(true);
 		} else setImagesChanged(false);
 	};
 
 	const saveSubmitHandler = async (event) => {
-		// const imagesToUpload = loadedImages.filter(
-		// 	(el) => el.upload && !el.remove
-		// );
-		// if (imagesToUpload) {
-		// 	setImagesUploading(true);
-		// 	await uploadImages(imagesToUpload, prodData.id);
-		// 	imagesToUpload.forEach((image) =>
-		// 		URL.revokeObjectURL(image.preview)
-		// 	);
-		// 	setImagesUploading(false);
-		// }
-
 		let newProduct = {
 			id: prodData.id,
-			images: [
-				...loadedImages
-					.filter((image) => !image.removed && !image.upload)
-					.map((image) => image.preview),
-			],
-			imagesForUpload: loadedImages.filter((image) => image.upload),
+			images: [...loadedImages],
 		};
 		Object.keys(props.formFields).map((el) => {
 			if (props.formFields[el].isEdited) {
@@ -76,6 +59,7 @@ const ProdEditPage = (props) => {
 		if (props.isNewProdCreation) {
 			props.onModify(newProduct, 'createProduct');
 		} else {
+			// console.log(`[ProdEditPage] onModify(newProd,'modify')`);
 			props.onModify(newProduct, 'modify');
 		}
 	};
@@ -88,10 +72,17 @@ const ProdEditPage = (props) => {
 		setImagesUploading(true);
 		let linksToUploadedImages;
 		linksToUploadedImages = await uploadImage(images, prodData.id);
-		console.log(linksToUploadedImages);
+		// console.log(linksToUploadedImages);
 		images.forEach((image) => URL.revokeObjectURL(image.preview));
 		setLoadedImages((prevImages) =>
-			prevImages.concat(linksToUploadedImages)
+			prevImages.concat(
+				linksToUploadedImages.map((el) => {
+					return {
+						src: el,
+						removed: false,
+					};
+				})
+			)
 		);
 		setImagesUploading(false);
 		setImagesChanged(true);
@@ -108,39 +99,20 @@ const ProdEditPage = (props) => {
 	// Load initial images
 	useEffect(() => {
 		let allImgs = [];
-		if (prodData.images) {
-			prodData.images.map((el) => {
-				let isImgRemoved = false;
-				if (isModified) {
-					isImgRemoved = !isModified.images.find((img) => img === el);
-				}
-				allImgs.push({
-					removed: isImgRemoved,
-					name: el,
-					preview: el,
-					upload: false,
-				});
-				return null;
+		if (isModified) {
+			allImgs = isModified.images;
+		} else if (isNewItem) {
+			allImgs = isNewItem.images;
+		} else if (prodData.images) {
+			allImgs = prodData.images.map((el) => {
+				return {
+					src: el,
+					removed: false,
+				};
 			});
 		}
-		if (isModified && isModified.imagesForUpload) {
-			allImgs = allImgs.concat(
-				isModified.imagesForUpload.filter((img) => !img.removed)
-			);
-		} else if (isNewItem && isNewItem.imagesForUpload) {
-			allImgs = allImgs.concat(
-				isNewItem.imagesForUpload.filter((img) => !img.removed)
-			);
-		}
-
 		setLoadedImages([...allImgs]);
-	}, [
-		prodData.images,
-		isModified,
-		prodData,
-		prodData.imagesForUpload,
-		isNewItem,
-	]);
+	}, [prodData.images, isModified]);
 
 	useEffect(() => {
 		let dataToLoad;
@@ -187,9 +159,9 @@ const ProdEditPage = (props) => {
 				{loadedImages.map((img, index) => {
 					return (
 						<ImgThumb
-							key={img.preview}
-							imgSrc={img.preview}
-							clicked={() => thumbClickedHandler(img.preview)}
+							key={img.src}
+							imgSrc={img.src}
+							clicked={() => thumbClickedHandler(img.src)}
 							isRemoved={loadedImages[index].removed}
 						/>
 					);

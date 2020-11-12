@@ -72,21 +72,38 @@ const ListScreen = (props) => {
 	};
 
 	const isProductEdited = (newProduct, prodInDb) => {
+		// console.log(`comparing products`);
 		let isProdEdited = false;
 		for (const key in newProduct) {
 			if (key !== 'images') {
-				isProdEdited =
-					newProduct[key] !== prodInDb[key] ? true : isProdEdited;
+				if (newProduct[key] !== prodInDb[key]) {
+					// console.log(`form edited`);
+					return (isProdEdited = true);
+				}
 			} else {
-				for (const index in newProduct.images) {
-					isProdEdited = !prodInDb.images.find(
-						(dbImg) => dbImg === newProduct.images[index]
-					)
-						? true
-						: isProdEdited;
+				if (!prodInDb.images && newProduct.images) {
+					// console.log(`No images in prod in db`);
+					return (isProdEdited = true);
+				} else if (prodInDb.images && newProduct.images) {
+					if (newProduct.images.find((el) => el.removed)) {
+						// console.log(`images element is removed`);
+						return (isProdEdited = true);
+					}
+					for (const index in newProduct.images) {
+						if (
+							!prodInDb.images.find(
+								(dbImg) =>
+									dbImg === newProduct.images[index].src
+							)
+						) {
+							// console.log(`image is added`);
+							return (isProdEdited = true);
+						}
+					}
 				}
 			}
 		}
+		// console.log(`isProdEdited: ${isProdEdited}`);
 		return isProdEdited;
 	};
 
@@ -187,7 +204,7 @@ const ListScreen = (props) => {
 				break;
 			}
 			default: {
-				console.log(`[ListScreen] modifyHandler default case`);
+				// console.log(`[ListScreen] modifyHandler default case`);
 			}
 		}
 	};
@@ -267,7 +284,7 @@ const ListScreen = (props) => {
 						})
 				);
 			} catch (err) {
-				console.log(err);
+				// console.log(err);
 			}
 			resetHandler();
 		}
