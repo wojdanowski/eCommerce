@@ -17,7 +17,6 @@ const ProdEditPage = (props) => {
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
 	const [imagesUploading, setImagesUploading] = useState();
-	const [uploadedImages, setUploadedImages] = useState([]);
 
 	const isRemoved = props.isNewProdCreation
 		? null
@@ -112,7 +111,7 @@ const ProdEditPage = (props) => {
 			});
 		}
 		setLoadedImages([...allImgs]);
-	}, [prodData.images, isModified]);
+	}, [prodData.images, isModified, isNewItem]);
 
 	useEffect(() => {
 		let dataToLoad;
