@@ -10,7 +10,10 @@ const MainNavItem = (props) => {
 		: (appendClass = classes.horizontal);
 
 	return (
-		<li className={`${classes.navItem} ${appendClass}`}>
+		<li
+			className={`${classes.navItem} ${appendClass}`}
+			onClick={props.clicked}
+		>
 			<NavLink
 				to={props.link}
 				exact={props.exact}

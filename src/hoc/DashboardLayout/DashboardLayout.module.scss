@@ -31,9 +31,21 @@
 	}
 
 	&SideToolbar {
-		background: $mainColorBright;
+		background-color: rgba(#fff, 0.5);
+		@include dotted_border_right;
 		grid-area: toolbar;
 		place-self: stretch;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 1rem;
+
+		& * {
+			@include dotted_border_bottom;
+			width: 100%;
+			margin: 0.3rem auto;
+			text-align: center;
+		}
 	}
 
 	&ScreenContainer {
@@ -44,5 +56,25 @@
 	&FooterArea {
 		grid-area: footer;
 		place-self: start stretch;
+	}
+}
+@media (max-width: $mobile) {
+	.dashboard {
+		display: flex;
+		flex-direction: column;
+
+		&HeadNav {
+			place-self: unset;
+			width: 100%;
+		}
+
+		&SideToolbar {
+			display: none;
+		}
+
+		&FooterArea {
+			width: 100%;
+			place-self: unset;
+		}
 	}
 }

@@ -1,6 +1,8 @@
 @import '../../../../../styles/config.module.scss';
 
 .navItem {
+	list-style: none;
+
 	&:hover > a {
 		border-color: $mainColor;
 	}
