@@ -173,7 +173,7 @@ const ListScreen = (props) => {
 							} else return el;
 						});
 					}
-					toggleModal();
+					if (props.modalVisible) toggleModal();
 					setModifiedItems(updatedArray);
 					break;
 				}

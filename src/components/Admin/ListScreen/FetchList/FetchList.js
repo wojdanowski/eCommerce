@@ -62,6 +62,17 @@ const FetchList = (props) => {
 
 		if (props.collection === 'products') {
 			if (props.newItems.length) {
+				const clearedData = props.newItems.map((item) => {
+					let clearedImages;
+					if (item.images) {
+						clearedImages = item.images.map((image) => image.src);
+					}
+					return {
+						...item,
+						images: clearedImages,
+					};
+				});
+
 				newProductsList = (
 					<Fragment>
 						<div className={classes.listHeader}>
@@ -70,7 +81,7 @@ const FetchList = (props) => {
 						<div className={classes.newProductsListContainer}>
 							<GenericList
 								displayWith={ProdListItem}
-								dataArray={props.newItems}
+								dataArray={clearedData}
 								additional={{
 									viewHandler: props.onView,
 									modifyHandler: props.onModify,
