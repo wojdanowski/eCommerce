@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import classes from './ProdDescription.module.scss';
 import Loader from './../../UI/Loader/Loader';
@@ -10,7 +10,7 @@ const ProdDescription = (props) => {
 	}
 
 	return (
-		<Fragment>
+		<div className={classes.descriptionContainer}>
 			<div className={classes.imgContainer}>
 				{props.itemData.images ? (
 					<img
@@ -37,7 +37,7 @@ const ProdDescription = (props) => {
 					</p>
 				</div>
 			</div>
-		</Fragment>
+		</div>
 	);
 };
 

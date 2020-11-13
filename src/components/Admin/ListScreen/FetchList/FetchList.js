@@ -109,7 +109,7 @@ const FetchList = (props) => {
 					<h1>ACTIVE {props.collection}</h1>
 					<div className={classes.actionButtonsContainer}>
 						<GenericButton
-							label={'add product'}
+							label={'add'}
 							type={
 								props.collection === 'products'
 									? null

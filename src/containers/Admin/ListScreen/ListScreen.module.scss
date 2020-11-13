@@ -7,3 +7,9 @@
 	justify-content: center;
 	padding: 3rem;
 }
+
+@media (max-width: $mobile) {
+	.prodScreenContainer {
+		padding: 1rem;
+	}
+}

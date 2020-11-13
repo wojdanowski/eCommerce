@@ -69,7 +69,12 @@
 		}
 
 		&SideToolbar {
+			place-self: unset;
 			display: none;
+		}
+
+		&ScreenContainer {
+			place-self: unset;
 		}
 
 		&FooterArea {
