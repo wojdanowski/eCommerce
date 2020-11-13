@@ -187,13 +187,15 @@ const ProdEditPage = (props) => {
 	) : (
 		<div className={classes.prodPageContainer}>
 			<div className={appendClasses.join(' ')}>
-				<h1>Product id: {prodData.id}</h1>
-				<div className={classes.buttonContainer}>
+				<div>
+					<h1>Product id: {prodData.id}</h1>
 					<EditStatus
 						isEdited={
 							props.formIsEdited || isModified || imagesChanged
 						}
 					/>
+				</div>
+				<div className={classes.buttonContainer}>
 					<GenericButton
 						label='reset'
 						clicked={props.onDiscard}

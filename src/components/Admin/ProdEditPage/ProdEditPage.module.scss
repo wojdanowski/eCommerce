@@ -20,6 +20,11 @@
 		@include dotted_border_bottom;
 	}
 
+	h1 {
+		font-size: 1.5rem;
+		text-align: center;
+	}
+
 	.head {
 		display: flex;
 		align-items: center;
@@ -29,15 +34,15 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-
-			& * {
-				margin: 0 0.5rem;
-			}
 		}
 	}
 	.editContainer {
 		display: flex;
 		flex-direction: row;
+
+		.imgSection {
+			padding-right: 1rem;
+		}
 
 		.descriptionContainer {
 			min-width: 60%;
@@ -46,8 +51,19 @@
 	}
 }
 
-// @media (max-width: $mobile) {
-// 	.prodPageContainer {
-// 		flex-direction: column;
-// 	}
-// }
+@media (max-width: $mobile) {
+	.prodPageContainer {
+		h2 {
+			font-size: 1.5em;
+			text-align: center;
+		}
+
+		.head {
+			flex-direction: column;
+		}
+
+		.editContainer {
+			flex-direction: column;
+		}
+	}
+}
