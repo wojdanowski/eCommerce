@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import classes from './ProdDescription.module.scss';
+import Loader from './../../UI/Loader/Loader';
 
 const ProdDescription = (props) => {
 	let prodId = null;
@@ -11,11 +12,15 @@ const ProdDescription = (props) => {
 	return (
 		<Fragment>
 			<div className={classes.imgContainer}>
-				<img
-					className={classes.prodImg}
-					src={props.itemData.images[0]}
-					alt='prodImg'
-				/>
+				{props.itemData.images ? (
+					<img
+						className={classes.prodImg}
+						src={props.itemData.images[0]}
+						alt='prodImg'
+					/>
+				) : (
+					<Loader />
+				)}
 			</div>
 			<div className={classes.descriptionArea}>
 				<div>
