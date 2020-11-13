@@ -14,9 +14,14 @@ const ProductPage = (props) => {
 	return (
 		<div className={classes.prodPageContainer}>
 			<div className={classes.firstRow}>
-				<div className={classes.imgGalleryContainer}>
-					<ProdGallery images={props.prodData.images} />
-				</div>
+				{props.prodData.images ? (
+					<div className={classes.imgGalleryContainer}>
+						<ProdGallery images={props.prodData.images} />
+					</div>
+				) : (
+					'No Images!'
+				)}
+
 				<div className={classes.description}>
 					<div className={classes.shortDescription}>
 						<div className={classes.nameAndPrice}>

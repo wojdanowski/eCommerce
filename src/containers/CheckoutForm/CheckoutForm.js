@@ -18,7 +18,7 @@ const CheckoutForm = (props) => {
 
 	useEffect(() => {
 		if (!fetchApi.isLoading && !fetchApi.isError && fetchApi.data) {
-			// clearCart();
+			clearCart();
 		}
 	}, [fetchApi.data, fetchApi.isError, fetchApi.isLoading, clearCart]);
 
@@ -97,7 +97,7 @@ const CheckoutForm = (props) => {
 						/>
 						<GenericButton
 							label='confirm'
-							// isDisabled={!props.formIsValid}
+							isDisabled={!props.formIsValid}
 							clicked={orderSubmitHandler}
 						/>
 					</div>

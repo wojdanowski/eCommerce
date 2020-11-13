@@ -1,7 +1,6 @@
 import React from 'react';
 
 import classes from './ProdDescription.module.scss';
-import Loader from './../../UI/Loader/Loader';
 
 const ProdDescription = (props) => {
 	let prodId = null;
@@ -19,7 +18,7 @@ const ProdDescription = (props) => {
 						alt='prodImg'
 					/>
 				) : (
-					<Loader />
+					<p>No Image!</p>
 				)}
 			</div>
 			<div className={classes.descriptionArea}>

@@ -18,11 +18,15 @@ const ProdCard = (props) => {
 				className={classes.prodImgContainer}
 				onClick={() => props.clicked(props.productInfo.id)}
 			>
-				<img
-					className={classes.productImg}
-					src={props.productInfo.images[0]}
-					alt='prodImg'
-				/>
+				{props.productInfo.images ? (
+					<img
+						className={classes.productImg}
+						src={props.productInfo.images[0]}
+						alt='prodImg'
+					/>
+				) : (
+					<p>No Image!</p>
+				)}
 			</div>
 			<div className={classes.prodDescription}>
 				<h4>{props.productInfo.name}</h4>
