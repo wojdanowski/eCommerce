@@ -30,10 +30,7 @@ const ProdDescription = (props) => {
 				</div>
 				{prodId}
 				<div className={classes.priceBox}>
-					<p>
-						Price: {parseInt(props.itemData.price, 10).toFixed(2)}{' '}
-						USD
-					</p>
+					<p>Price: {(props.itemData.price * 1).toFixed(2)} USD</p>
 				</div>
 			</div>
 		</div>
