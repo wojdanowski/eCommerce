@@ -33,13 +33,13 @@ const ListScreen = (props) => {
 
 	const { toggleModal } = props;
 
-	const clearIsEditingOnModalClose = useCallback(() => {
-		toggleModal();
+	const clearSelectionInfo = useCallback(() => {
+		// toggleModal();
 		setTimeout(() => {
 			setSelectedAction(null);
 			setNewProductId(null);
 		}, 300);
-	}, [toggleModal]);
+	}, []);
 
 	useEffect(() => {
 		if (
@@ -68,7 +68,7 @@ const ListScreen = (props) => {
 	const discardHandler = (id) => {
 		const updatedArray = modifiedItems.filter((el) => el.id !== id);
 		setModifiedItems(updatedArray);
-		clearIsEditingOnModalClose();
+		// clearSelectionInfo();
 	};
 
 	const isProductEdited = (newProduct, prodInDb) => {
@@ -82,11 +82,9 @@ const ListScreen = (props) => {
 				}
 			} else {
 				if (!prodInDb.images && newProduct.images) {
-					// console.log(`No images in prod in db`);
 					return (isProdEdited = true);
 				} else if (prodInDb.images && newProduct.images) {
 					if (newProduct.images.find((el) => el.removed)) {
-						// console.log(`images element is removed`);
 						return (isProdEdited = true);
 					}
 					for (const index in newProduct.images) {
@@ -96,14 +94,12 @@ const ListScreen = (props) => {
 									dbImg === newProduct.images[index].src
 							)
 						) {
-							// console.log(`image is added`);
 							return (isProdEdited = true);
 						}
 					}
 				}
 			}
 		}
-		// console.log(`isProdEdited: ${isProdEdited}`);
 		return isProdEdited;
 	};
 
@@ -118,7 +114,8 @@ const ListScreen = (props) => {
 				})
 			);
 			if (action === 'createProduct') setNewProductFinished(true);
-			if (props.modalVisible) clearIsEditingOnModalClose();
+			if (props.modalVisible && getCollectionName() === 'products')
+				toggleModal();
 		} else if (foundItem) {
 			switch (getCollectionName()) {
 				case 'orders': {
@@ -147,7 +144,7 @@ const ListScreen = (props) => {
 								};
 							} else return el;
 						});
-						if (props.modalVisible) clearIsEditingOnModalClose();
+						if (props.modalVisible) clearSelectionInfo();
 					} else if (action === 'modify') {
 						const isProdEdited = isProductEdited(
 							data,
@@ -163,7 +160,7 @@ const ListScreen = (props) => {
 								};
 							} else return el;
 						});
-						if (props.modalVisible) clearIsEditingOnModalClose();
+						if (props.modalVisible) clearSelectionInfo();
 					} else if (action === 'createProduct') {
 						updatedArray = modifiedItems.map((el) => {
 							if (foundItem.id === el.id) {
@@ -176,9 +173,8 @@ const ListScreen = (props) => {
 							} else return el;
 						});
 					}
-
+					toggleModal();
 					setModifiedItems(updatedArray);
-
 					break;
 				}
 				default:
@@ -403,7 +399,10 @@ const ListScreen = (props) => {
 			</div>
 			<Modal
 				show={props.modalVisible}
-				modalClosed={clearIsEditingOnModalClose}
+				modalClosed={() => {
+					toggleModal();
+					clearSelectionInfo();
+				}}
 			>
 				{modalContent}
 			</Modal>
