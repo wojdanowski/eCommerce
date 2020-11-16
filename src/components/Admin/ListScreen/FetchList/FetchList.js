@@ -55,6 +55,8 @@ const FetchList = (props) => {
 		listContent = <Loader />;
 	} else if (fetchData.isError) {
 		listContent = <p>ERROR</p>;
+	} else if (!fetchData.data) {
+		listContent = <h1>No {props.collection} to display</h1>;
 	} else {
 		let itemsList = null;
 		let newProductsList = null;
@@ -112,6 +114,10 @@ const FetchList = (props) => {
 				}}
 			/>
 		);
+
+		// (
+		// 	<h1>No {props.collection} to display</h1>
+		// );
 
 		listContent = (
 			<Fragment>
