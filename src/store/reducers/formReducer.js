@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/formActions';
 import orderFormFields from './formFields/orderFormFields';
 import prodEditFormFields from './formFields/prodEditFormFields';
-import logInFormFields from './formFields/logInFormFields';
+import authFormFields from './formFields/authFormFields';
 
 const initialState = {
 	orderForm: {
@@ -15,7 +15,7 @@ const initialState = {
 	},
 
 	logInForm: {
-		fields: { ...logInFormFields },
+		fields: { ...authFormFields },
 		formIsValid: false,
 		formIsEdited: false,
 	},

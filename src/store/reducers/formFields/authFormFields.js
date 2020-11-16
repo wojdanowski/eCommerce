@@ -1,4 +1,4 @@
-const logInFormFields = {
+const authFormFields = {
 	email: {
 		elementType: 'input',
 		elementConfig: {
@@ -29,4 +29,4 @@ const logInFormFields = {
 	},
 };
 
-export default logInFormFields;
+export default authFormFields;
