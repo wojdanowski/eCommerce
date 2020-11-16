@@ -35,7 +35,7 @@ const rejectStyle = {
 };
 
 function DropZone(props) {
-	const [files, setFiles] = useState([]);
+	// const [files, setFiles] = useState([]);
 
 	const sendFilesToParent = useCallback(props.sendFilesToParent, [
 		props.sendFilesToParent,
@@ -55,7 +55,7 @@ function DropZone(props) {
 					preview: URL.createObjectURL(file),
 				})
 			);
-			setFiles(finalFiles);
+			// setFiles(finalFiles);
 			sendFilesToParent(finalFiles);
 		},
 	});

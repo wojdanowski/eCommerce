@@ -41,6 +41,10 @@ const ProdEditPage = (props) => {
 		} else setImagesChanged(false);
 	};
 
+	const formatPrice = (price) => {
+		return parseFloat(parseFloat(price).toFixed(2));
+	};
+
 	const saveSubmitHandler = async (event) => {
 		let newProduct = {
 			id: prodData.id,
@@ -48,13 +52,19 @@ const ProdEditPage = (props) => {
 		};
 		Object.keys(props.formFields).map((el) => {
 			if (props.formFields[el].isEdited) {
+				let value;
+				value =
+					el === 'price' || el === 'oldPrice'
+						? formatPrice(props.formFields[el].value)
+						: props.formFields[el].value;
 				newProduct = {
 					...newProduct,
-					[el]: props.formFields[el].value,
+					[el]: value,
 				};
 			}
 			return null;
 		});
+
 		if (props.isNewProdCreation) {
 			props.onModify(newProduct, 'createProduct');
 		} else {
