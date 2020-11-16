@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import classes from './DropZone.module.scss';
