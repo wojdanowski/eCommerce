@@ -35,7 +35,11 @@
 }
 
 @media (max-width: $mobile) {
-	.head {
-		flex-direction: column;
+	.container {
+		height: 100%;
+
+		.head {
+			flex-direction: column;
+		}
 	}
 }

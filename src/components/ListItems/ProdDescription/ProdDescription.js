@@ -5,7 +5,7 @@ import classes from './ProdDescription.module.scss';
 const ProdDescription = (props) => {
 	let prodId = null;
 	if (props.isAdmin && props.itemData.id) {
-		prodId = <p>ID: {props.itemData.id}</p>;
+		prodId = <p>ID: {`${props.itemData.id.slice(0, 8)}...`}</p>;
 	}
 
 	return (
@@ -22,7 +22,7 @@ const ProdDescription = (props) => {
 				)}
 			</div>
 			<div className={classes.descriptionArea}>
-				<div>
+				<div className={classes.shortDescAndName}>
 					<h3>{props.itemData.name}</h3>
 					<span className={classes.shortDescription}>
 						<p>{props.itemData.shortDescription}</p>
