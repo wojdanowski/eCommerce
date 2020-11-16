@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import classes from './Toolbar.module.scss';
 import HamburgerButton from '../UI/Buttons/HamburgerButton/HamburgerButton';
 import MainNav from './../UI/Navigation/MainNav/MainNav';
@@ -23,10 +24,9 @@ const Toolbar = (props) => {
 						clicked={props.toggleRightSidebar}
 						icon={<RiShoppingBasket2Line />}
 					/>
-					<IconButton
-						clicked={props.toggleRightSidebar}
-						icon={<RiUser3Line />}
-					/>
+					<NavLink to='/auth' exact>
+						<IconButton icon={<RiUser3Line />} />
+					</NavLink>
 				</MainNav>
 			</div>
 		</div>

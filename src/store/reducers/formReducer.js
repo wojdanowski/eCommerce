@@ -14,7 +14,7 @@ const initialState = {
 		formIsEdited: false,
 	},
 
-	logInForm: {
+	authForm: {
 		fields: { ...authFormFields },
 		formIsValid: false,
 		formIsEdited: false,
@@ -65,6 +65,11 @@ const formReducer = (state = initialState, action) => {
 		case 'prodEditForm': {
 			selectedFormName = 'prodEditForm';
 			selectedForm = { prodEditForm: { ...state.prodEditForm } };
+			break;
+		}
+		case 'auth': {
+			selectedFormName = 'authForm';
+			selectedForm = { authForm: { ...state.authForm } };
 			break;
 		}
 		default:

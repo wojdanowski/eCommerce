@@ -12,6 +12,7 @@ import formReducer from './../store/reducers/formReducer';
 
 import HomeRouter from './HomeRouter';
 import DashboardRouter from './DashboardRouter';
+import Auth from './Auth/Auth';
 
 const rootReducer = combineReducers({
 	uiState: uiReducer,
@@ -29,6 +30,7 @@ function App() {
 			<BrowserRouter>
 				<Switch>
 					<Route path='/admin' component={DashboardRouter} />
+					<Route path='/auth' component={Auth} />
 					<Route path='/' component={HomeRouter} />
 				</Switch>
 			</BrowserRouter>

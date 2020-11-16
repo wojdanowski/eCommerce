@@ -1,0 +1,20 @@
+.authContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+
+	.formContainer {
+		min-width: 30%;
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+	}
+
+	.buttonsContainer {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+}
