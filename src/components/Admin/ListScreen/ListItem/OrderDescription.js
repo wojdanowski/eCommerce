@@ -14,7 +14,7 @@ const OrderDescription = (props) => {
 	);
 	return (
 		<Fragment>
-			<p>
+			<p className={classes.idArea}>
 				<strong>{props.itemId}</strong>
 			</p>
 			<p>Quantity: {props.itemData.products.length}</p>

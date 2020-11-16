@@ -245,7 +245,6 @@ const ProdEditPage = (props) => {
 					</div>
 				</div>
 				<div className={classes.descriptionContainer}>
-					<h2>Product Id: {prodData.id}</h2>
 					<form className='utilMarBot_1' onSubmit={saveSubmitHandler}>
 						{formElementsArray.map((formElement) => (
 							<Input
