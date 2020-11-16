@@ -8,6 +8,10 @@
 	border-top: 1px dotted $lightColor;
 }
 
+@mixin dotted_border_right {
+	border-right: 1px dotted $lightColor;
+}
+
 @mixin shadowToLeft {
 	box-shadow: 0 0 20px 0 $lightColor;
 }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import classes from './ProdDescription.module.scss';
 
@@ -9,13 +9,17 @@ const ProdDescription = (props) => {
 	}
 
 	return (
-		<Fragment>
+		<div className={classes.descriptionContainer}>
 			<div className={classes.imgContainer}>
-				<img
-					className={classes.prodImg}
-					src={props.itemData.thumb}
-					alt='prodImg'
-				/>
+				{props.itemData.images ? (
+					<img
+						className={classes.prodImg}
+						src={props.itemData.images[0]}
+						alt='prodImg'
+					/>
+				) : (
+					<p>No Image!</p>
+				)}
 			</div>
 			<div className={classes.descriptionArea}>
 				<div>
@@ -26,13 +30,10 @@ const ProdDescription = (props) => {
 				</div>
 				{prodId}
 				<div className={classes.priceBox}>
-					<p>
-						Price: {parseInt(props.itemData.price, 10).toFixed(2)}{' '}
-						USD
-					</p>
+					<p>Price: {(props.itemData.price * 1).toFixed(2)} USD</p>
 				</div>
 			</div>
-		</Fragment>
+		</div>
 	);
 };
 

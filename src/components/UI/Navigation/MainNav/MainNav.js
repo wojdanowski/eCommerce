@@ -1,8 +1,5 @@
 import React from 'react';
 import classes from './MainNav.module.scss';
-import MainNavItem from './MainNavItem/MainNavItem';
-import { RiShoppingBasket2Line, RiUser3Line } from 'react-icons/ri';
-import IconButton from './../../Buttons/IconButton/IconButton';
 
 const MainNav = (props) => {
 	let appendClass = '';
@@ -13,23 +10,7 @@ const MainNav = (props) => {
 
 	return (
 		<div className={`${classes.navItems} ${appendClass}`}>
-			<ul>
-				<MainNavItem
-					link='/'
-					label={props.isAdmin ? 'SHOP' : 'Home'}
-					direction={props.direction}
-					exact
-				/>
-				<IconButton
-					isHidden={props.isAdmin}
-					clicked={props.toggleRightSidebar}
-					icon={<RiShoppingBasket2Line />}
-				/>
-				<IconButton
-					clicked={props.toggleRightSidebar}
-					icon={<RiUser3Line />}
-				/>
-			</ul>
+			<ul>{props.children}</ul>
 		</div>
 	);
 };

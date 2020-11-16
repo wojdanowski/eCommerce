@@ -4,18 +4,19 @@ import { connect } from 'react-redux';
 import classes from './ProdEditPage.module.scss';
 import * as formActions from '../../../store/actions/formActions';
 import isPresent from '../../../utilities/isPresent';
-
+import { uploadImage } from '../../../utilities/imagesHandlers';
 import Input from '../../UI/Input/Input';
 import EditStatus from './../../UI/EditStatus/EditStatus';
 import GenericButton from './../../UI/Buttons/GenericButton/GenericButton';
 import DropZone from './../DropZone/DropZone';
 import ImgThumb from './../../UI/ImgThumb/ImgThumb';
+import Loader from './../../UI/Loader/Loader';
 
 const ProdEditPage = (props) => {
 	const { prodData, updateFormField, clearForm } = props;
 	const [loadedImages, setLoadedImages] = useState([]);
 	const [imagesChanged, setImagesChanged] = useState(false);
-	const [filesToRevoke, setFilesToRevoke] = useState([]);
+	const [imagesUploading, setImagesUploading] = useState();
 
 	const isRemoved = props.isNewProdCreation
 		? null
@@ -23,31 +24,27 @@ const ProdEditPage = (props) => {
 	const isModified = props.isNewProdCreation
 		? null
 		: isPresent(prodData.id, props.modifiedItems);
+	const isNewItem = props.isNewProdCreation
+		? null
+		: isPresent(prodData.id, props.newItems);
 
 	const thumbClickedHandler = (src) => {
 		const updatedArray = loadedImages.map((el) => {
-			if (el.preview === src) {
+			if (el.src === src) {
 				return Object.assign(el, { removed: !el.removed });
 			} else return el;
 		});
 		setLoadedImages([...updatedArray]);
 
-		if (updatedArray.find((el) => el.removed || el.upload) || isModified) {
+		if (updatedArray.find((el) => el.removed) || isModified) {
 			setImagesChanged(true);
 		} else setImagesChanged(false);
 	};
 
-	const saveSubmitHandler = (event) => {
+	const saveSubmitHandler = async (event) => {
 		let newProduct = {
 			id: prodData.id,
-			images: [
-				...loadedImages
-					.filter((image) => !image.removed && !image.upload)
-					.map((image) => image.preview),
-			],
-			imagesForUpload: loadedImages.filter(
-				(image) => !image.removed && image.upload
-			),
+			images: [...loadedImages],
 		};
 		Object.keys(props.formFields).map((el) => {
 			if (props.formFields[el].isEdited) {
@@ -61,6 +58,7 @@ const ProdEditPage = (props) => {
 		if (props.isNewProdCreation) {
 			props.onModify(newProduct, 'createProduct');
 		} else {
+			// console.log(`[ProdEditPage] onModify(newProd,'modify')`);
 			props.onModify(newProduct, 'modify');
 		}
 	};
@@ -69,21 +67,23 @@ const ProdEditPage = (props) => {
 		updateFormField(event.target.value, inputId, 'prodEditForm');
 	};
 
-	const getFilesFromDropZone = (files) => {
-		setLoadedImages((prevState) =>
-			[...prevState].concat(
-				files
-					.map((file) =>
-						Object.assign(file, { upload: true, removed: false })
-					)
-					.filter(
-						(file) =>
-							!loadedImages.find(
-								(loadedImage) => loadedImage.path === file.path
-							)
-					)
+	const getFilesFromDropZone = async (images) => {
+		setImagesUploading(true);
+		let linksToUploadedImages;
+		linksToUploadedImages = await uploadImage(images, prodData.id);
+		// console.log(linksToUploadedImages);
+		images.forEach((image) => URL.revokeObjectURL(image.preview));
+		setLoadedImages((prevImages) =>
+			prevImages.concat(
+				linksToUploadedImages.map((el) => {
+					return {
+						src: el,
+						removed: false,
+					};
+				})
 			)
 		);
+		setImagesUploading(false);
 		setImagesChanged(true);
 	};
 
@@ -95,52 +95,23 @@ const ProdEditPage = (props) => {
 		});
 	}
 
+	// Load initial images
 	useEffect(() => {
 		let allImgs = [];
-		if (prodData.images) {
-			prodData.images.map((el) => {
-				let isImgRemoved = false;
-				if (isModified) {
-					isImgRemoved = !isModified.images.find((img) => img === el);
-				}
-				allImgs.push({
-					removed: isImgRemoved,
-					name: el,
-					preview: el,
-					upload: false,
-				});
-				return null;
+		if (isModified) {
+			allImgs = isModified.images;
+		} else if (isNewItem) {
+			allImgs = isNewItem.images;
+		} else if (prodData.images) {
+			allImgs = prodData.images.map((el) => {
+				return {
+					src: el,
+					removed: false,
+				};
 			});
-			if (isModified && isModified.imagesForUpload)
-				allImgs = allImgs.concat(isModified.imagesForUpload);
-
-			setLoadedImages([...allImgs]);
 		}
-	}, [prodData.images, isModified, prodData.imagesForUpload]);
-
-	// // REVOKE unused URLs
-	// useEffect(() => {
-	// 	let unusedFiles;
-	// 	let imagesFromDropZone = loadedImages.filter((img) => img.upload);
-	// 	if (loadedImages && isModified.imagesForUpload) {
-	// 		unusedFiles = imagesFromDropZone.filter(
-	// 			(imageFromDz) =>
-	// 				!isModified.imagesForUpload.find(
-	// 					(imgForUpload) =>
-	// 						imgForUpload.preview === imageFromDz.preview
-	// 				)
-	// 		);
-	// 		// setFilesToRevoke([...unusedFiles]);
-	// 	} else if (loadedImages && !isModified) {
-	// 		unusedFiles = imagesFromDropZone;
-	// 		// setFilesToRevoke([...unusedFiles]);
-	// 	}
-	// 	// console.log(unusedFiles);
-	// 	return () => {
-	// 		console.log(`CleanUp`);
-	// 		console.log(unusedFiles);
-	// 	};
-	// }, [loadedImages, isModified]);
+		setLoadedImages([...allImgs]);
+	}, [prodData.images, isModified, isNewItem]);
 
 	useEffect(() => {
 		let dataToLoad;
@@ -187,9 +158,9 @@ const ProdEditPage = (props) => {
 				{loadedImages.map((img, index) => {
 					return (
 						<ImgThumb
-							key={img.preview}
-							imgSrc={img.preview}
-							clicked={() => thumbClickedHandler(img.preview)}
+							key={img.src}
+							imgSrc={img.src}
+							clicked={() => thumbClickedHandler(img.src)}
 							isRemoved={loadedImages[index].removed}
 						/>
 					);
@@ -208,16 +179,23 @@ const ProdEditPage = (props) => {
 	}
 	const appendClasses = [classes.head, colorStyle];
 
-	return (
+	return imagesUploading ? (
+		<Fragment>
+			<p>Uploading images...</p>
+			<Loader />
+		</Fragment>
+	) : (
 		<div className={classes.prodPageContainer}>
 			<div className={appendClasses.join(' ')}>
-				<h1>Product id: {prodData.id}</h1>
-				<div className={classes.buttonContainer}>
+				<div>
+					<h1>Product id: {prodData.id}</h1>
 					<EditStatus
 						isEdited={
 							props.formIsEdited || isModified || imagesChanged
 						}
 					/>
+				</div>
+				<div className={classes.buttonContainer}>
 					<GenericButton
 						label='reset'
 						clicked={props.onDiscard}
@@ -287,7 +265,6 @@ const mapStateToProps = (state) => {
 		formFields: state.formState.prodEditForm.fields,
 		formIsValid: state.formState.prodEditForm.formIsValid,
 		formIsEdited: state.formState.prodEditForm.formIsEdited,
-		formIsTouched: state.formState.prodEditForm.formIsTouched,
 	};
 };
 

@@ -2,53 +2,20 @@ import React from 'react';
 import ImageGallery from 'react-image-gallery';
 import classes from './ProdGallery.module.scss';
 
-const ProdGallery = () => {
-	const images = [
-		{
-			original: 'https://source.unsplash.com/random/500x800',
-			thumbnail: 'https://source.unsplash.com/random/500x800',
-			originalClass: classes.prodGalImg,
-		},
-		{
-			original: 'https://source.unsplash.com/random/500x800',
-			thumbnail: 'https://source.unsplash.com/random/500x800',
-			originalClass: classes.prodGalImg,
-		},
-		{
-			original: 'https://source.unsplash.com/random/500x800',
-			thumbnail: 'https://source.unsplash.com/random/500x800',
-			originalClass: classes.prodGalImg,
-		},
-		{
-			original: 'https://source.unsplash.com/random/500x800',
-			thumbnail: 'https://source.unsplash.com/random/500x800',
-			originalClass: classes.prodGalImg,
-		},
-		{
-			original: 'https://source.unsplash.com/random/500x800',
-			thumbnail: 'https://source.unsplash.com/random/500x800',
-			originalClass: classes.prodGalImg,
-		},
-		{
-			original: 'https://source.unsplash.com/random/500x800',
-			thumbnail: 'https://source.unsplash.com/random/500x800',
-			originalClass: classes.prodGalImg,
-		},
-		{
-			original: 'https://source.unsplash.com/random/500x800',
-			thumbnail: 'https://source.unsplash.com/random/500x800',
-			originalClass: classes.prodGalImg,
-		},
-		{
-			original: 'https://source.unsplash.com/random/500x800',
-			thumbnail: 'https://source.unsplash.com/random/500x800',
-			originalClass: classes.prodGalImg,
-		},
-	];
+const ProdGallery = (props) => {
+	const imagesToLoad =
+		props.images &&
+		props.images.map((image) => {
+			return {
+				original: image,
+				thumbnail: image,
+				originalClass: classes.prodGalImg,
+			};
+		});
 
 	return (
 		<ImageGallery
-			items={images}
+			items={imagesToLoad}
 			thumbnailPosition={'left'}
 			showFullscreenButton={false}
 			showPlayButton={false}

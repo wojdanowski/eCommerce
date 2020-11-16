@@ -15,26 +15,30 @@ const ListItem = (props) => {
 	let toolbox = null;
 	if (props.buttons) {
 		toolbox = (
-			<div className={'utilToolbox'}>
-				<EditStatus isEdited={props.edited} />
-				{props.buttons.map((button, index) => {
-					let disabledStatus = props.removed;
-					let buttonHandler = button.handler;
-					if (button.type === 'delete') {
-						disabledStatus = null;
-					}
+			<div className={classes.tools}>
+				<div>
+					<EditStatus isEdited={props.edited} />
+				</div>
+				<div className={`utilToolbox`}>
+					{props.buttons.map((button, index) => {
+						let disabledStatus = props.removed;
+						let buttonHandler = button.handler;
+						if (button.type === 'delete') {
+							disabledStatus = null;
+						}
 
-					return (
-						<IconButton
-							key={index}
-							icon={button.icon}
-							clicked={buttonHandler}
-							isDisabled={disabledStatus}
-							isRemoved={props.removed}
-							isModified={props.edited}
-						/>
-					);
-				})}
+						return (
+							<IconButton
+								key={index}
+								icon={button.icon}
+								clicked={buttonHandler}
+								isDisabled={disabledStatus}
+								isRemoved={props.removed}
+								isModified={props.edited}
+							/>
+						);
+					})}
+				</div>
 			</div>
 		);
 	}

@@ -1,27 +1,21 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as uiActionTypes from '../../store/actions/uiActions';
 
-import Aux from './../Auxiliary/Auxiliary';
 import Toolbar from './../../components/Toolbar/Toolbar';
 import Sidebar from './../../components/UI/Sidebar/Sidebar';
-import MainNav from './../../components/UI/Navigation/MainNav/MainNav';
 import Categories from './../../components/Categories/Categories';
 import Footer from './../../components/UI/Footer/Footer';
 import Cart from '../../components/Cart/Cart';
 
 const Layout = (props) => {
 	return (
-		<Aux>
+		<Fragment>
 			<Sidebar
 				side='left'
 				isOpen={props.leftSidebarVisible}
 				toggleSidebar={props.toggleLeftSidebar}
 			>
-				<MainNav
-					toggleRightSidebar={props.toggleRightSidebar}
-					direction='vertical'
-				/>
 				<Categories />
 			</Sidebar>
 			<Sidebar
@@ -38,7 +32,7 @@ const Layout = (props) => {
 			/>
 			<main>{props.children}</main>
 			<Footer />
-		</Aux>
+		</Fragment>
 	);
 };
 

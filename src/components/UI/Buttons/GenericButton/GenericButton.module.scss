@@ -10,6 +10,7 @@
 	padding: 0.5rem 2rem;
 	background: $blackColor;
 	color: $lightColor;
+	margin: auto 0.3rem;
 
 	&.hidden {
 		display: none;
@@ -42,5 +43,12 @@
 		background: $lightColor;
 		color: $darkColor;
 		cursor: not-allowed;
+	}
+}
+
+@media (max-width: $mobile) {
+	.genericButton {
+		margin: auto 0.1rem;
+		padding: 0.5rem 1.5rem;
 	}
 }

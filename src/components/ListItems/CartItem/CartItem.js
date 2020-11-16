@@ -9,7 +9,7 @@ const CartItem = (props) => {
 			<div className={classes.prodImgContainer}>
 				<img
 					className={classes.prodImg}
-					src={props.itemData.thumb}
+					src={props.itemData.images[0]}
 					alt='prodImg'
 				/>
 			</div>

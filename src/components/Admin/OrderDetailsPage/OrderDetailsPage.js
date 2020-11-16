@@ -92,9 +92,11 @@ const OrderDetailsPage = (props) => {
 	return (
 		<div className={classes.container}>
 			<div className={appendClasses.join(' ')}>
-				<h1>Order id: {orderData.id}</h1>
-				<div className={classes.buttonContainer}>
+				<div>
+					<h1>Order id: {orderData.id}</h1>
 					<EditStatus isEdited={isModified} />
+				</div>
+				<div className={classes.buttonContainer}>
 					<GenericButton
 						label={confirmButtonLabel}
 						clicked={() => props.onModify(orderData, 'modify')}

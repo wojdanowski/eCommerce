@@ -19,7 +19,7 @@ const cartReducer = (state = initialState, action) => {
 				const newState = {
 					...state,
 					products: updatedArray,
-					totalPrice: state.totalPrice + action.product.price,
+					totalPrice: state.totalPrice * 1 + action.product.price * 1,
 					cartIsEmpty: false,
 				};
 				saveStateToStorage(newState);
@@ -60,7 +60,7 @@ const cartReducer = (state = initialState, action) => {
 		case actionTypes.LOAD_CART_FROM_STORAGE: {
 			const cartInStorage = localStorage.getItem('cartInStorage');
 			let newState = {};
-			if (!cartInStorage.cartIsEmpty) {
+			if (cartInStorage && !cartInStorage.cartIsEmpty) {
 				newState = JSON.parse(cartInStorage);
 			} else {
 				newState = { ...initialState };
