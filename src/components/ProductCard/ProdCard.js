@@ -32,10 +32,10 @@ const ProdCard = (props) => {
 				<h4>{props.productInfo.name}</h4>
 				<div className={classes.productPrice}>
 					<span className={classes.beforePrice}>
-						{props.productInfo.oldPrice} zł
+						{props.productInfo.oldPrice.toFixed(2)} $
 					</span>
 					<span className={classes.newPrice}>
-						{props.productInfo.price} zł
+						{props.productInfo.price.toFixed(2)} $
 					</span>
 				</div>
 				<GenericButton

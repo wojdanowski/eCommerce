@@ -19,7 +19,17 @@ const AllProdCards = (props) => {
 	const maxPerPage = 16;
 	const [isUpdated, setIsUpdated] = useState(false);
 
-	let fetchData = usePagination(url, maxPerPage, useFetchApi, 'get');
+	const rawData = usePagination(url, maxPerPage, useFetchApi, 'get');
+	let fetchData = rawData;
+	if (rawData.data && !rawData.isLoading) {
+		fetchData.data = rawData.data.map((product) => {
+			return {
+				...product,
+				price: parseFloat(product.price),
+				oldPrice: parseFloat(product.oldPrice),
+			};
+		});
+	}
 
 	useEffect(() => {
 		if (!isUpdated) {
