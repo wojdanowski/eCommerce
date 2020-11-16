@@ -23,6 +23,7 @@ const cartReducer = (state = initialState, action) => {
 					cartIsEmpty: false,
 				};
 				saveStateToStorage(newState);
+				alert('Added to cart');
 				return {
 					...newState,
 				};
