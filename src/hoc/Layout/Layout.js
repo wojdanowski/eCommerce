@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as uiActionTypes from '../../store/actions/uiActions';
-import * as authActions from '../../store/actions/authActions';
 
 import Toolbar from './../../components/Toolbar/Toolbar';
 import Sidebar from './../../components/UI/Sidebar/Sidebar';

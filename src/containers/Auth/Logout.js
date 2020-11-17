@@ -4,9 +4,14 @@ import { connect } from 'react-redux';
 import * as authActions from '../../store/actions/authActions';
 
 const Logout = (props) => {
+	const { setUserData } = props;
+
 	useEffect(() => {
-		props.setUserData(null, null);
-	}, []);
+		setUserData(null, null);
+		localStorage.removeItem('token');
+		localStorage.removeItem('expirationDate');
+		localStorage.removeItem('userId');
+	}, [setUserData]);
 
 	return <Redirect to='/' />;
 };

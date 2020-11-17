@@ -43,6 +43,12 @@ const Auth = (props) => {
 		props.setIsLoading(false);
 		props.setUserData(res.data.idToken, res.data.localId);
 		checkAuthTimeout(res.data.expiresIn);
+		const expirationDate = new Date(
+			new Date().getTime() + res.data.expiresIn * 1000
+		);
+		localStorage.setItem('token', res.data.idToken);
+		localStorage.setItem('expirationDate', expirationDate);
+		localStorage.setItem('userId', res.data.localId);
 		history.push('/admin');
 	};
 
