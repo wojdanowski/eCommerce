@@ -1,7 +1,12 @@
 import React from 'react';
+import classes from './MainDashboard.module.scss';
 
 const MainDashboard = () => {
-	return <h1>Welcome to Admin Dashboard</h1>;
+	return (
+		<div className={classes.container}>
+			<h1>Welcome to Admin Dashboard</h1>
+		</div>
+	);
 };
 
 export default MainDashboard;
