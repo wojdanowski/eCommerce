@@ -1,0 +1,40 @@
+@import './../../styles/config.module.scss';
+
+.authContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+
+	.formContainer {
+		min-width: 30%;
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+
+		.errorMsg {
+			color: red;
+			font-size: 0.9em;
+		}
+
+		.logOrRegisterInfo {
+			text-align: right;
+			text-decoration: underline;
+			font-size: 0.8em;
+			color: $accentColor;
+			font-weight: bold;
+			margin-bottom: 0.5rem;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		.buttonsContainer {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+	}
+}

@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/formActions';
 import orderFormFields from './formFields/orderFormFields';
 import prodEditFormFields from './formFields/prodEditFormFields';
+import authFormFields from './formFields/authFormFields';
 
 const initialState = {
 	orderForm: {
@@ -9,6 +10,12 @@ const initialState = {
 	},
 	prodEditForm: {
 		fields: { ...prodEditFormFields },
+		formIsValid: false,
+		formIsEdited: false,
+	},
+
+	authForm: {
+		fields: { ...authFormFields },
 		formIsValid: false,
 		formIsEdited: false,
 	},
@@ -58,6 +65,11 @@ const formReducer = (state = initialState, action) => {
 		case 'prodEditForm': {
 			selectedFormName = 'prodEditForm';
 			selectedForm = { prodEditForm: { ...state.prodEditForm } };
+			break;
+		}
+		case 'auth': {
+			selectedFormName = 'authForm';
+			selectedForm = { authForm: { ...state.authForm } };
 			break;
 		}
 		default:

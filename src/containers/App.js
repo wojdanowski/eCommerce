@@ -1,39 +1,38 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import React, { useEffect } from 'react';
+
 import { BrowserRouter } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './app.scss';
-
-import uiReducer from '../store/reducers/uiReducer';
-import cartReducer from '../store/reducers/cartReducer';
-import formReducer from './../store/reducers/formReducer';
-
 import HomeRouter from './HomeRouter';
 import DashboardRouter from './DashboardRouter';
+import Auth from './Auth/Auth';
+import * as authActions from './../store/actions/authActions';
 
-const rootReducer = combineReducers({
-	uiState: uiReducer,
-	cartState: cartReducer,
-	formState: formReducer,
-});
-const store = createStore(
-	rootReducer,
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+function App(props) {
+	const { loadAuthData } = props;
 
-function App() {
+	useEffect(() => {
+		loadAuthData();
+	}, [loadAuthData]);
+
 	return (
-		<Provider store={store}>
-			<BrowserRouter>
-				<Switch>
-					<Route path='/admin' component={DashboardRouter} />
-					<Route path='/' component={HomeRouter} />
-				</Switch>
-			</BrowserRouter>
-		</Provider>
+		<BrowserRouter>
+			<Switch>
+				<Route path='/admin' component={DashboardRouter} />
+				<Route path='/auth' component={Auth} />
+				<Route path='/' component={HomeRouter} />
+			</Switch>
+		</BrowserRouter>
 	);
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		loadAuthData: (token, userId) =>
+			dispatch({ type: authActions.LOAD_USER_DATA_FROM_STORAGE }),
+	};
+};
+
+export default connect(null, mapDispatchToProps)(App);

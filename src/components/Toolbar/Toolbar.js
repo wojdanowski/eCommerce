@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import classes from './Toolbar.module.scss';
 import HamburgerButton from '../UI/Buttons/HamburgerButton/HamburgerButton';
 import MainNav from './../UI/Navigation/MainNav/MainNav';
@@ -15,7 +15,6 @@ const Toolbar = (props) => {
 					<MainNavItem
 						link='/'
 						label={props.isAdmin ? 'SHOP' : 'Home'}
-						direction={props.direction}
 						exact
 					/>
 					<IconButton
@@ -23,10 +22,20 @@ const Toolbar = (props) => {
 						clicked={props.toggleRightSidebar}
 						icon={<RiShoppingBasket2Line />}
 					/>
-					<IconButton
-						clicked={props.toggleRightSidebar}
-						icon={<RiUser3Line />}
-					/>
+					{props.isLoggedIn && !props.isAdmin && (
+						<MainNavItem link='/admin' exact label='Admin' />
+					)}
+					{props.isLoggedIn ? (
+						<Fragment>
+							<MainNavItem link='/logout' exact label='Logout' />
+						</Fragment>
+					) : (
+						<MainNavItem
+							link='/auth'
+							exact
+							label={<IconButton icon={<RiUser3Line />} />}
+						/>
+					)}
 				</MainNav>
 			</div>
 		</div>
