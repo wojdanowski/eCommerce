@@ -45,6 +45,7 @@ const DashboardLayout = (props) => {
 					<Toolbar
 						isAdmin={true}
 						toggleLeftSidebar={props.toggleLeftSidebar}
+						isLoggedIn={props.token ? true : false}
 					/>
 				</div>
 				<div className={classes.dashboardSideToolbar}>
@@ -76,6 +77,7 @@ const DashboardLayout = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		leftSidebarVisible: state.uiState.sidebars.leftSidebarVisible,
+		token: state.authState.token,
 	};
 };
 

@@ -13,6 +13,10 @@
 }
 
 @media (max-width: $mobile) {
+	.navItems ul & > * {
+		padding: 0 0.4rem;
+	}
+
 	.navItems.vertical {
 		margin-bottom: 2rem;
 		justify-content: center;

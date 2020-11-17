@@ -1,5 +1,4 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Fragment } from 'react';
 import classes from './Toolbar.module.scss';
 import HamburgerButton from '../UI/Buttons/HamburgerButton/HamburgerButton';
 import MainNav from './../UI/Navigation/MainNav/MainNav';
@@ -23,12 +22,19 @@ const Toolbar = (props) => {
 						clicked={props.toggleRightSidebar}
 						icon={<RiShoppingBasket2Line />}
 					/>
+					{props.isLoggedIn && !props.isAdmin && (
+						<MainNavItem link='/admin' exact label='Admin' />
+					)}
 					{props.isLoggedIn ? (
-						<MainNavItem link='/logout' exact label='Logout' />
+						<Fragment>
+							<MainNavItem link='/logout' exact label='Logout' />
+						</Fragment>
 					) : (
-						<NavLink to='/auth' exact>
-							<IconButton icon={<RiUser3Line />} />
-						</NavLink>
+						<MainNavItem
+							link='/auth'
+							exact
+							label={<IconButton icon={<RiUser3Line />} />}
+						/>
 					)}
 				</MainNav>
 			</div>

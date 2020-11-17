@@ -31,10 +31,6 @@ const Layout = (props) => {
 				toggleLeftSidebar={props.toggleLeftSidebar}
 				toggleRightSidebar={props.toggleRightSidebar}
 				isLoggedIn={props.token ? true : false}
-				logoutUser={() => {
-					props.setUserData(null, null);
-					alert('User logged out!');
-				}}
 			/>
 			<main>{props.children}</main>
 			<Footer />
@@ -56,8 +52,6 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch({ type: uiActionTypes.TOGGLE_LEFT_SIDEBAR }),
 		toggleRightSidebar: () =>
 			dispatch({ type: uiActionTypes.TOGGLE_RIGHT_SIDEBAR }),
-		setUserData: (token, userId) =>
-			dispatch({ type: authActions.SET_USER_DATA, token, userId }),
 	};
 };
 
