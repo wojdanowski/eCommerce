@@ -29,7 +29,6 @@ const Auth = (props) => {
 	};
 
 	const checkAuthTimeout = (expirationTime) => {
-		console.log(expirationTime);
 		setTimeout(() => {
 			logout();
 		}, expirationTime * 1000);
@@ -41,7 +40,6 @@ const Auth = (props) => {
 	};
 
 	const authSuccess = (res) => {
-		console.log(res);
 		props.setIsLoading(false);
 		props.setUserData(res.data.idToken, res.data.localId);
 		checkAuthTimeout(res.data.expiresIn);

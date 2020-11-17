@@ -20,6 +20,7 @@ const ListScreen = (props) => {
 	const [selectedAction, setSelectedAction] = useState(null);
 	const [newProductId, setNewProductId] = useState(null);
 	const [newProductFinished, setNewProductFinished] = useState(null);
+	const auth = props.token ? `?auth=${props.token}` : '';
 
 	const getCollectionName = useCallback(() => {
 		return location.pathname.replace('/admin/', '');
@@ -52,7 +53,7 @@ const ListScreen = (props) => {
 			fetchApi.callFetchApi(
 				null,
 				'delete',
-				`${url}products/${newProductId}.json`
+				`${url}products/${newProductId}.json${auth}`
 			);
 		}
 	}, [
@@ -63,6 +64,7 @@ const ListScreen = (props) => {
 		url,
 		fetchApi,
 		getCollectionName,
+		auth,
 	]);
 
 	const discardHandler = (id) => {
@@ -227,7 +229,7 @@ const ListScreen = (props) => {
 		const newProductId = await fetchApi.callFetchApi(
 			{ name: '' },
 			'post',
-			`${url}products.json`
+			`${url}products.json${auth}`
 		);
 		setNewProductId(newProductId.data.name);
 	};
@@ -282,7 +284,7 @@ const ListScreen = (props) => {
 								action,
 								url.concat(
 									getCollectionName(),
-									`/${el.id}.json`
+									`/${el.id}.json${auth}`
 								)
 							);
 						})
@@ -414,6 +416,7 @@ const mapStateToProps = (state) => {
 	return {
 		modalVisible: state.uiState.modalVisible,
 		modalDisappeared: state.uiState.modalDisappeared,
+		token: state.authState.token,
 	};
 };
 

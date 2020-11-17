@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 import classes from './FetchList.module.scss';
 import usePagination from './../../../../hooks/usePagination';
@@ -15,9 +16,10 @@ const FetchList = (props) => {
 	const [fetchedCollection, setFetchedCollection] = useState(
 		props.collection
 	);
+	const auth = props.token ? `&auth=${props.token}` : '';
 	const orderBy = `.json?orderBy="$key"`;
 	const url = `https://ecommerceprodmockup.firebaseio.com/`;
-	const fullUrl = `${url}${props.collection}${orderBy}`;
+	const fullUrl = `${url}${props.collection}${orderBy}${auth}`;
 	let fetchData = usePagination(fullUrl, maxPerPage, useFetchApi, 'get');
 
 	const [update, setUpdate] = useState(true);
@@ -115,10 +117,6 @@ const FetchList = (props) => {
 			/>
 		);
 
-		// (
-		// 	<h1>No {props.collection} to display</h1>
-		// );
-
 		listContent = (
 			<Fragment>
 				{newProductsList}
@@ -159,4 +157,10 @@ const FetchList = (props) => {
 	return <Fragment>{listContent}</Fragment>;
 };
 
-export default FetchList;
+const mapStateToProps = (state) => {
+	return {
+		token: state.authState.token,
+	};
+};
+
+export default connect(mapStateToProps, null)(FetchList);
