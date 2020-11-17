@@ -16,7 +16,6 @@ const Toolbar = (props) => {
 					<MainNavItem
 						link='/'
 						label={props.isAdmin ? 'SHOP' : 'Home'}
-						direction={props.direction}
 						exact
 					/>
 					<IconButton
@@ -24,9 +23,13 @@ const Toolbar = (props) => {
 						clicked={props.toggleRightSidebar}
 						icon={<RiShoppingBasket2Line />}
 					/>
-					<NavLink to='/auth' exact>
-						<IconButton icon={<RiUser3Line />} />
-					</NavLink>
+					{props.isLoggedIn ? (
+						<MainNavItem link='/logout' exact label='Logout' />
+					) : (
+						<NavLink to='/auth' exact>
+							<IconButton icon={<RiUser3Line />} />
+						</NavLink>
+					)}
 				</MainNav>
 			</div>
 		</div>

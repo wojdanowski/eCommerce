@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as uiActionTypes from '../../store/actions/uiActions';
+import * as authActions from '../../store/actions/authActions';
 
 import Toolbar from './../../components/Toolbar/Toolbar';
 import Sidebar from './../../components/UI/Sidebar/Sidebar';
@@ -29,6 +30,11 @@ const Layout = (props) => {
 			<Toolbar
 				toggleLeftSidebar={props.toggleLeftSidebar}
 				toggleRightSidebar={props.toggleRightSidebar}
+				isLoggedIn={props.token ? true : false}
+				logoutUser={() => {
+					props.setUserData(null, null);
+					alert('User logged out!');
+				}}
 			/>
 			<main>{props.children}</main>
 			<Footer />
@@ -40,6 +46,7 @@ const mapStateToProps = (state) => {
 	return {
 		leftSidebarVisible: state.uiState.sidebars.leftSidebarVisible,
 		rightSidebarVisible: state.uiState.sidebars.rightSidebarVisible,
+		token: state.authState.token,
 	};
 };
 
@@ -49,6 +56,8 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch({ type: uiActionTypes.TOGGLE_LEFT_SIDEBAR }),
 		toggleRightSidebar: () =>
 			dispatch({ type: uiActionTypes.TOGGLE_RIGHT_SIDEBAR }),
+		setUserData: (token, userId) =>
+			dispatch({ type: authActions.SET_USER_DATA, token, userId }),
 	};
 };
 

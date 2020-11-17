@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import classes from './Auth.module.scss';
 import * as formActions from '../../store/actions/formActions';
-import * as autActions from '../../store/actions/authActions';
+import * as authActions from '../../store/actions/authActions';
 
 import Input from './../../components/UI/Input/Input';
 import GenericButton from './../../components/UI/Buttons/GenericButton/GenericButton';
@@ -98,7 +98,7 @@ const Auth = (props) => {
 				className={classes.logOrRegisterInfo}
 				onClick={() => setSigningUp((prevState) => !prevState)}
 			>
-				{signingUp ? <p>Sign In</p> : <p>Sign Up</p>}
+				{/* {signingUp ? <p>Sign In</p> : <p>Sign Up</p>} */}
 			</span>
 			<div className={classes.buttonsContainer}>
 				<GenericButton
@@ -117,7 +117,13 @@ const Auth = (props) => {
 	return (
 		<div className={classes.authContainer}>
 			<div className={classes.formContainer}>
-				{signingUp ? <h1>Sign Up</h1> : <h1>Sign In</h1>}
+				<h1>Admin</h1>
+				<h1>Sign In</h1>
+				{/* {signingUp ? (
+					<h1>Sign Up</h1>
+				) : (
+					<h1>Sign In</h1>
+				)} */}
 				<p className={classes.errorMsg}>{errorMsg && errorMsg}</p>
 				{content}
 			</div>
@@ -143,10 +149,9 @@ const mapDispatchToProps = (dispatch) => {
 				form: form,
 			}),
 		setIsLoading: (loading) =>
-			dispatch({ type: autActions.SET_IS_LOADING, loading }),
+			dispatch({ type: authActions.SET_IS_LOADING, loading }),
 		setUserData: (token, userId) =>
-			dispatch({ type: autActions.SET_USER_DATA, token, userId }),
-		testAction: () => dispatch({ type: 'test' }),
+			dispatch({ type: authActions.SET_USER_DATA, token, userId }),
 	};
 };
 
