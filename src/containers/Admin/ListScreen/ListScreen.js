@@ -333,7 +333,7 @@ const ListScreen = (props) => {
 					break;
 				}
 				case 'createProduct': {
-					if (fetchApi.isLoading || !fetchApi.data) {
+					if (fetchApi.isLoading) {
 						modalContent = <Loader />;
 					} else if (
 						fetchApi.data &&
@@ -353,8 +353,8 @@ const ListScreen = (props) => {
 							/>
 						);
 					} else if (fetchApi.isError) {
-						modalContent = <p>error</p>;
-					}
+						modalContent = <p>ERROR</p>;
+					} else modalContent = <p>Something went wrong</p>;
 					break;
 				}
 				case 'view': {
