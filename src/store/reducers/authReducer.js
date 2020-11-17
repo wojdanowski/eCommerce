@@ -7,10 +7,6 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, action) => {
-	const saveStateToStorage = (localCart) => {
-		localStorage.setItem('authInStorage', JSON.stringify(localCart));
-	};
-
 	switch (action.type) {
 		case actionTypes.SET_IS_LOADING: {
 			return {
@@ -19,17 +15,10 @@ const authReducer = (state = initialState, action) => {
 			};
 		}
 		case actionTypes.SET_USER_DATA: {
-			console.log(`[authReducer]set user data`);
 			return {
 				...state,
 				userId: action.userId,
 				token: action.token,
-			};
-		}
-		case 'test': {
-			console.log(`reducer test action`);
-			return {
-				...state,
 			};
 		}
 		default:

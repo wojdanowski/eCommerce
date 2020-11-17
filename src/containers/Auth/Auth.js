@@ -23,14 +23,28 @@ const Auth = (props) => {
 		props.updateFormField(event.target.value, inputId, 'auth');
 	};
 
+	const logout = () => {
+		alert('User logged out!');
+		props.setUserData(null, null);
+	};
+
+	const checkAuthTimeout = (expirationTime) => {
+		console.log(expirationTime);
+		setTimeout(() => {
+			logout();
+		}, expirationTime * 1000);
+	};
+
 	const authFail = (err) => {
 		setErrorMsg(err.data.error.message.split('_').join(' '));
 		props.setIsLoading(false);
 	};
 
 	const authSuccess = (res) => {
+		console.log(res);
 		props.setIsLoading(false);
 		props.setUserData(res.data.idToken, res.data.localId);
+		checkAuthTimeout(res.data.expiresIn);
 		history.push('/admin');
 	};
 
@@ -47,13 +61,9 @@ const Auth = (props) => {
 		axios
 			.post(url, authData)
 			.then((response) => {
-				// console.log(response);
-				// setIsError(false)
 				authSuccess(response);
 			})
 			.catch((err) => {
-				// console.log(err.response);
-				// setIsError(true)
 				authFail(err.response);
 			});
 	};
