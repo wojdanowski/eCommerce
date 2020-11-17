@@ -18,14 +18,14 @@ const axiosCall = async (url, data, [onSuccess, onError], method = 'get') => {
 			onSuccess(dataWithIds);
 			return response;
 		} else if (!response.data) {
-			onSuccess({});
+			onSuccess();
 			return response;
 		}
 		// console.log(result.data);
 	} catch (error) {
 		onError(true);
-		console.log(error);
-		return error;
+		console.error(error.response.data.error);
+		return error.response;
 	}
 };
 

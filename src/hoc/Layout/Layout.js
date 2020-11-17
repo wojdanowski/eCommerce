@@ -29,6 +29,7 @@ const Layout = (props) => {
 			<Toolbar
 				toggleLeftSidebar={props.toggleLeftSidebar}
 				toggleRightSidebar={props.toggleRightSidebar}
+				isLoggedIn={props.token ? true : false}
 			/>
 			<main>{props.children}</main>
 			<Footer />
@@ -40,6 +41,7 @@ const mapStateToProps = (state) => {
 	return {
 		leftSidebarVisible: state.uiState.sidebars.leftSidebarVisible,
 		rightSidebarVisible: state.uiState.sidebars.rightSidebarVisible,
+		token: state.authState.token,
 	};
 };
 

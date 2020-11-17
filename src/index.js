@@ -1,11 +1,31 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
 import ReactDOM from 'react-dom';
 import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
 
+import cartReducer from './store/reducers/cartReducer';
+import uiReducer from './store/reducers/uiReducer';
+import formReducer from './store/reducers/formReducer';
+import authReducer from './store/reducers/authReducer';
+
+const rootReducer = combineReducers({
+	uiState: uiReducer,
+	cartState: cartReducer,
+	formState: formReducer,
+	authState: authReducer,
+});
+const store = createStore(
+	rootReducer,
+	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<Provider store={store}>
+			<App />
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

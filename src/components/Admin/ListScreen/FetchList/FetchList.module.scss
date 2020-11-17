@@ -1,10 +1,12 @@
 @import '../../../../styles/config.module.scss';
 .newProductsListContainer {
 	background: $successColorTransBright;
+	width: 100%;
 }
 
 .listHeader {
 	display: flex;
+	width: 100%;
 	flex-direction: row;
 	justify-content: space-between;
 

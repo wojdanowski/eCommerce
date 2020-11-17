@@ -52,7 +52,8 @@ const cartReducer = (state = initialState, action) => {
 			const newState = {
 				...initialState,
 			};
-			saveStateToStorage(newState);
+			// saveStateToStorage(newState);
+			localStorage.removeItem('cartInStorage');
 			return {
 				...newState,
 			};
