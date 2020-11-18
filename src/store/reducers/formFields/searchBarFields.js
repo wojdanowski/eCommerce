@@ -1,5 +1,5 @@
 const authFormFields = {
-	email: {
+	searchQuery: {
 		elementType: 'input',
 		elementConfig: {
 			type: 'text',

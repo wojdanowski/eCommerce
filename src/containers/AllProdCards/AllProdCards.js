@@ -18,9 +18,14 @@ const AllProdCards = (props) => {
 	const { toggleModal } = props;
 	const maxPerPage = 16;
 	const [isUpdated, setIsUpdated] = useState(false);
+	const [shouldSearch, setShouldSearch] = useState(false);
 
+	const fetchApi = useFetchApi('get', [null]);
 	const rawData = usePagination(url, maxPerPage, useFetchApi, 'get');
 	let fetchData = rawData;
+	const callPaginatedApi = fetchData.callFetchApi;
+	const { callFetchApi } = fetchApi;
+
 	if (rawData.data && !rawData.isLoading) {
 		fetchData.data = rawData.data.map((product) => {
 			return {
@@ -32,11 +37,26 @@ const AllProdCards = (props) => {
 	}
 
 	useEffect(() => {
-		if (!isUpdated) {
-			fetchData.callFetchApi();
+		if (props.enteredSearchQuery.length < 3) setShouldSearch(false);
+		if (!isUpdated && !shouldSearch) {
+			callPaginatedApi();
 			setIsUpdated(true);
 		}
-	}, [isUpdated, fetchData]);
+	}, [
+		isUpdated,
+		callPaginatedApi,
+		shouldSearch,
+		props.enteredSearchQuery.length,
+	]);
+
+	useEffect(() => {
+		if (props.enteredSearchQuery.length < 3) setShouldSearch(false);
+		if (props.enteredSearchQuery.length >= 3) {
+			setShouldSearch(true);
+			const searchUrl = `https://ecommerceprodmockup.firebaseio.com/products.json?orderBy="name"&startAt="${props.enteredSearchQuery}"&endAt="${props.enteredSearchQuery} z"`;
+			callFetchApi(null, 'get', searchUrl);
+		}
+	}, [props.enteredSearchQuery, callFetchApi]);
 
 	const productClickedHandler = useCallback(
 		(id) => {
@@ -45,19 +65,6 @@ const AllProdCards = (props) => {
 		},
 		[toggleModal]
 	);
-
-	let filteredProdList;
-	if (!fetchData.isLoading && fetchData.data) {
-		filteredProdList = fetchData.data.map((product) => {
-			return (
-				<ProdCard
-					key={product.id}
-					productInfo={product}
-					clicked={productClickedHandler}
-				/>
-			);
-		});
-	}
 
 	let modalProdContent = null;
 	if (fetchData.isLoading) modalProdContent = <Loader />;
@@ -71,32 +78,58 @@ const AllProdCards = (props) => {
 		);
 	} else modalProdContent = <p>No product...</p>;
 
+	let productsToDisplay;
+	let dataSet = shouldSearch ? fetchApi : fetchData;
+
+	if (dataSet.data) {
+		let filteredProdList;
+		if (!dataSet.isLoading && dataSet.data) {
+			filteredProdList = dataSet.data.map((product) => {
+				return (
+					<ProdCard
+						key={product.id}
+						productInfo={product}
+						clicked={productClickedHandler}
+					/>
+				);
+			});
+		}
+
+		if (dataSet.isLoading) {
+			productsToDisplay = <Loader />;
+		} else if (!dataSet.data.length) {
+			productsToDisplay = <p>No results found</p>;
+		} else if (dataSet.isError) {
+			productsToDisplay = <p>Something went wrong ...</p>;
+		} else {
+			productsToDisplay = (
+				<Fragment>
+					<div className={classes.productsGrid}>
+						{filteredProdList}
+					</div>
+					<div className={classes.paginationNav}>
+						{!shouldSearch && (
+							<Fragment>
+								<GenericButton
+									label={'< Previous Page'}
+									clicked={fetchData.prevPage}
+									isDisabled={fetchData.prevPageDisable}
+								/>
+								<GenericButton
+									label={'Next Page >'}
+									isDisabled={fetchData.nextPageDisable}
+									clicked={fetchData.nextPage}
+								/>
+							</Fragment>
+						)}
+					</div>
+				</Fragment>
+			);
+		}
+	}
 	return (
 		<Fragment>
-			<div className='utilBigContainer'>
-				{fetchData.isError && <div>Something went wrong ...</div>}
-				{fetchData.isLoading ? (
-					<Loader />
-				) : (
-					<Fragment>
-						<div className={classes.productsGrid}>
-							{filteredProdList}
-						</div>
-						<div className={classes.paginationNav}>
-							<GenericButton
-								label={'< Previous Page'}
-								clicked={fetchData.prevPage}
-								isDisabled={fetchData.prevPageDisable}
-							/>
-							<GenericButton
-								label={'Next Page >'}
-								isDisabled={fetchData.nextPageDisable}
-								clicked={fetchData.nextPage}
-							/>
-						</div>
-					</Fragment>
-				)}
-			</div>
+			<div className='utilBigContainer'>{productsToDisplay}</div>
 			<Modal show={props.modalVisible} modalClosed={props.toggleModal}>
 				{modalProdContent}
 			</Modal>
@@ -108,6 +141,8 @@ const mapStateToProps = (state) => {
 	return {
 		modalVisible: state.uiState.modalVisible,
 		modalDisappeared: state.uiState.modalDisappeared,
+		enteredSearchQuery:
+			state.formState.searchForm.fields['searchQuery'].value,
 	};
 };
 
