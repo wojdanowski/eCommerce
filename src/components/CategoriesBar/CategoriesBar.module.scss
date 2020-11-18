@@ -3,32 +3,32 @@
 .categoriesBar {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 	text-transform: capitalize;
 	width: 100%;
 	border-bottom: 1px dotted $lightColor;
 	padding: 0.5rem 1rem;
 
-	.categoriesContainer {
-		flex-grow: 0.6;
-	}
+	// .categoriesContainer {
+	// 	flex-grow: 0.6;
+	// }
 
-	.categoryName {
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: row;
-		justify-content: space-around;
-		align-items: center;
-		flex-grow: 5;
-	}
+	// .categoryName {
+	// 	display: flex;
+	// 	flex-wrap: wrap;
+	// 	flex-direction: row;
+	// 	justify-content: space-around;
+	// 	align-items: center;
+	// 	flex-grow: 5;
+	// }
 }
 
-@media (max-width: $mobile) {
-	.categoriesBar {
-		flex-direction: column;
+// @media (max-width: $mobile) {
+// 	.categoriesBar {
+// 		flex-direction: column;
 
-		.categoriesContainer {
-			display: none;
-		}
-	}
-}
+// 		.categoriesContainer {
+// 			display: none;
+// 		}
+// 	}
+// }
