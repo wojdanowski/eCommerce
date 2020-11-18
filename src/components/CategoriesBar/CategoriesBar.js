@@ -1,14 +1,13 @@
 import React from 'react';
 import classes from './CategoriesBar.module.scss';
 import SearchTools from '../UI/SearchTools/SearchTools';
-import Categories from '../Categories/Categories';
 
 const CategoriesBar = () => {
 	return (
 		<div className={classes.categoriesBar}>
-			<div className={classes.categoriesContainer}>
+			{/* <div className={classes.categoriesContainer}>
 				<Categories />
-			</div>
+			</div> */}
 			<SearchTools />
 		</div>
 	);

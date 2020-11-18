@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/formActions';
 import orderFormFields from './formFields/orderFormFields';
 import prodEditFormFields from './formFields/prodEditFormFields';
 import authFormFields from './formFields/authFormFields';
+import searchBarFields from './formFields/searchBarFields';
 
 const initialState = {
 	orderForm: {
@@ -18,6 +19,10 @@ const initialState = {
 		fields: { ...authFormFields },
 		formIsValid: false,
 		formIsEdited: false,
+	},
+
+	searchForm: {
+		fields: { ...searchBarFields },
 	},
 };
 
@@ -70,6 +75,11 @@ const formReducer = (state = initialState, action) => {
 		case 'auth': {
 			selectedFormName = 'authForm';
 			selectedForm = { authForm: { ...state.authForm } };
+			break;
+		}
+		case 'search': {
+			selectedFormName = 'searchForm';
+			selectedForm = { searchForm: { ...state.searchForm } };
 			break;
 		}
 		default:
