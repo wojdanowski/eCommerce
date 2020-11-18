@@ -18,7 +18,7 @@ const OrderDescription = (props) => {
 				<strong>{props.itemId}</strong>
 			</p>
 			<p>Quantity: {props.itemData.products.length}</p>
-			<p>Total Price: {totalPrice}</p>
+			<p>Total Price: {parseFloat(totalPrice).toFixed(2)}</p>
 			<p className={props.itemData.processed ? 'utilOnSuccess' : null}>
 				Confirmed: {confirmedStatus}
 			</p>
