@@ -14,9 +14,11 @@ const OrderDescription = (props) => {
 	);
 	return (
 		<Fragment>
-			<p className={classes.idArea}>
-				<strong>{props.itemId}</strong>
-			</p>
+			{props.itemId && (
+				<p className={classes.idArea}>
+					<strong>{props.itemId}</strong>
+				</p>
+			)}
 			<p>Quantity: {props.itemData.products.length}</p>
 			<p>Total Price: {parseFloat(totalPrice).toFixed(2)}</p>
 			<p className={props.itemData.processed ? 'utilOnSuccess' : null}>
