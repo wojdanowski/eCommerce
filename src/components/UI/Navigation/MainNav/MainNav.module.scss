@@ -13,8 +13,12 @@
 }
 
 @media (max-width: $mobile) {
-	.navItems ul & > * {
-		padding: 0 0.4rem;
+	.navItems {
+		ul {
+			& > * {
+				padding: 0 0.4rem;
+			}
+		}
 	}
 
 	.navItems.vertical {

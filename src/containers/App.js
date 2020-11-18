@@ -14,6 +14,7 @@ function App(props) {
 	const { loadAuthData } = props;
 
 	useEffect(() => {
+		console.log(`[App.js] load auth data`);
 		loadAuthData();
 	}, [loadAuthData]);
 

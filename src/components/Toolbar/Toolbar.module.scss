@@ -15,11 +15,12 @@
 		justify-content: space-between;
 		align-items: center;
 		text-transform: uppercase;
+		justify-content: flex-end;
 	}
 }
 
-@media (min-width: $mobile) {
+@media (max-width: $mobile) {
 	.toolbar .toolbarContainer {
-		justify-content: flex-end;
+		justify-content: space-between;
 	}
 }

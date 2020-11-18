@@ -10,7 +10,11 @@ const Toolbar = (props) => {
 	return (
 		<div className={classes.toolbar}>
 			<div className={classes.toolbarContainer}>
-				<HamburgerButton clicked={props.toggleLeftSidebar} />
+				<HamburgerButton
+					clicked={props.toggleLeftSidebar}
+					visible={props.isAdmin}
+				/>
+
 				<MainNav>
 					<MainNavItem
 						link='/'

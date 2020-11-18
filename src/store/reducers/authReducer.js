@@ -26,11 +26,12 @@ const authReducer = (state = initialState, action) => {
 			const expirationDateInStorage = localStorage.getItem(
 				'expirationDate'
 			);
+
 			const userIdInStorage = localStorage.getItem('userId');
 			let newState = {
 				...state,
 			};
-			if (expirationDateInStorage < new Date()) {
+			if (Date.parse(expirationDateInStorage) < new Date()) {
 				newState = {
 					...state,
 					token: null,
