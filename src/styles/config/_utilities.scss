@@ -64,6 +64,11 @@
 	background: $successColorTrans;
 }
 
+.invisible {
+	visibility: hidden;
+	pointer-events: none;
+}
+
 @media (max-width: $mobile) {
 	.hideOnMobile {
 		display: none;
