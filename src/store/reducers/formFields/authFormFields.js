@@ -3,7 +3,8 @@ const authFormFields = {
 		elementType: 'input',
 		elementConfig: {
 			type: 'email',
-			placeholder: 'Your E-Mail',
+			// placeholder: 'Your E-Mail',
+			placeholder: 'admin@admin.com',
 		},
 		value: '',
 		validation: {
@@ -17,7 +18,8 @@ const authFormFields = {
 		elementType: 'input',
 		elementConfig: {
 			type: 'password',
-			placeholder: 'Password',
+			// placeholder: 'Password',
+			placeholder: '123456',
 		},
 		value: '',
 		validation: {
