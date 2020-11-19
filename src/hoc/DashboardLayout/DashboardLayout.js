@@ -64,7 +64,7 @@ const DashboardLayout = (props) => {
 					/>
 				</div>
 				<div
-					className={`${classes.dashboardScreenContainer} utilContainer`}
+					className={`${classes.dashboardScreenContainer} utilContainer utilMarBot_1`}
 				>
 					{props.children}
 				</div>

@@ -129,7 +129,7 @@ const AllProdCards = (props) => {
 	}
 	return (
 		<Fragment>
-			<div className='utilMarTop_1 utilBigContainer'>
+			<div className='utilMarTop_1 utilBigContainer utilMarBot_1'>
 				{productsToDisplay}
 			</div>
 			<Modal show={props.modalVisible} modalClosed={props.toggleModal}>

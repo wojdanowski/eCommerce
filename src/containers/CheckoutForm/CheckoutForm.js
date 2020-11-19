@@ -133,7 +133,9 @@ const CheckoutForm = (props) => {
 	}
 
 	return (
-		<div className={`${classes.formContainer} utilBigContainer`}>
+		<div
+			className={`${classes.formContainer} utilBigContainer utilContainer utilMarBot_1`}
+		>
 			{form}
 		</div>
 	);

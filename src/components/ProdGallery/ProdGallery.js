@@ -20,7 +20,7 @@ const ProdGallery = (props) => {
 			showFullscreenButton={false}
 			showPlayButton={false}
 			showBullets={true}
-			showNav={false}
+			showNav={true}
 			slideDuration={200}
 			additionalClass={classes.prodGalleryRoot}
 		/>
