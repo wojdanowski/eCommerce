@@ -1,11 +1,21 @@
 import React from 'react';
 import classes from './MainHeader.module.scss';
-import logoImg from '../../assets/img/logo.png';
+import { IconContext } from 'react-icons';
+import { SiShopify } from 'react-icons/si';
 
 const MainHeader = () => {
 	return (
 		<header className={classes.mainHeader}>
-			<img src={logoImg} alt='logo' />
+			<div className={classes.LogoContainer}>
+				<IconContext.Provider
+					value={{
+						size: '10rem',
+						color: '#fc955e	',
+					}}
+				>
+					<SiShopify />
+				</IconContext.Provider>
+			</div>
 			<h1>Vintage Lump</h1>
 		</header>
 	);

@@ -8,14 +8,13 @@
 
 .utilBigContainer {
 	max-width: $maxWidth;
-	margin: 0 auto;
-	padding: 10px;
+	margin-right: auto;
+	margin-left: auto;
 }
 
-.utilContainer {
-	margin: 0 auto;
-	padding: 10px;
-}
+// .utilContainer {
+// 	margin: 0 auto;
+// }
 
 .genericFlexRow {
 	display: flex;
@@ -32,6 +31,18 @@
 
 .utilPad_1 {
 	padding: 1rem;
+}
+
+.utilMarTop_05 {
+	margin-top: 0.5rem;
+}
+
+.utilMarTop_1 {
+	margin-top: 1rem;
+}
+
+.utilMarTop_1-5 {
+	margin-top: 1.5rem;
 }
 
 .utilMarBot_05 {
@@ -72,5 +83,8 @@
 @media (max-width: $mobile) {
 	.hideOnMobile {
 		display: none;
+	}
+	.utilContainer {
+		padding: 0.3rem;
 	}
 }

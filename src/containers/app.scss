@@ -10,6 +10,12 @@
 	letter-spacing: $defaultKerning;
 }
 
+html {
+	width: 100vw;
+	overflow-x: hidden;
+	padding-right: 1rem;
+}
+
 body {
 	font-family: 'Roboto', sans-serif;
 	line-height: 1.6;
@@ -38,4 +44,10 @@ img {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
+}
+
+@media (max-width: $mobile) {
+	html {
+		padding-right: 0;
+	}
 }

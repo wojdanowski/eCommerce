@@ -19,7 +19,9 @@ const Checkout = (props) => {
 	let history = useHistory();
 	return (
 		<Fragment>
-			<div className={`${classes.checkoutContainer} utilBigContainer`}>
+			<div
+				className={`${classes.checkoutContainer} utilBigContainer utilContainer utilMarBot_1`}
+			>
 				<div className='utilMarBot_1'>
 					<CartStatusInfo />
 					<GenericList
