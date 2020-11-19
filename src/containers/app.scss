@@ -10,6 +10,11 @@
 	letter-spacing: $defaultKerning;
 }
 
+html {
+	width: 100vw;
+	overflow-x: hidden;
+}
+
 body {
 	font-family: 'Roboto', sans-serif;
 	line-height: 1.6;
