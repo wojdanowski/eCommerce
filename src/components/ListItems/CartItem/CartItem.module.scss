@@ -1,13 +1,12 @@
 @import '../../../styles/config.module.scss';
 
 .cartItemContainer {
-	min-height: 200px;
 	display: flex;
-	margin: 0 0 1rem 0;
-	padding: 1rem;
+	margin: 0 0 0.5rem 0;
+	padding: 0.5rem;
 
 	.prodImgContainer {
-		width: 50%;
+		width: 40%;
 
 		.prodImg {
 			max-width: 100%;
@@ -17,7 +16,7 @@
 	}
 
 	.prodDescription {
-		width: 50%;
+		width: 60%;
 		padding: 10px;
 		text-align: center;
 		display: flex;
@@ -40,5 +39,11 @@
 			text-align: right;
 			align-self: flex-end;
 		}
+	}
+}
+
+@media (max-width: $mobile) {
+	.cartItemContainer {
+		padding: 0;
 	}
 }

@@ -13,6 +13,7 @@
 html {
 	width: 100vw;
 	overflow-x: hidden;
+	padding-right: 1rem;
 }
 
 body {
@@ -43,4 +44,10 @@ img {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
+}
+
+@media (max-width: $mobile) {
+	html {
+		padding-right: 0;
+	}
 }

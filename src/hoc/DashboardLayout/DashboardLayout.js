@@ -63,7 +63,9 @@ const DashboardLayout = (props) => {
 						exact
 					/>
 				</div>
-				<div className={classes.dashboardScreenContainer}>
+				<div
+					className={`${classes.dashboardScreenContainer} utilContainer`}
+				>
 					{props.children}
 				</div>
 				<div className={classes.dashboardFooterArea}>

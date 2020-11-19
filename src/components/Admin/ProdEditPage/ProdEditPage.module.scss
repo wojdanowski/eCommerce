@@ -79,6 +79,10 @@
 
 		.editContainer {
 			flex-direction: column;
+
+			.imgSection {
+				padding-right: 0;
+			}
 		}
 	}
 }

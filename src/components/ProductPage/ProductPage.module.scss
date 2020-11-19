@@ -20,11 +20,12 @@
 
 		.imgGalleryContainer {
 			min-width: 40%;
+			padding: 2rem;
 		}
 
 		.description {
 			text-align: right;
-			padding: 0 0 0 1rem;
+			padding: 0;
 
 			h1 {
 				text-transform: uppercase;
@@ -70,6 +71,7 @@
 
 			.imgGalleryContainer {
 				min-width: 100%;
+				padding: 0;
 			}
 		}
 	}
