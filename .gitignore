@@ -24,3 +24,7 @@ yarn-error.log*
 
 /trash
 /src/secrets
+
+#firebase
+.firebaserc
+firebase.json
