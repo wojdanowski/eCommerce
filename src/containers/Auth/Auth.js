@@ -6,6 +6,7 @@ import axios from 'axios';
 import classes from './Auth.module.scss';
 import * as formActions from '../../store/actions/formActions';
 import * as authActions from '../../store/actions/authActions';
+import { firebaseConfig } from '../../secrets/firebaseConfig';
 
 import Input from './../../components/UI/Input/Input';
 import GenericButton from './../../components/UI/Buttons/GenericButton/GenericButton';
@@ -15,7 +16,7 @@ const Auth = (props) => {
 	let history = useHistory();
 	const [signingUp, setSigningUp] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(null);
-	const key = 'AIzaSyDVCdxr-pCMmc_2xQpb_7WcxOqzOhmLykw';
+	const key = firebaseConfig.apiKey;
 	const signInUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
 	const signUpUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
 
